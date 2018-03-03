@@ -61,14 +61,14 @@
 using namespace std;
 
 const float SALES_TAX = 0.06;
-const int BOOK_COUNT = 20;
+const int DBSIZE = 20;
 
 int cashier(string[], string[], string[], string[], string[], int[], double[], double[]);
-int invMenu(string[], string[], string[], string[], string[], int[], double[], double[]);
+int invMenu(string[], string[], string[], string[], string[], int[], double[], double[], int bookCount);
 int bookInfo(string, string, string, string, string, int, double, double);
 int reports(string[], string[], string[], string[], string[], int[], double[], double[]);
 void lookUpBook(string[], string[], string[], string[], string[], int[], double[], double[]);
-void addBook(string[], string[], string[], string[], string[], int[], double[], double[]);
+void addBook(string[], string[], string[], string[], string[], int[], double[], double[], int bookCount);
 void editBook(string[], string[], string[], string[], string[], int[], double[], double[]);
 void deleteBook(string[], string[], string[], string[], string[], int[], double[], double[]);
 void repListing(string[], string[], string[], string[], string[], int[], double[], double[]);
@@ -80,15 +80,16 @@ void repAge(string[], string[], string[], string[], string[], int[], double[], d
 
 int main()
 {
-	string title[BOOK_COUNT];
-	string isbn[BOOK_COUNT];
-	string author[BOOK_COUNT];
-	string publisher[BOOK_COUNT];
-	string date[BOOK_COUNT];
-	int qty[BOOK_COUNT] = {0};
-	double wholesale[BOOK_COUNT] = {0};
-	double retail[BOOK_COUNT] = {0};
+	string title[DBSIZE];
+	string isbn[DBSIZE];
+	string author[DBSIZE];
+	string publisher[DBSIZE];
+	string date[DBSIZE];
+	int qty[DBSIZE] = {0};
+	double wholesale[DBSIZE] = {0};
+	double retail[DBSIZE] = {0};
 	char choice = '\0';
+	int bookCount = 0;		// index
 
 	do
 	{
@@ -117,7 +118,7 @@ int main()
 			cashier(isbn, title, author, publisher, date, qty, wholesale, retail);
 			break;
 		case '2':
-			invMenu(isbn, title, author, publisher, date, qty, wholesale, retail);
+			invMenu(isbn, title, author, publisher, date, qty, wholesale, retail, bookCount);
 			break;
 		case '3':
 			reports(isbn, title, author, publisher, date, qty, wholesale, retail);
@@ -245,7 +246,7 @@ int cashier(string isbn[], string title[], string author[], string publisher[],
 }
 
 int invMenu(string isbn[], string title[], string author[], string publisher[],
-		string date[], int qty[], double wholesale[], double retail[])
+		string date[], int qty[], double wholesale[], double retail[], int bookCount)
 {
 	char choice = '\0';
 
@@ -278,7 +279,7 @@ int invMenu(string isbn[], string title[], string author[], string publisher[],
 			lookUpBook(isbn, title, author, publisher, date, qty, wholesale, retail);
 			break;
 		case '2':
-			addBook(isbn, title, author, publisher, date, qty, wholesale, retail);
+			addBook(isbn, title, author, publisher, date, qty, wholesale, retail, bookCount);
 			break;
 		case '3':
 			editBook(isbn, title, author, publisher, date, qty, wholesale, retail);
@@ -392,7 +393,7 @@ void lookUpBook(string isbn[], string title[], string author[], string publisher
 }
 
 void addBook(string isbn[], string title[], string author[], string publisher[],
-		string date[], int qty[], double wholesale[], double retail[])
+		string date[], int qty[], double wholesale[], double retail[], int bookCount)
 {
 	cout << "You selected Add Book.\n";
 	system("pause");
