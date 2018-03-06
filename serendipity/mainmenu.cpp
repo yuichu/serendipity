@@ -7,12 +7,13 @@
 // Creation Date: 01/16/2018											-
 // Date of Last Modification: 03/03/2018								-
 // ----------------------------------------------------------------------
-// Purpose: Serendipity Bookstore's POS system							-
+// Purpose: Serendipity Bookstore's POS system which allows user to add,-
+//			modify, and delete a library of up to 20 books.				-
 // ----------------------------------------------------------------------
 // main() Algorithm:													-
 // Step 1: Display main menu											-
 // Step 2: Ask user to input choice at least once						-
-// Step 3: Choice 1-3 executes the next menu function					-									-
+// Step 3: Choice 1-3 executes the next menu function					-
 // 		Choice 4 ends program											-
 //		if invalid input, ask user to re-enter							-
 // cashier() Algorithm:													-
@@ -281,16 +282,23 @@ int invMenu(string isbn[], string title[], string author[], string publisher[],
 	{
 		system("cls");
 
-		cout << setw(60) << "Serendipity Booksellers\n"
-				<< setw(59) << "Inventory Database\n\n";
+		// Display Menu
+		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+		cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
+		cout << '*' << setw(42) << "INVENTORY MENU" << setw(36) << '*' << '\n';
+		cout << '*' << setw(78) << '*' << '\n';
+		cout << left << fixed;
+		cout << setw(2) << '*' << setw(6) << "<1>" << setw(70) << "Look Up a Book" << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<2>" << setw(70) << "Add a Book" << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<3>" << setw(70) << "Edit a Book's Record" << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<4>" << setw(70) << "Delete a Book" << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<5>" << setw(70) << "Return to the Main Menu" << '*' << '\n';
+		cout << right;
+		cout << '*' << setw(78) << '*' << '\n';
+		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
 
-		cout << setw(53) << "1.  Look Up a Book\n"
-				<< setw(49) << "2.  Add a Book\n"
-				<< setw(59) << "3.  Edit a Book's Record\n"
-				<< setw(52) << "4.  Delete a Book\n"
-				<< setw(63) << "5.  Return to the Main Menu\n\n";
-
-		cout << setw(54) <<  "Enter Your Choice: ";
+		// Get user choice for menu
+		cout << setw(23) <<  "Enter Your Choice: ";
 		cin >> choice;
 
 		if(cin.get() != '\n')
@@ -329,7 +337,7 @@ int invMenu(string isbn[], string title[], string author[], string publisher[],
 int bookInfo(string isbn, string title, string author, string publisher,
 		string date, int qty, double wholesale, double retail)
 {
-	cout << fixed;
+	cout << fixed << '\n';
 	cout << "Title:" << setfill('-') << setw(24) << '-' << setfill(' ') << " >" << title << '\n'
 			<< "ISBN:" << setfill('-') << setw(25) << '-' << setfill(' ') << " >" << isbn << '\n'
 			<< "Author:" << setfill('-') << setw(23) << '-' << setfill(' ') << " >" << author << '\n'
@@ -415,9 +423,11 @@ void lookUpBook(string isbn[], string title[], string author[], string publisher
 
 	cout << setw(24) << ">>> BOOK LOOK UP <<<" << '\n';
 
+	// get user book term
 	cout << setw(13) << "Search: > ";
 	getline(cin, userSearch);
 
+	// change search term to ignore case
 	for (unsigned int i = 0; i < userSearch.length(); i++)
 	{
 		if (isupper(userSearch[i]))
@@ -429,6 +439,7 @@ void lookUpBook(string isbn[], string title[], string author[], string publisher
 	int i = 0;
 	do
 	{
+		// change target title to ignore case
 		target = title[i];
 		for (unsigned int i = 0; i < target.length(); i++)
 		{
@@ -438,6 +449,7 @@ void lookUpBook(string isbn[], string title[], string author[], string publisher
 			}
 		}
 
+		// find title from partial search term
 		foundTitle = target.find(userSearch);
 		if (foundTitle != string::npos)
 		{
@@ -451,6 +463,7 @@ void lookUpBook(string isbn[], string title[], string author[], string publisher
 			}
 		}
 
+		// find ISBN from partial search term
 		foundIsbn = isbn[i].find(userSearch);
 		if (foundIsbn != string::npos)
 		{
@@ -464,10 +477,29 @@ void lookUpBook(string isbn[], string title[], string author[], string publisher
 			}
 		}
 
+		system("cls");
+
+		// Display Menu
+		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+		cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
+		cout << '*' << setw(42) << "INVENTORY MENU" << setw(36) << '*' << '\n';
+		cout << '*' << setw(78) << '*' << '\n';
+		cout << left << fixed;
+		cout << setw(2) << '*' << setw(6) << "<1>" << setw(70) << "Look Up a Book" << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<2>" << setw(70) << "Add a Book" << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<3>" << setw(70) << "Edit a Book's Record" << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<4>" << setw(70) << "Delete a Book" << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<5>" << setw(70) << "Return to the Main Menu" << '*' << '\n';
+		cout << right;
+		cout << '*' << setw(78) << '*' << '\n';
+		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+
+		cout << '\n' << setw(24) << ">>> BOOK LOOK UP <<<" << "\n\n";
 		i++;
 	} while (i < bookCount);
 
-	if(foundTitle == string::npos && foundIsbn == string::npos)
+	// If user exhausts all book options or no matching title is found
+	if(i == bookCount || (foundTitle == string::npos && foundIsbn == string::npos))
 	{
 		cout << setw(13) << "Book Not Found." << '\n';
 		system("pause");
