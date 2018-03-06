@@ -5,7 +5,7 @@
 // Creator's name and email: Yujin Chung ychung23@ivc.edu				-
 // Course-Section: CS 1B Ticket# 18185									-
 // Creation Date: 01/16/2018											-
-// Date of Last Modification: 03/03/2018								-
+// Date of Last Modification: 03/06/2018								-
 // ----------------------------------------------------------------------
 // Purpose: Serendipity Bookstore's POS system which allows user to add,-
 //			modify, and delete a library of up to 20 books.				-
@@ -123,15 +123,20 @@ int main()
 	{
 		system("cls");
 
-		cout << setw(60) << "Serendipity Booksellers\n"
-				<< setw(55) << "Main Menu\n\n";
+		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+		cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
+		cout << '*' << setw(44) << "MAIN MENU" << setw(34) << '*' << '\n';
+		cout << '*' << setw(78) << '*' << '\n';
+		cout << left << fixed;
+		cout << setw(2) << '*' << setw(6) << "<1>" << setw(70) << "Cashier Menu" << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<2>" << setw(70) << "Inventory Database Menu" << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<3>" << setw(70) << "Report Menu" << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<4>" << setw(70) << "Exit" << '*' << '\n';
+		cout << right;
+		cout << '*' << setw(78) << '*' << '\n';
+		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
 
-		cout << setw(53) << "1.  Cashier Module\n"
-				<< setw(64) << "2.  Inventory Database Module\n"
-				<< setw(52) << "3.  Report Module\n"
-				<< setw(44) << "4.  Exit\n\n";
-
-		cout << setw(54) <<  "Enter Your Choice: ";
+		cout << setw(23) <<  "Enter Your Choice: ";
 		cin >> choice;
 		if(cin.get() != '\n')
 		{
@@ -152,8 +157,6 @@ int main()
 			reports(isbn, title, author, publisher, date, qty, wholesale, retail);
 			break;
 		case '4':
-			cout << setw(44) << "Goodbye.\n";
-			system("pause");
 			break;
 		default:
 			cout << setw(78) << "Please enter a number in the range 1 - 4.\n\n";
@@ -285,7 +288,7 @@ int invMenu(string isbn[], string title[], string author[], string publisher[],
 		// Display Menu
 		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
 		cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
-		cout << '*' << setw(42) << "INVENTORY MENU" << setw(36) << '*' << '\n';
+		cout << '*' << setw(45) << "INVENTORY MENU" << setw(33) << '*' << '\n';
 		cout << '*' << setw(78) << '*' << '\n';
 		cout << left << fixed;
 		cout << setw(2) << '*' << setw(6) << "<1>" << setw(70) << "Look Up a Book" << '*' << '\n';
@@ -482,7 +485,7 @@ void lookUpBook(string isbn[], string title[], string author[], string publisher
 		// Display Menu
 		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
 		cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
-		cout << '*' << setw(42) << "INVENTORY MENU" << setw(36) << '*' << '\n';
+		cout << '*' << setw(53) << "INVENTORY MENU" << setw(25) << '*' << '\n';
 		cout << '*' << setw(78) << '*' << '\n';
 		cout << left << fixed;
 		cout << setw(2) << '*' << setw(6) << "<1>" << setw(70) << "Look Up a Book" << '*' << '\n';
@@ -665,6 +668,7 @@ void editBook(string isbn[], string title[], string author[], string publisher[]
 
 	system("cls");
 
+	// display menu
 	cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
 	cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
 	cout << '*' << setw(43) << "EDIT BOOK" << setw(35) << '*' << '\n';
@@ -674,8 +678,10 @@ void editBook(string isbn[], string title[], string author[], string publisher[]
 	cout << '*' << setw(78) << '*' << '\n';
 	cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
 
+	// get search term
 	cout << setw(13) << "Search: > ";
 	getline(cin, userSearch);
+	// ignore caps on search term
 	for (unsigned int i = 0; i < userSearch.length(); i++)
 	{
 		if (isupper(userSearch[i]))
@@ -687,6 +693,7 @@ void editBook(string isbn[], string title[], string author[], string publisher[]
 	int i = 0;
 	do
 	{
+		// ignore caps on target title
 		target = title[i];
 		for (unsigned int i = 0; i < target.length(); i++)
 		{
@@ -730,10 +737,22 @@ void editBook(string isbn[], string title[], string author[], string publisher[]
 			}
 		}
 
+		system("cls");
+
+		// display menu
+		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+		cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
+		cout << '*' << setw(43) << "EDIT BOOK" << setw(35) << '*' << '\n';
+		cout << '*' << setw(78) << '*' << '\n';
+		cout << '*' << setw(43) << "DATABASE SIZE:" << setw(3) << DBSIZE << setw(2) << ' '
+				<< setw(20) << "CURRENT BOOK COUNT:" << setw(3) << bookCount << setw(7) << '*' << '\n';
+		cout << '*' << setw(78) << '*' << '\n';
+		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+		cout << '\n';
 		i++;
 	} while (i < bookCount);
 
-	if(foundTitle == string::npos && foundIsbn == string::npos)
+	if(i == bookCount || (foundTitle == string::npos && foundIsbn == string::npos))
 	{
 		cout << setw(13) << "Book Not Found." << '\n';
 		system("pause");
@@ -745,6 +764,7 @@ void editBook(string isbn[], string title[], string author[], string publisher[]
 		{
 			system("cls");
 
+			// display menu
 			cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
 			cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
 			cout << '*' << setw(43) << "EDIT BOOK" << setw(35) << '*' << '\n';
@@ -753,6 +773,7 @@ void editBook(string isbn[], string title[], string author[], string publisher[]
 					<< setw(20) << "CURRENT BOOK COUNT:" << setw(3) << bookCount << setw(7) << '*' << '\n';
 			cout << '*' << setw(78) << '*' << '\n';
 			cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+			// display edit screen
 			cout << '*' << setw(66) << "--CURRENT VALUES" << setw(12) << '*' << '\n';
 			cout << left << fixed;
 			cout << setw(2) << '*' << setw(6) << "<1>" << setw(29) << "Edit Book Title" << setw(3) << '>' << "--" << setw(36) << title[i] << '*' << '\n';
@@ -841,6 +862,7 @@ void editBook(string isbn[], string title[], string author[], string publisher[]
 				cout << setw(78) << "Please enter a number in the range 1 - 9.\n\n";
 				system("pause");
 			}
+
 		} while(choice != '9');
 	}
 }
@@ -854,12 +876,17 @@ void deleteBook(string isbn[], string title[], string author[], string publisher
 	size_t foundTitle;
 	size_t foundIsbn;
 
+
 	do
 	{
-		system("cls");
+		// reset variables
 		choice = '\0';
 		userSearch = "";
 		target = "";
+
+		system("cls");
+
+		// display menu
 		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
 		cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
 		cout << '*' << setw(45) << "DELETE BOOK" << setw(33) << '*' << '\n';
@@ -871,8 +898,9 @@ void deleteBook(string isbn[], string title[], string author[], string publisher
 
 		// Book Search
 		cout << setw(13) << "Search: > ";
-
 		getline(cin, userSearch);
+
+		// ignore caps on search term
 		for (unsigned int i = 0; i < userSearch.length(); i++)
 		{
 			if (isupper(userSearch[i]))
@@ -881,9 +909,11 @@ void deleteBook(string isbn[], string title[], string author[], string publisher
 			}
 		}
 
+		// search database
 		int i = 0;
 		do
 		{
+			// ignore caps on titles
 			target = title[i];
 			for (unsigned int i = 0; i < target.length(); i++)
 			{
@@ -927,16 +957,29 @@ void deleteBook(string isbn[], string title[], string author[], string publisher
 				}
 			}
 
+			system("cls");
+			// display menu
+			cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+			cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
+			cout << '*' << setw(45) << "DELETE BOOK" << setw(33) << '*' << '\n';
+			cout << '*' << setw(78) << '*' << '\n';
+			cout << '*' << setw(43) << "DATABASE SIZE:" << setw(3) << DBSIZE << setw(2) << ' '
+					<< setw(20) << "CURRENT BOOK COUNT:" << setw(3) << bookCount << setw(7) << '*' << '\n';
+			cout << '*' << setw(78) << '*' << '\n';
+			cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+			cout << '\n';
+
 			i++;
-		} while (i < bookCount);		// END OF DO WHILE LOOP
+		} while (i < bookCount);		// end of database search
 
 		// if search result is negative
-		if(foundTitle == string::npos && foundIsbn == string::npos)
+		if(i == bookCount || (foundTitle == string::npos && foundIsbn == string::npos))
 		{
 			cout << setw(13) << "Book Not Found." << '\n';
 			system("pause");
 		}
 
+		// delete book
 		if (tolower(choice) == 'y')
 		{
 			while (i < bookCount - 1)
@@ -953,7 +996,7 @@ void deleteBook(string isbn[], string title[], string author[], string publisher
 				i++;
 			}
 
-			// reset last empty array
+			// reset last empty element
 			title[bookCount - 1] = "";
 			isbn[bookCount - 1] = "";
 			author[bookCount - 1] = "";
