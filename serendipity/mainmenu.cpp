@@ -159,7 +159,7 @@ int main()
 		case '4':
 			break;
 		default:
-			cout << setw(78) << "Please enter a number in the range 1 - 4.\n\n";
+			cout << "Please enter a number in the range 1 - 4.\n\n";
 			system("pause");
 		}
 
@@ -328,7 +328,7 @@ int invMenu(string isbn[], string title[], string author[], string publisher[],
 		case '5':
 			break;
 		default:
-			cout << setw(78) << "Please enter a number in the range 1 - 5.\n\n";
+			cout << "Please enter a number in the range 1 - 5.\n\n";
 			system("pause");
 		}
 
@@ -485,7 +485,7 @@ void lookUpBook(string isbn[], string title[], string author[], string publisher
 		// Display Menu
 		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
 		cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
-		cout << '*' << setw(53) << "INVENTORY MENU" << setw(25) << '*' << '\n';
+		cout << '*' << setw(45) << "INVENTORY MENU" << setw(33) << '*' << '\n';
 		cout << '*' << setw(78) << '*' << '\n';
 		cout << left << fixed;
 		cout << setw(2) << '*' << setw(6) << "<1>" << setw(70) << "Look Up a Book" << '*' << '\n';
