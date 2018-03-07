@@ -91,6 +91,19 @@ using namespace std;
 const float SALES_TAX = 0.06;
 const int DBSIZE = 20;
 
+struct BookData
+{
+	char bookTitle[51];	// 50 characters in length
+	char isbn[14]; // 13 characters in length
+	char author[31]; // 30 characters in length
+	char publisher[31]; //30 characters in length
+	char dateAdded[11]; // MM-DD-YYYY 10 characters in length
+	int qtyOnHand;
+	double wholesale;
+	double retail;
+
+};
+
 int cashier(string[], string[], string[], string[], string[], int[], double[], double[]);
 int invMenu(string[], string[], string[], string[], string[], int[], double[], double[], int& bookCount);
 int bookInfo(string, string, string, string, string, int, double, double);
