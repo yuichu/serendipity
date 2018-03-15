@@ -5,7 +5,7 @@
 // Creator's name and email: Yujin Chung ychung23@ivc.edu				-
 // Course-Section: CS 1B Ticket# 18185									-
 // Creation Date: 01/16/2018											-
-// Date of Last Modification: 03/06/2018								-
+// Date of Last Modification: 03/15/2018								-
 // ----------------------------------------------------------------------
 // Purpose: Serendipity Bookstore's POS system which allows user to add,-
 //			modify, and delete a library of up to 20 books.				-
@@ -17,11 +17,10 @@
 // 		Choice 4 ends program											-
 //		if invalid input, ask user to re-enter							-
 // cashier() Algorithm:													-
-// Step 4: Ask user to input date										-
-// Step 5: Ask user to input book quantity								-
-//		if invalid input, ask user to re-enter							-
-// Step 6: Ask user to input ISBN										-
-// Step 7: Ask user to input book title									-
+// Step 4: User search for book title									-
+// Step 5: Search through array for matching title						-
+// Step 6: If user finds title, display information						-
+// Step 7: If user wants to purchase book								-
 // Step 8: Ask user to input book price									-
 //		if invalid input, ask user to re-enter							-
 // Step 9: calculate subtotal											-
@@ -78,6 +77,7 @@
 // - target					string										-
 // - foundTitle				size_t										-
 // - foundIsbn				size_t										-
+// - t						time_t					time(0)				-
 // - bookArray				BookData[]									-
 // ----------------------------------------------------------------------
 
@@ -87,6 +87,7 @@
 #include <string>
 #include <cctype>
 #include <limits>
+#include <ctime>
 using namespace std;
 
 const float SALES_TAX = 0.06;
@@ -110,7 +111,7 @@ struct BookData
 	double retail;
 };
 
-int cashier(BookData bookArray[]);
+int cashier(BookData bookArray[], int& bookCount);
 int invMenu(BookData bookArray[], int& bookCount);
 int bookInfo(string, string, string, string, string, int, double, double);
 int reports(BookData bookArray[]);
@@ -132,6 +133,7 @@ void setDateAdded(BookData bookArray[], int bookCount, string date);
 void setQty(BookData bookArray[], int bookCount, int qty);
 void setWholesale(BookData bookArray[], int bookCount, double wholesale);
 void setRetail(BookData bookArray[], int bookCount, double retail);
+void removeBook(BookData bookArray[], int& bookCount, int target);
 
 int main()
 {
@@ -169,7 +171,7 @@ int main()
 		switch(choice)
 		{
 		case '1':
-			cashier(bookArray);
+			cashier(bookArray, bookCount);
 			break;
 		case '2':
 			invMenu(bookArray, bookCount);
@@ -189,108 +191,237 @@ int main()
 	return 0;
 }
 
-int cashier(BookData bookArray[])
+int cashier(BookData bookArray[], int& bookCount)
 {
-	string currentDate = "";
+	string userSearch = "";
+	string target;
+	size_t foundTitle;
+	size_t foundIsbn;
 	int userQty = 0;
-	string userIsbn = "";
-	string userTitle = "";
-	float unitPrice = 0.00;
 	float subtotal = 0.00;
+	int tempQty = 0;
 	char choice = '\0';
+
+	// current time
+	time_t t = time(0);
+	struct tm * now = localtime(&t);
 
 	do
 	{
 		system("cls");
+		choice = '\0';
+		// display menu
+		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+		cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
+		cout << '*' << setw(45) << "CASHIER MODULE" << setw(33) << '*' << '\n';
+		cout << '*' << setw(78) << '*' << '\n';
+		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
 
-		// Cashier Module
-		cout << "Serendipity Booksellers\n"
-				<< setw(17) << "Cashier Module\n\n";
+		cout << "Today's Date: "
+				<< (now->tm_mon + 1) << '/' <<  now->tm_mday << '/' << (now->tm_year + 1900) << "\n\n";
 
-		cout << "Date (MM/DD/YY): ";
-		cin >> currentDate;
-
-
-		cout << "Quantity of Book: ";
-		cin >> userQty;
-		while (cin.fail())
-		{
-			cout << "Wrong input, please re-enter quantity: ";
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cin >> userQty;
-			if (!cin.fail())
-			{
-				break;
-			}
-		}
-
-		cout << "ISBN: ";
-		cin >> userIsbn;
-
-		cout << "Title: ";
+		cout << "Title or ISBN: ";
 		cin.ignore();
-		getline(cin, userTitle);
+		getline(cin, userSearch);
 
-		cout << "Price: ";
-		cin >> unitPrice;
-		while (cin.fail())
+		// change search term to ignore case
+		for (unsigned int i = 0; i < userSearch.length(); i++)
 		{
-			cout << "Wrong input, please re-enter price: ";
-			cin.clear();
-			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cin >> unitPrice;
-			if (!cin.fail())
+			if (isupper(userSearch[i]))
 			{
-				break;
+				userSearch[i] = tolower(userSearch[i]);
 			}
 		}
 
-		subtotal = unitPrice*float(userQty);
-
-		cout << "\n\nLoading...\n";
-		system("pause");
-		system("cls");
-
-
-		// Sales Slip
-		cout << "Serendipity Book Sellers\n\n";
-		cout << "Date: " << currentDate << "\n\n";
-
-		cout << left
-				<< setw(5) << "Qty"
-				<< setw(15) << "ISBN"
-				<< setw(25) << "Title"
-				<< setw(12) << "Price"
-				<< "Total\n";
-
-		cout << "__________________________________________________________________\n";
-
-		cout << setw(5) << userQty
-				<< setw(15) << userIsbn
-				<< setw(25) << userTitle
-				<< fixed << setprecision(2)
-				<< setw(1) << "$" << setw(11) << unitPrice
-				<< setw(1) << "$" << right << setw(6) << subtotal;
-
-
-		cout << left << setw(16) << "\n\n\n" << setw(44) << "Subtotal" << "$" << right << setw(6) << subtotal
-				<< left << setw(14) << "\n" << setw(44) << "Tax" << "$" << right << setw(6) << subtotal*SALES_TAX
-				<< left << setw(14) << "\n" << setw(44) << "Total" << "$" << right << setw(6) << (subtotal*SALES_TAX) + subtotal << "\n";
-
-		cout << "\nThank you for Shopping at Serendipity!\n\n";
-
-		cout << "Process another transaction (Y/N)?: ";
-		cin >> choice;
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		while (tolower(choice) != 'y' && tolower(choice) != 'n')
+		int i = 0;
+		do
 		{
-			cout << "Invalid selection, please enter \'Y\' or \'N\'.\n\n";
+			// change target title to ignore case
+			target = bookArray[i].bookTitle;
+			for (unsigned int i = 0; i < target.length(); i++)
+			{
+				if (isupper(target[i]))
+				{
+					target[i] = tolower(target[i]);
+				}
+			}
+
+			// find title from partial search term
+			foundTitle = target.find(userSearch);
+			if (foundTitle != string::npos)
+			{
+				cout << "RESULT: > " << bookArray[i].bookTitle << '\n';
+				cout << "View this book record? (Y/N): ";
+				cin >> choice;
+				if (tolower(choice) == 'y')
+				{
+					bookInfo(bookArray[i].isbn, bookArray[i].bookTitle, bookArray[i].author, bookArray[i].publisher, bookArray[i].dateAdded, bookArray[i].qtyOnHand, bookArray[i].wholesale, bookArray[i].retail);
+					cout << "Is this the book you want to purchase? (Y/N): ";
+					cin >> choice;
+					if (tolower(choice == 'y'))
+					{
+						// check if book is in stock
+						if (bookArray[i].qtyOnHand == 0)
+						{
+							cout << "\nSold Out. Searching for next title...\n";
+							i++;
+							system("pause");
+							continue;
+						}
+						// get quantity
+						cout << "Quantity of Book: ";
+						cin >> userQty;
+						while (cin.fail() || bookArray[i].qtyOnHand < userQty || userQty <= 0)
+						{
+							if (bookArray[i].qtyOnHand < userQty)
+							{
+								cout << "Error, there are only " << bookArray[i].qtyOnHand << " on hand.\n"
+										<< "please re-enter quantity: ";
+								cin >> userQty;
+							}
+							if (cin.fail() || userQty <= 0)
+							{
+								cout << "Error, please re-enter quantity (1 or more): ";
+								cin.clear();
+								cin.ignore(numeric_limits<streamsize>::max(), '\n');
+								cin >> userQty;
+							}
+						}
+					}
+					break;
+				}
+			}
+
+			// find ISBN from partial search term
+			foundIsbn = (bookArray[i].isbn).find(userSearch);
+			if (foundIsbn != string::npos)
+			{
+				cout << "RESULT: > " << bookArray[i].isbn << '\n';
+				cout << "View this book record? (Y/N): ";
+				cin >> choice;
+				if (tolower(choice) == 'y')
+				{
+					choice = '\0';
+					bookInfo(bookArray[i].isbn, bookArray[i].bookTitle, bookArray[i].author, bookArray[i].publisher, bookArray[i].dateAdded, bookArray[i].qtyOnHand, bookArray[i].wholesale, bookArray[i].retail);
+					cout << "Is this the book you want to purchase? (Y/N): ";
+					cin >> choice;
+					if (tolower(choice == 'y'))
+					{
+						// check if book is in stock
+						if (bookArray[i].qtyOnHand == 0)
+						{
+							cout << "\nSold Out. Searching for next title...\n";
+							i++;
+							system("pause");
+							continue;
+						}
+						// get quantity
+						cout << "Quantity of Book: ";
+						cin >> userQty;
+						while (cin.fail() || bookArray[i].qtyOnHand < userQty || userQty <= 0)
+						{
+							if (bookArray[i].qtyOnHand < userQty)
+							{
+								cout << "Error, there are only " << bookArray[i].qtyOnHand << " on hand.\n"
+										<< "please re-enter quantity: ";
+								cin >> userQty;
+							}
+							if (cin.fail() || userQty <= 0)
+							{
+								cout << "Error, please re-enter quantity (1 or more): ";
+								cin.clear();
+								cin.ignore(numeric_limits<streamsize>::max(), '\n');
+								cin >> userQty;
+							}
+						}
+					}
+					break;
+				}
+			}
+
+			system("cls");
+
+			// display menu
+			cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+			cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
+			cout << '*' << setw(45) << "CASHIER MODULE" << setw(33) << '*' << '\n';
+			cout << '*' << setw(78) << '*' << '\n';
+			cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+
+			cout << "Today's Date: "
+					<< (now->tm_mon + 1) << '/' <<  now->tm_mday << '/' << (now->tm_year + 1900) << "\n\n";
+
+			i++;
+		} while (i < bookCount);
+
+		// If user exhausts all book options or no matching title is found
+		if(i == bookCount || (foundTitle == string::npos && foundIsbn == string::npos) || tolower(choice) != 'y')
+		{
+			cout << setw(13) << "Book Not Found." << "\n\n";
+			cout << "Process another transaction (Y/N)?: ";
+			choice = '\0';
+			cin >> choice;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			while (tolower(choice) != 'y' && tolower(choice) != 'n')
+			{
+				cout << "Invalid selection, please enter \'Y\' or \'N\'.\n\n";
+
+				cout << "Process another transaction (Y/N)?: ";
+				cin >> choice;
+			}
+		}
+		else
+		{
+			// get subtotal with qty
+			subtotal = bookArray[i].retail*float(userQty);
+
+			// update qty of book in database to reflect sale
+			tempQty = bookArray[i].qtyOnHand - userQty;
+			setQty(bookArray, i, tempQty);
+
+			cout << "\n\nLoading...\n";
+			system("pause");
+			system("cls");
+
+			// Sales Slip
+			cout << "Serendipity Book Sellers\n\n";
+			cout << "Date: " << (now->tm_mon + 1) << '/' <<  now->tm_mday << '/' << (now->tm_year + 1900) << "\n\n";
+
+			cout << left
+					<< setw(5) << "Qty"
+					<< setw(15) << "ISBN"
+					<< setw(25) << "Title"
+					<< setw(12) << "Price"
+					<< "Total\n";
+
+			cout << "__________________________________________________________________\n";
+
+			cout << setw(5) << userQty
+					<< setw(15) << bookArray[i].isbn
+					<< setw(25) << (bookArray[i].bookTitle).substr(0,23)
+					<< fixed << setprecision(2)
+					<< setw(1) << "$" << setw(11) << bookArray[i].retail
+					<< setw(1) << "$" << right << setw(6) << subtotal;
+
+
+			cout << left << setw(16) << "\n\n\n" << setw(44) << "Subtotal" << "$" << right << setw(6) << subtotal
+					<< left << setw(14) << "\n" << setw(44) << "Tax" << "$" << right << setw(6) << subtotal*SALES_TAX
+					<< left << setw(14) << "\n" << setw(44) << "Total" << "$" << right << setw(6) << (subtotal*SALES_TAX) + subtotal << "\n";
+
+			cout << "\nThank you for Shopping at Serendipity!\n\n";
 
 			cout << "Process another transaction (Y/N)?: ";
+			choice = '\0';
 			cin >> choice;
-		}
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			while (tolower(choice) != 'y' && tolower(choice) != 'n')
+			{
+				cout << "Invalid selection, please enter \'Y\' or \'N\'.\n\n";
 
+				cout << "Process another transaction (Y/N)?: ";
+				cin >> choice;
+			}
+		}
 	} while (tolower(choice) == 'y');
 
 	return 0;
@@ -826,31 +957,31 @@ void editBook(BookData bookArray[], int& bookCount)
 			case '1':
 				cout << setw(23) << "Book Title > ";
 				getline(cin, tempTitle);
-				setTitle(bookArray, bookCount, tempTitle);
+				setTitle(bookArray, i, tempTitle);
 				tempTitle = "EMPTY";
 				break;
 			case '2':
 				cout << setw(23) << "ISBN > ";
 				cin >> tempIsbn;
-				setIsbn(bookArray, bookCount, tempIsbn);
+				setIsbn(bookArray, i, tempIsbn);
 				tempIsbn = "EMPTY";
 				break;
 			case '3':
 				cout << setw(23) << "Author > ";
 				getline(cin, tempAuthor);
-				setAuthor(bookArray, bookCount, tempAuthor);
+				setAuthor(bookArray, i, tempAuthor);
 				tempAuthor = "EMPTY";
 				break;
 			case '4':
 				cout << setw(23) << "Publisher > ";
 				getline(cin, tempPublisher);
-				setPub(bookArray, bookCount, tempPublisher);
+				setPub(bookArray, i, tempPublisher);
 				tempPublisher = "EMPTY";
 				break;
 			case '5':
 				cout << setw(23) << "Date > ";
 				cin >> tempDate;
-				setDateAdded(bookArray, bookCount, tempDate);
+				setDateAdded(bookArray, i, tempDate);
 				tempDate = "EMPTY";
 				break;
 			case '6':
@@ -864,7 +995,7 @@ void editBook(BookData bookArray[], int& bookCount)
 					cin.ignore(numeric_limits<streamsize>::max(), '\n');
 					cin >> tempQty;
 				}
-				setQty(bookArray, bookCount, tempQty);
+				setQty(bookArray, i, tempQty);
 				tempQty = 0;
 				break;
 			case '7':
@@ -878,7 +1009,7 @@ void editBook(BookData bookArray[], int& bookCount)
 					cin.ignore(numeric_limits<streamsize>::max(), '\n');
 					cin >> tempWholesale;
 				}
-				setWholesale(bookArray, bookCount, tempWholesale);
+				setWholesale(bookArray, i, tempWholesale);
 				tempWholesale = 0.0;
 				break;
 			case '8':
@@ -892,7 +1023,7 @@ void editBook(BookData bookArray[], int& bookCount)
 					cin.ignore(numeric_limits<streamsize>::max(), '\n');
 					cin >> tempRetail;
 				}
-				setRetail(bookArray, bookCount, tempRetail);
+				setRetail(bookArray, i, tempRetail);
 				tempRetail = 0.0;
 				break;
 			case '9':
@@ -1020,30 +1151,7 @@ void deleteBook(BookData bookArray[], int& bookCount)
 		// delete book
 		if (tolower(choice) == 'y')
 		{
-			while (i < bookCount - 1)
-			{
-				// shift array
-				bookArray[i].bookTitle = bookArray[i + 1].bookTitle;
-				bookArray[i].isbn = bookArray[i + 1].isbn;
-				bookArray[i].author = bookArray[i + 1].author;
-				bookArray[i].publisher = bookArray[i + 1].publisher;
-				bookArray[i].dateAdded = bookArray[i + 1].dateAdded;
-				bookArray[i].qtyOnHand = bookArray[i + 1].qtyOnHand;
-				bookArray[i].wholesale = bookArray[i + 1].wholesale;
-				bookArray[i].retail = bookArray[i + 1].retail;
-				i++;
-			}
-
-			// reset last empty element
-			bookArray[bookCount - 1].bookTitle = "";
-			bookArray[bookCount - 1].isbn = "";
-			bookArray[bookCount - 1].author = "";
-			bookArray[bookCount - 1].publisher = "";
-			bookArray[bookCount - 1].dateAdded = "";
-			bookArray[bookCount - 1].qtyOnHand = 0;
-			bookArray[bookCount - 1].wholesale = 0;
-			bookArray[bookCount - 1].retail = 0;
-			bookCount--;
+			removeBook(bookArray, bookCount, i);
 
 			cout << "Book Deleted.\n";
 			cout << "Delete Another? (Y/N): ";
@@ -1130,4 +1238,31 @@ void setRetail(BookData bookArray[], int bookCount, double retail)
 	bookArray[bookCount].retail = retail;
 }
 
-//void removeBook()
+void removeBook(BookData bookArray[], int& bookCount, int target)
+{
+	while (target < bookCount - 1)
+	{
+		// shift array
+		bookArray[target].bookTitle = bookArray[target + 1].bookTitle;
+		bookArray[target].isbn = bookArray[target + 1].isbn;
+		bookArray[target].author = bookArray[target + 1].author;
+		bookArray[target].publisher = bookArray[target + 1].publisher;
+		bookArray[target].dateAdded = bookArray[target + 1].dateAdded;
+		bookArray[target].qtyOnHand = bookArray[target + 1].qtyOnHand;
+		bookArray[target].wholesale = bookArray[target + 1].wholesale;
+		bookArray[target].retail = bookArray[target + 1].retail;
+		target++;
+	}
+
+	// reset last empty element
+	bookArray[bookCount - 1].bookTitle = "";
+	bookArray[bookCount - 1].isbn = "";
+	bookArray[bookCount - 1].author = "";
+	bookArray[bookCount - 1].publisher = "";
+	bookArray[bookCount - 1].dateAdded = "";
+	bookArray[bookCount - 1].qtyOnHand = 0;
+	bookArray[bookCount - 1].wholesale = 0;
+	bookArray[bookCount - 1].retail = 0;
+
+	bookCount--;
+}
