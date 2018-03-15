@@ -64,21 +64,21 @@
 // -																	-
 // - NAME					DATA TYPE				INITIAL VALUE		-
 // - --------------------   ----------				-------------		-
-// - title					string[]									-
-// - isbn					string[]									-
-// - author					string[]									-
-// - publisher				string[]									-
-// - date					string[]									-
-// - qty					int[]					{0}					-
-// - wholesale				double[]				{0}					-
-// - retail					double[]				{0}					-
+// - title					string										-
+// - isbn					string										-
+// - author					string										-
+// - publisher				string										-
+// - date					string										-
+// - qty					int											-
+// - wholesale				double										-
+// - retail					double										-
 // - choice					char					\0					-
 // - bookCount				int						0					-
 // - userSearch				string										-
 // - target					string										-
 // - foundTitle				size_t										-
 // - foundIsbn				size_t										-
-// - bookArray				BookData[]
+// - bookArray				BookData[]									-
 // ----------------------------------------------------------------------
 
 #include <iostream>
@@ -124,8 +124,14 @@ void repRetail(BookData bookArray[]);
 void repQty(BookData bookArray[]);
 void repCost(BookData bookArray[]);
 void repAge(BookData bookArray[]);
-
-
+void setTitle(BookData bookArray[], int bookCount, string title);
+void setIsbn(BookData bookArray[], int bookCount, string isbn);
+void setAuthor(BookData bookArray[], int bookCount, string author);
+void setPub(BookData bookArray[], int bookCount, string publisher);
+void setDateAdded(BookData bookArray[], int bookCount, string date);
+void setQty(BookData bookArray[], int bookCount, int qty);
+void setWholesale(BookData bookArray[], int bookCount, double wholesale);
+void setRetail(BookData bookArray[], int bookCount, double retail);
 
 int main()
 {
@@ -638,14 +644,14 @@ void addBook(BookData bookArray[], int& bookCount)
 			break;
 		case '9':
 			// save pending value to array
-			bookArray[bookCount].bookTitle = tempTitle;
-			bookArray[bookCount].isbn = tempIsbn;
-			bookArray[bookCount].author = tempAuthor;
-			bookArray[bookCount].publisher = tempPublisher;
-			bookArray[bookCount].dateAdded = tempDate;
-			bookArray[bookCount].qtyOnHand = tempQty;
-			bookArray[bookCount].wholesale = tempWholesale;
-			bookArray[bookCount].retail = tempRetail;
+			setTitle(bookArray, bookCount, tempTitle);
+			setIsbn(bookArray, bookCount, tempIsbn);
+			setAuthor(bookArray, bookCount, tempAuthor);
+			setPub(bookArray, bookCount, tempPublisher);
+			setDateAdded(bookArray, bookCount, tempDate);
+			setQty(bookArray, bookCount, tempQty);
+			setWholesale(bookArray, bookCount, tempWholesale);
+			setRetail(bookArray, bookCount, tempRetail);
 			// increase book count
 			bookCount++;
 
@@ -673,6 +679,14 @@ void editBook(BookData bookArray[], int& bookCount)
 	string target;
 	size_t foundTitle;
 	size_t foundIsbn;
+	string tempTitle = "EMPTY";
+	string tempIsbn = "EMPTY";
+	string tempAuthor = "EMPTY";
+	string tempPublisher = "EMPTY";
+	string tempDate = "EMPTY";
+	int tempQty = 0;
+	double tempWholesale = 0.0;
+	double tempRetail = 0.0;
 
 
 	system("cls");
@@ -811,59 +825,75 @@ void editBook(BookData bookArray[], int& bookCount)
 			{
 			case '1':
 				cout << setw(23) << "Book Title > ";
-				getline(cin, bookArray[i].bookTitle);
+				getline(cin, tempTitle);
+				setTitle(bookArray, bookCount, tempTitle);
+				tempTitle = "EMPTY";
 				break;
 			case '2':
 				cout << setw(23) << "ISBN > ";
-				cin >> bookArray[i].isbn;
+				cin >> tempIsbn;
+				setIsbn(bookArray, bookCount, tempIsbn);
+				tempIsbn = "EMPTY";
 				break;
 			case '3':
 				cout << setw(23) << "Author > ";
-				getline(cin, bookArray[i].author);
+				getline(cin, tempAuthor);
+				setAuthor(bookArray, bookCount, tempAuthor);
+				tempAuthor = "EMPTY";
 				break;
 			case '4':
 				cout << setw(23) << "Publisher > ";
-				getline(cin, bookArray[i].publisher);
+				getline(cin, tempPublisher);
+				setPub(bookArray, bookCount, tempPublisher);
+				tempPublisher = "EMPTY";
 				break;
 			case '5':
 				cout << setw(23) << "Date > ";
-				cin >> bookArray[i].dateAdded;
+				cin >> tempDate;
+				setDateAdded(bookArray, bookCount, tempDate);
+				tempDate = "EMPTY";
 				break;
 			case '6':
 				cout << setw(23) << "Quantity > ";
-				cin >> bookArray[i].qtyOnHand;
+				cin >> tempQty;
 				while (cin.fail())
 				{
 					cout << setw(52) << "Wrong input, please re-enter." << '\n'
 							<< setw(23) << "Quantity > ";
 					cin.clear();
 					cin.ignore(numeric_limits<streamsize>::max(), '\n');
-					cin >> bookArray[i].qtyOnHand;
+					cin >> tempQty;
 				}
+				setQty(bookArray, bookCount, tempQty);
+				tempQty = 0;
 				break;
 			case '7':
 				cout << setw(23) << "Wholesale Price > ";
-				cin >> bookArray[i].wholesale;
+				cin >> tempWholesale;
 				while (cin.fail())
 				{
 					cout << setw(52) << "Wrong input, please re-enter." << '\n'
 							<< setw(23) << "Wholesale Price > ";
 					cin.clear();
 					cin.ignore(numeric_limits<streamsize>::max(), '\n');
-					cin >> bookArray[i].wholesale;
+					cin >> tempWholesale;
 				}
+				setWholesale(bookArray, bookCount, tempWholesale);
+				tempWholesale = 0.0;
 				break;
 			case '8':
 				cout << setw(23) << "Retail Price > ";
-				cin >> bookArray[i].retail;
+				cin >> tempRetail;
 				while (cin.fail())
 				{
 					cout << setw(52) << "Wrong input, please re-enter." << '\n'
 							<< setw(23) << "Retail Price > ";
 					cin.clear();
 					cin.ignore(numeric_limits<streamsize>::max(), '\n');
-					cin >> bookArray[i].retail;
+					cin >> tempRetail;
 				}
+				setRetail(bookArray, bookCount, tempRetail);
+				tempRetail = 0.0;
 				break;
 			case '9':
 				break;
@@ -1059,24 +1089,45 @@ void repAge(BookData bookArray[])
 	system("pause");
 }
 
-//void setTitle(string, int);
-void setTitle(BookData bookArray[], string title, int bookCount)
+// setter functions
+void setTitle(BookData bookArray[], int bookCount, string title)
 {
-	
+	bookArray[bookCount].bookTitle = title;
 }
 
-//void setISBN();
+void setIsbn(BookData bookArray[], int bookCount, string isbn)
+{
+	bookArray[bookCount].isbn = isbn;
+}
 
-//void setAuthor();
+void setAuthor(BookData bookArray[], int bookCount, string author)
+{
+	bookArray[bookCount].author = author;
+}
 
-//void setPub();
+void setPub(BookData bookArray[], int bookCount, string publisher)
+{
+	bookArray[bookCount].publisher = publisher;
+}
 
-//void setDateAdded();
+void setDateAdded(BookData bookArray[], int bookCount, string date)
+{
+	bookArray[bookCount].dateAdded = date;
+}
 
-//void setQty();
+void setQty(BookData bookArray[], int bookCount, int qty)
+{
+	bookArray[bookCount].qtyOnHand = qty;
+}
 
-//void setWholesale();
+void setWholesale(BookData bookArray[], int bookCount, double wholesale)
+{
+	bookArray[bookCount].wholesale = wholesale;
+}
 
-//void setRetail();
+void setRetail(BookData bookArray[], int bookCount, double retail)
+{
+	bookArray[bookCount].retail = retail;
+}
 
-//void removeBook();
+//void removeBook()
