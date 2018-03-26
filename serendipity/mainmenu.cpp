@@ -16,7 +16,7 @@
 // Step 3: Choice 1-3 executes the next menu function					-
 // 		Choice 4 ends program											-
 //		if invalid input, ask user to re-enter							-
-// cashier() Algorithm:													-
+// cashier():															-
 // Step 4: User search for book title									-
 // Step 5: Search through array for matching title						-
 // Step 6: If user finds title, display information						-
@@ -58,6 +58,7 @@
 // - --------------------   ----------				--------			-
 // - SALES_TAX				const float				0.06				-
 // - DBSIZE					const int				20					-
+// - BookData				struct
 //																		-
 // - VARIABLES															-
 // -																	-
@@ -987,7 +988,7 @@ void editBook(BookData bookArray[], int& bookCount)
 			case '6':
 				cout << setw(23) << "Quantity > ";
 				cin >> tempQty;
-				while (cin.fail())
+				while (cin.fail() || tempQty < 0)
 				{
 					cout << setw(52) << "Wrong input, please re-enter." << '\n'
 							<< setw(23) << "Quantity > ";
