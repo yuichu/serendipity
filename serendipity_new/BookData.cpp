@@ -13,10 +13,6 @@ BookData::BookData()
 	setIsbn("Not Set");
 	setAuthor("Not Set");
 	setPub("Not Set");
-	setDateAdded("Not Set");
-	setQty(0);
-	setWholesale(0.0);
-	setRetail(0.0);
 }
 
 //----------------------------------------------------------------------
@@ -26,17 +22,12 @@ BookData::BookData()
 //			string dateAdded, int qtyOnHand, double wholesale, double retail
 // Returns: none
 //----------------------------------------------------------------------
-BookData::BookData(string bookTitle, string isbn, string author, string publisher,
-		string dateAdded, int qtyOnHand, double wholesale, double retail)
+BookData::BookData(string bookTitle, string isbn, string author, string publisher)
 {
 	setTitle(bookTitle);
 	setIsbn(isbn);
 	setAuthor(author);
 	setPub(publisher);
-	setDateAdded(dateAdded);
-	setQty(qtyOnHand);
-	setWholesale(wholesale);
-	setRetail(retail);
 }
 
 
@@ -51,12 +42,18 @@ BookData::~BookData(){}
 
 //																PRINT
 //----------------------------------------------------------------------
-// Function:
-//
-// Receives:
-// Returns:
+// Function: print()
+// print book info
+// Receives: none
+// Returns: none
 //----------------------------------------------------------------------
-
+void BookData::print()
+{
+	cout << getTitle() << "\n"
+			<< getIsbn() << "\n"
+			<< getAuthor() << "\n"
+			<< getPub() << "\n";
+}
 
 //																SETTERS
 //----------------------------------------------------------------------
@@ -103,50 +100,6 @@ void BookData::setPub(string publisher)
 	this->publisher = publisher;
 }
 
-//----------------------------------------------------------------------
-// Function: setDateAdded()
-// set date book was added to POS system
-// Receives: string dateAdded
-// Returns: none
-//----------------------------------------------------------------------
-void BookData::setDateAdded(string dateAdded)
-{
-	this->dateAdded = dateAdded;
-}
-
-//----------------------------------------------------------------------
-// Function: setQty()
-// set quantity of book on hand
-// Receives: int qtyOnHand
-// Returns: none
-//----------------------------------------------------------------------
-void BookData::setQty(int qtyOnHand)
-{
-	this->qtyOnHand = qtyOnHand;
-}
-
-//----------------------------------------------------------------------
-// Function: setWholesale()
-// set wholesale price of book
-// Receives: double wholesale
-// Returns: none
-//----------------------------------------------------------------------
-void BookData::setWholesale(double wholesale)
-{
-	this->wholesale = wholesale;
-}
-
-//----------------------------------------------------------------------
-// Function: setRetail()
-// set retail price of book
-// Receives: double retail
-// Returns: none
-//----------------------------------------------------------------------
-void BookData::setRetail(double retail)
-{
-	this->retail = retail;
-}
-
 //																GETTERS
 //----------------------------------------------------------------------
 // Function: getTitle()
@@ -190,48 +143,4 @@ string BookData::getAuthor()
 string BookData::getPub()
 {
 	return publisher;
-}
-
-//----------------------------------------------------------------------
-// Function: getDateAdded()
-// get date book was added to system
-// Receives: none
-// Returns: string dateAdded
-//----------------------------------------------------------------------
-string BookData::getDateAdded()
-{
-	return dateAdded;
-}
-
-//----------------------------------------------------------------------
-// Function: getQty()
-// get qty of book on hand
-// Receives: none
-// Returns: int qtyOnHand
-//----------------------------------------------------------------------
-int BookData::getQty()
-{
-	return qtyOnHand;
-}
-
-//----------------------------------------------------------------------
-// Function: getWholesale()
-// get wholesale price of book
-// Receives: none
-// Returns: double wholesale
-//----------------------------------------------------------------------
-double BookData::getWholesale()
-{
-	return wholesale;
-}
-
-//----------------------------------------------------------------------
-// Function: getRetail()
-// get retail price of book
-// Receives: none
-// Returns: double retail
-//----------------------------------------------------------------------
-double BookData::getRetail()
-{
-	return retail;
 }
