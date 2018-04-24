@@ -18,10 +18,12 @@ InventoryBook::InventoryBook()
 //----------------------------------------------------------------------
 // Function: InventoryBook()
 // overload constructor
-// Receives: string dateAdded, int qtyOnHand, double wholesale, double retail
+// Receives: string bookTitle, string isbn, string author, string publisher,
+//			string dateAdded, int qtyOnHand, double wholesale, double retail
 // Returns: none
 //----------------------------------------------------------------------
-InventoryBook::InventoryBook(string dateAdded, int qtyOnHand, double wholesale, double retail)
+InventoryBook::InventoryBook(string bookTitle, string isbn, string author, string publisher, string dateAdded, int qtyOnHand, double wholesale, double retail)
+:BookData(bookTitle, isbn, author, publisher)
 {
 	setDateAdded(dateAdded);
 	setQty(qtyOnHand);
@@ -48,6 +50,9 @@ InventoryBook::~InventoryBook(){}
 //----------------------------------------------------------------------
 void InventoryBook::print()
 {
+	cout << "Inventory Data: "
+			<< "------------------------------------" << "\n";
+	BookData::print();
 	cout << getDateAdded() << "\n"
 			<< getQty() << "\n"
 			<< getWholesale() << "\n"
@@ -144,3 +149,24 @@ double InventoryBook::getRetail()
 	return retail;
 }
 
+//----------------------------------------------------------------------
+// Function: removeBook()
+//
+// Receives:
+// Returns:
+//----------------------------------------------------------------------
+//void InventoryBook::removeBook()
+//{
+//
+//}
+
+//----------------------------------------------------------------------
+// Function: isEmpty()
+//
+// Receives:
+// Returns:
+//----------------------------------------------------------------------
+//bool InventoryBook::isEmpty()
+//{
+//
+//}

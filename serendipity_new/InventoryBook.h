@@ -7,7 +7,7 @@ class InventoryBook: public BookData
 {
 public:
 	InventoryBook();
-	InventoryBook(string dateAdded, int qtyOnHand, double wholesale, double retail);
+	InventoryBook(string bookTitle, string isbn, string author, string publisher, string dateAdded, int qtyOnHand, double wholesale, double retail);
 	~InventoryBook();
 
 	void print();
@@ -22,8 +22,8 @@ public:
 	double getWholesale();
 	double getRetail();
 
-//	void isEmpty();
 //	void removeBook();
+//	bool isEmpty();
 
 private:
 	string dateAdded;
