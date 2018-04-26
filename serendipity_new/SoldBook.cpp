@@ -9,18 +9,26 @@
 //----------------------------------------------------------------------
 SoldBook::SoldBook()
 {
-
+	setTaxRate(0.06);
+	setQtySold(0);
+	setTax(0.0);
 }
 
 //----------------------------------------------------------------------
 // Function: SoldBook()
 // overload constructor
-// Receives: none
+// Receives: string bookTitle, string isbn, string author, string publisher,
+//			string dateAdded, int qtyOnHand, double wholesale, double retail,
+//			double taxRate, int qtySold, double tax
 // Returns: none
 //----------------------------------------------------------------------
-SoldBook::SoldBook()
+SoldBook::SoldBook(string bookTitle, string isbn, string author, string publisher, string dateAdded, int qtyOnHand, double wholesale, double retail, double taxRate, int qtySold, double tax)
+:InventoryBook(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail)
 {
-
+	setTaxRate(taxRate);
+	setQtySold(qtySold);
+	tax = retail*qtySold*taxRate;
+	setTax(tax);
 }
 
 //----------------------------------------------------------------------
@@ -41,7 +49,16 @@ SoldBook::~SoldBook(){}
 //----------------------------------------------------------------------
 void SoldBook::print()
 {
-
+	InventoryBook::print();
+	cout << "Sold Book Data: " << "\n"
+			<< "------------------------------------" << "\n";
+	cout << fixed << setprecision(2)
+			<< "Tax Rate: $" << getTaxRate() << "\n"
+			<< setprecision(0)
+			<< "Quantity Sold: " << getQtySold() << "\n"
+			<< setprecision(2)
+			<< "Tax: $" << getTax() << "\n"
+			<< setprecision(0);
 }
 
 //																SETTERS

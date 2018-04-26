@@ -7,7 +7,7 @@ class SoldBook: public InventoryBook
 {
 public:
 	SoldBook();
-	SoldBook();
+	SoldBook(string bookTitle, string isbn, string author, string publisher, string dateAdded, int qtyOnHand, double wholesale, double retail, double taxRate, int qtySold, double tax);
 	~SoldBook();
 
 	void print();

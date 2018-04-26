@@ -2,6 +2,7 @@
 #define INVENTORYBOOK_H_
 
 #include "BookData.h"
+#include <iomanip>
 
 class InventoryBook: public BookData
 {

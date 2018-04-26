@@ -49,10 +49,10 @@ BookData::~BookData(){}
 //----------------------------------------------------------------------
 void BookData::print()
 {
-	cout << getTitle() << "\n"
-			<< getIsbn() << "\n"
-			<< getAuthor() << "\n"
-			<< getPub() << "\n";
+	cout << "Title: " << getTitle() << "\n"
+			<< "ISBN: " << getIsbn() << "\n"
+			<< "Author: " << getAuthor() << "\n"
+			<< "Publisher: " << getPub() << "\n";
 }
 
 //																SETTERS

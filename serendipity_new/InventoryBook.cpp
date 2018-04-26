@@ -50,13 +50,15 @@ InventoryBook::~InventoryBook(){}
 //----------------------------------------------------------------------
 void InventoryBook::print()
 {
-	cout << "Inventory Data: "
+	cout << "Inventory Data: " << "\n"
 			<< "------------------------------------" << "\n";
 	BookData::print();
-	cout << getDateAdded() << "\n"
-			<< getQty() << "\n"
-			<< getWholesale() << "\n"
-			<< getRetail() << "\n";
+	cout << "Date Added: " << getDateAdded() << "\n"
+			<< "Quantity: " << getQty() << "\n"
+			<< fixed << setprecision(2)
+			<< "Wholesale: $" << getWholesale() << "\n"
+			<< "Retail: $" << getRetail() << "\n"
+			<< setprecision(0);
 }
 
 //																SETTERS
