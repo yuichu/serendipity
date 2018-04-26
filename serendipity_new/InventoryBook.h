@@ -18,10 +18,10 @@ public:
 	void setWholesale(double wholesale);
 	void setRetail(double retail);
 
-	string getDateAdded();
-	int getQty();
-	double getWholesale();
-	double getRetail();
+	string getDateAdded() const;
+	int getQty() const;
+	double getWholesale() const;
+	double getRetail() const;
 
 //	void removeBook();
 //	bool isEmpty();

@@ -107,7 +107,7 @@ void BookData::setPub(string publisher)
 // Receives: none
 // Returns: string bookTitle
 //----------------------------------------------------------------------
-const string BookData::getTitle()
+string BookData::getTitle() const
 {
 	return bookTitle;
 }
@@ -118,7 +118,7 @@ const string BookData::getTitle()
 // Receives: none
 // Returns: string isbn
 //----------------------------------------------------------------------
-const string BookData::getIsbn()
+string BookData::getIsbn() const
 {
 	return isbn;
 }
@@ -129,7 +129,7 @@ const string BookData::getIsbn()
 // Receives: none
 // Returns: string author
 //----------------------------------------------------------------------
-const string BookData::getAuthor()
+string BookData::getAuthor() const
 {
 	return author;
 }
@@ -140,7 +140,7 @@ const string BookData::getAuthor()
 // Receives: none
 // Returns: string publisher
 //----------------------------------------------------------------------
-const string BookData::getPub()
+string BookData::getPub() const
 {
 	return publisher;
 }

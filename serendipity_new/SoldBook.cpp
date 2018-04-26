@@ -102,7 +102,7 @@ void SoldBook::setTax(double tax)
 // Receives: none
 // Returns: double taxRate
 //----------------------------------------------------------------------
-const double SoldBook::getTaxRate()
+double SoldBook::getTaxRate() const
 {
 	return taxRate;
 }
@@ -113,7 +113,7 @@ const double SoldBook::getTaxRate()
 // Receives: none
 // Returns: int qtySold
 //----------------------------------------------------------------------
-const int SoldBook::getQtySold()
+int SoldBook::getQtySold() const
 {
 	return qtySold;
 }
@@ -124,7 +124,7 @@ const int SoldBook::getQtySold()
 // Receives: none
 // Returns: double tax
 //----------------------------------------------------------------------
-const double SoldBook::getTax()
+double SoldBook::getTax() const
 {
 	return tax;
 }

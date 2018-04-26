@@ -16,9 +16,9 @@ public:
 	void setQtySold(int qtySold);
 	void setTax(double tax);
 
-	const double getTaxRate();
-	const int getQtySold();
-	const double getTax();
+	double getTaxRate() const;
+	int getQtySold() const;
+	double getTax() const;
 
 private:
 	double taxRate;

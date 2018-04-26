@@ -19,10 +19,10 @@ public:
 	void setAuthor(string author);
 	void setPub(string pubilsher);
 
-	const string getTitle();
-	const string getIsbn();
-	const string getAuthor();
-	const string getPub();
+	string getTitle() const;
+	string getIsbn() const;
+	string getAuthor() const;
+	string getPub() const;
 
 	void removeBook();
 

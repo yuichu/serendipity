@@ -113,7 +113,7 @@ void InventoryBook::setRetail(double retail)
 // Receives: none
 // Returns: string dateAdded
 //----------------------------------------------------------------------
-string InventoryBook::getDateAdded()
+string InventoryBook::getDateAdded() const
 {
 	return dateAdded;
 }
@@ -124,7 +124,7 @@ string InventoryBook::getDateAdded()
 // Receives: none
 // Returns: int qtyOnHand
 //----------------------------------------------------------------------
-int InventoryBook::getQty()
+int InventoryBook::getQty() const
 {
 	return qtyOnHand;
 }
@@ -135,7 +135,7 @@ int InventoryBook::getQty()
 // Receives: none
 // Returns: double wholesale
 //----------------------------------------------------------------------
-double InventoryBook::getWholesale()
+double InventoryBook::getWholesale() const
 {
 	return wholesale;
 }
@@ -146,7 +146,7 @@ double InventoryBook::getWholesale()
 // Receives: none
 // Returns: double retail
 //----------------------------------------------------------------------
-double InventoryBook::getRetail()
+double InventoryBook::getRetail() const
 {
 	return retail;
 }
