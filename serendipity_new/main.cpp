@@ -1,20 +1,15 @@
 // ----------------------------------------------------------------------
-// File name: main.cpp, BookData.h, BookData.cpp
-// Project name: Serendipity
+// File name: main.cpp, BookData.h, InventoryBook.h, SoldBook.h,		-
+//				linkedList.h, orderedLinkedList.h						-
+// Project name: Serendipity											-
 // ----------------------------------------------------------------------
 // Creator's name and email: Yujin Chung ychung23@ivc.edu				-
 // Course-Section: CS 1B Ticket# 18185									-
-// Creation Date: 04/23/2018
-// Date of Last Modification: 04/25/2018
+// Creation Date: 04/23/2018											-
+// Date of Last Modification: 05/03/2018								-
 // ----------------------------------------------------------------------
-// Purpose: 
-// ----------------------------------------------------------------------
-// Algorithm:															-
-// Step 1: 
-// Step 2: 
-// Step 3: 
-// Step 4: 
-// Step 5: 
+// Purpose: Serendipity Bookstore's POS system which allows user to add,-
+//			modify, and delete a library of books						-
 // ----------------------------------------------------------------------
 // -							DATA DICTIONARY							-
 // - CONSTANTS															-
@@ -61,8 +56,8 @@ void editBook();
 void deleteBook();
 // Reports Menu Functions
 void repListing(orderedLinkedList<InventoryBook> bookList);
-void repWholesale();
-void repRetail();
+void repWholesale(orderedLinkedList<InventoryBook> bookList);
+void repRetail(orderedLinkedList<InventoryBook> bookList);
 void repQty();
 void repCost();
 void repAge();
@@ -70,8 +65,8 @@ void repAge();
 int main()
 {
 	char choice = '\0';
-	orderedLinkedList<InventoryBook> bookList; //create linked list
-	bookList.initializeList(); // initialize list
+	orderedLinkedList<InventoryBook> bookList;	//create linked list
+	bookList.initializeList();	// initialize list
 
 	// create books
 	InventoryBook *book1 = new InventoryBook ("Star Wars", "0345260791", "George Lucas", "Del Rey", "10/18/2017", 5, 59.95, 100.00);
@@ -167,9 +162,9 @@ int invMenu()
 
 //----------------------------------------------------------------------
 // Function: reports()
-//
-// Receives:
-// Returns:
+// Navigate through Reports Menu
+// Receives: orderedLinkedList<InventoryBook> bookList
+// Returns: 0
 //----------------------------------------------------------------------
 int reports(orderedLinkedList<InventoryBook> bookList)
 {
@@ -207,10 +202,10 @@ int reports(orderedLinkedList<InventoryBook> bookList)
 			repListing(bookList);
 			break;
 		case '2':
-			repWholesale();
+			repWholesale(bookList);
 			break;
 		case '3':
-			repRetail();
+			repRetail(bookList);
 			break;
 		case '4':
 			repQty();
@@ -289,23 +284,21 @@ void deleteBook()
 //												REPORTS MENU FUNCTIONS
 //----------------------------------------------------------------------
 // Function: repListing()
-//
-// Receives:
-// Returns:
+// Display Inventory
+// Receives: orderedLinkedList<InventoryBook> bookList
+// Returns: none
 //----------------------------------------------------------------------
 void repListing(orderedLinkedList<InventoryBook> bookList)
 {
-	// page setting
 	int currentPage = 1;
 //	double totalPage = ceil(double(bookCount)/10);
-	// current time
 	time_t t = time(0);
 	struct tm * now = localtime(&t);
-	// iterator
-	linkedListIterator<InventoryBook> myIterator;
+	linkedListIterator<InventoryBook> myIterator;	// iterator
 
 	system("cls");
 
+	// Display Title
 	cout << setw(60) << "SERENDIPITY BOOKSELLERS" << "\n";
 	cout << setw(55) << "REPORT LISTING" << "\n";
 	cout << "DATE: " << setfill('0') << setw(2) << (now->tm_mon + 1)
@@ -338,6 +331,7 @@ void repListing(orderedLinkedList<InventoryBook> bookList)
 			<< setfill('-') << setw(14) << '-'
 			<< setfill(' ') << '\n';
 
+	// Iterate and display books
 	for (myIterator = bookList.begin(); myIterator != bookList.end(); ++myIterator)
 	{
 		cout << left << setw(37) << ((*myIterator).getTitle()).substr(0,37)
@@ -357,33 +351,151 @@ void repListing(orderedLinkedList<InventoryBook> bookList)
 }
 
 //----------------------------------------------------------------------
-// Function:
-//
-// Receives:
+// Function: repWholesale()
+// Display inventory with wholesale price
+// Receives: orderedLinkedList<InventoryBook> bookList
 // Returns:
 //----------------------------------------------------------------------
-void repWholesale()
+void repWholesale(orderedLinkedList<InventoryBook> bookList)
 {
-	cout << "Reports Wholesale Menu WIP." << "\n\n";
+	int currentPage = 1;
+//	double totalPage = ceil(double(bookCount)/10);
+	double subtotal = 0.00;
+	time_t t = time(0);
+	struct tm * now = localtime(&t);
+	linkedListIterator<InventoryBook> myIterator;	// iterator
+
+	system("cls");
+
+	// display wholesale listing title
+	cout << fixed << right;
+	cout << setw(50) << "SERENDIPITY  BOOKSELLERS" << "\n";
+	cout << setw(50) << "REPORT WHOLESALE LISTING" << "\n";
+	cout << "DATE: " << setfill('0') << setw(2) << (now->tm_mon + 1)
+			<< setw(1) << '/' << setw(2) << now->tm_mday << setw(1)
+			<< '/' << setw(2) << (now->tm_year + 1900) << setfill(' ')
+			<< "     PAGE: " << currentPage << " of " << "NAN"
+			<< "     DATABASE SIZE: " << "NAN"
+			<< "     CURRENT BOOK COUNT: " << "NAN"
+			<< "\n\n";
+
+	cout << left << setw(37) << "TITLE"
+			<< setw(5) << ' '
+			<< setw(10) << "ISBN"
+			<< setw(5) << ' '
+			<< setw(7) << "QTY O/H"
+			<< setw(5) << ' '
+			<< setw(14) << "WHOLESALE COST"
+			<< '\n';
+
+	cout << setfill('-') << setw(37) << '-'
+			<< setfill(' ') << setw(5) << ' '
+			<< setfill('-') << setw(10) << '-'
+			<< setfill(' ') << setw(5) << ' '
+			<< setfill('-') << setw(7) << '-'
+			<< setfill(' ') << setw(5) << ' '
+			<< setfill('-') << setw(14) << '-'
+			<< setfill(' ') << '\n';
+
+
+	// iterate and display books
+	for (myIterator = bookList.begin(); myIterator != bookList.end(); ++myIterator)
+	{
+		cout << left << setw(37) << ((*myIterator).getTitle()).substr(0,37)
+				<< setw(5) << ' '
+				<< setw(10) << (*myIterator).getIsbn()
+				<< setw(5) << ' '
+				<< right << setw(7) << (*myIterator).getQty()
+				<< setw(5) << ' '
+				<< left << setw(1) << '$' << right << setfill('.') << setw(13) << setprecision(2) << (*myIterator).getWholesale() << setfill(' ') << setprecision(0);
+		cout << "\n\n";
+
+		subtotal += ((*myIterator).getWholesale() * (*myIterator).getQty());	// calculate wholesale total
+	}	// end iterator loop
+
+	// total wholesale value
+	cout << left << setw(69) << "Total Wholesale Value: "
+			<< setw(1) << '$' << right << setfill('.') << setw(13) << setprecision(2) << subtotal << setfill(' ') << setprecision(0)
+			<< "\n\n";
+
 	system("pause");
 	return;
 }
 
 //----------------------------------------------------------------------
-// Function:
+// Function: repRetail()
 //
-// Receives:
+// Receives: orderedLinkedList<InventoryBook> bookList
 // Returns:
 //----------------------------------------------------------------------
-void repRetail()
+void repRetail(orderedLinkedList<InventoryBook> bookList)
 {
-	cout << "Reports Retail Menu WIP." << "\n\n";
+	int currentPage = 1;
+//	double totalPage = ceil(double(bookCount)/10);
+	double subtotal = 0.00;
+	time_t t = time(0);
+	struct tm * now = localtime(&t);
+	linkedListIterator<InventoryBook> myIterator;	// iterator
+
+	system("cls");
+
+	// display wholesale listing title
+	cout << fixed << right;
+	cout << setw(54) << "SERENDIPITY  BOOKSELLERS" << "\n";
+	cout << setw(52) << "REPORT RETAIL LISTING" << "\n";
+	cout << "DATE: " << setfill('0') << setw(2) << (now->tm_mon + 1)
+			<< setw(1) << '/' << setw(2) << now->tm_mday << setw(1)
+			<< '/' << setw(2) << (now->tm_year + 1900) << setfill(' ')
+			<< "     PAGE: " << currentPage << " of " << "NAN"
+			<< "     DATABASE SIZE: " << "NAN"
+			<< "     CURRENT BOOK COUNT: " << "NAN"
+			<< "\n\n";
+
+	cout << left << setw(37) << "TITLE"
+			<< setw(5) << ' '
+			<< setw(10) << "ISBN"
+			<< setw(5) << ' '
+			<< setw(7) << "QTY O/H"
+			<< setw(5) << ' '
+			<< setw(14) << "RETAIL COST"
+			<< '\n';
+
+	cout << setfill('-') << setw(37) << '-'
+			<< setfill(' ') << setw(5) << ' '
+			<< setfill('-') << setw(10) << '-'
+			<< setfill(' ') << setw(5) << ' '
+			<< setfill('-') << setw(7) << '-'
+			<< setfill(' ') << setw(5) << ' '
+			<< setfill('-') << setw(14) << '-'
+			<< setfill(' ') << '\n';
+
+
+	// iterate and display books
+	for (myIterator = bookList.begin(); myIterator != bookList.end(); ++myIterator)
+	{
+		cout << left << setw(37) << ((*myIterator).getTitle()).substr(0,37)
+				<< setw(5) << ' '
+				<< setw(10) << (*myIterator).getIsbn()
+				<< setw(5) << ' '
+				<< right << setw(7) << (*myIterator).getQty()
+				<< setw(5) << ' '
+				<< left << setw(1) << '$' << right << setfill('.') << setw(13) << setprecision(2) << (*myIterator).getRetail() << setfill(' ') << setprecision(0);
+		cout << "\n\n";
+
+		subtotal += ((*myIterator).getRetail() * (*myIterator).getQty());	// calculate wholesale total
+	}	// end iterator loop
+
+	// total retail value
+	cout << left << setw(69) << "Total Retail Value: "
+			<< setw(1) << '$' << right << setfill('.') << setw(13) << setprecision(2) << subtotal << setfill(' ') << setprecision(0)
+			<< "\n\n";
+
 	system("pause");
 	return;
 }
 
 //----------------------------------------------------------------------
-// Function:
+// Function: repQty()
 //
 // Receives:
 // Returns:
@@ -396,7 +508,7 @@ void repQty()
 }
 
 //----------------------------------------------------------------------
-// Function:
+// Function: repCost()
 //
 // Receives:
 // Returns:
