@@ -38,7 +38,7 @@ private:
 	int qtyOnHand;
 	double wholesale;
 	double retail;
-	int sortCode;	// 2 = sort by qtyOnHand, 1 = sort by Wholesale
+	int sortCode;	// 0 = QTY, 1 = wholesale, 2 = date
 };
 
 //															CONSTRUCTORS
@@ -206,10 +206,10 @@ double InventoryBook::getRetail() const
 }
 
 //----------------------------------------------------------------------
-// Function:
+// Function: getSortCode()
 //
-// Receives:
-// Returns:
+// Receives: none
+// Returns: int sortCode
 //----------------------------------------------------------------------
 int InventoryBook::getSortCode() const
 {
@@ -221,6 +221,7 @@ int InventoryBook::getSortCode() const
 bool InventoryBook::operator>=(const InventoryBook& other_Book) const
 {
 	bool found = false;
+
 	if (this != &other_Book)
 	{
 		switch (this->sortCode)
@@ -247,14 +248,6 @@ bool InventoryBook::operator>=(const InventoryBook& other_Book) const
 			}
 			break;
 		default:
-			// default
-			if (this != &other_Book)
-			{
-				if((strcmp(this->isbn.c_str(), other_Book.isbn.c_str())) >= 0)
-				{
-					found = true;
-				}
-			}
 			break;
 		}
 	}
@@ -262,14 +255,79 @@ bool InventoryBook::operator>=(const InventoryBook& other_Book) const
 	return found;
 }
 //----------------------------------------------------------------------
-bool operator==(const InventoryBook& other_Book) const
+bool InventoryBook::operator==(const InventoryBook& other_Book) const
 {
+	bool found = false;
 
+	if (this != &other_Book)
+	{
+		switch(this->sortCode)
+		{
+		case 0:
+			// Case 0 - Qty
+			if (this->qtyOnHand == other_Book.qtyOnHand)
+			{
+				found = true;
+			}
+			break;
+		case 1:
+			// Case 1 - Wholesale
+			if(this->wholesale == other_Book.wholesale)
+			{
+				found = true;
+			}
+			break;
+		case 2:
+			// Case 2 - Date
+			if((strcmp(this->dateAdded.c_str(), other_Book.dateAdded.c_str())) == 0)
+			{
+				found = true;
+			}
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	return found;
 }
 //----------------------------------------------------------------------
-bool operator!=(const InventoryBook& other_Book) const
+bool InventoryBook::operator!=(const InventoryBook& other_Book) const
 {
+	bool found = false;
 
+	if (this != &other_Book)
+	{
+		switch(this->sortCode)
+		{
+		case 0:
+			// Case 0 - Qty
+			if (this->qtyOnHand == other_Book.qtyOnHand)
+			{
+				found = true;
+			}
+			break;
+		case 1:
+			// Case 1 - Wholesale
+			if(this->wholesale == other_Book.wholesale)
+			{
+				found = true;
+			}
+			break;
+		case 2:
+			// Case 2 - Date
+			if((strcmp(this->dateAdded.c_str(), other_Book.dateAdded.c_str())) == 0)
+			{
+				found = true;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+
+	return !found;
 }
 
 //----------------------------------------------------------------------

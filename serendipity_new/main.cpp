@@ -48,24 +48,24 @@ const float SALES_TAX = 0.06;
 // Main Menu Functions
 int cashier();
 int invMenu();
-int reports(orderedLinkedList<InventoryBook> bookList);
+int reports(orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList);
 // Inventory Menu Functions
 void lookUpBook();
 void addBook();
 void editBook();
 void deleteBook();
 // Reports Menu Functions
-void repListing(orderedLinkedList<InventoryBook> bookList);
-void repWholesale(orderedLinkedList<InventoryBook> bookList);
-void repRetail(orderedLinkedList<InventoryBook> bookList);
-void repQty();
-void repCost();
-void repAge();
+void repListing(orderedLinkedList<InventoryBook> qtyList);
+void repWholesale(orderedLinkedList<InventoryBook> qtyList);
+void repRetail(orderedLinkedList<InventoryBook> qtyList);
+void repQty(orderedLinkedList<InventoryBook> qtyList);
+void repCost(orderedLinkedList<InventoryBook> wholesaleList);
+void repAge(orderedLinkedList<InventoryBook> dateList);
 
 int main()
 {
 	char choice = '\0';
-	orderedLinkedList<InventoryBook> qtyList;	// QTY ON HAND
+	orderedLinkedList<InventoryBook> qtyList;
 	orderedLinkedList<InventoryBook> wholesaleList;
 	orderedLinkedList<InventoryBook> dateList;
 	qtyList.initializeList();	// initialize list
@@ -73,35 +73,45 @@ int main()
 	dateList.initializeList();	// initialize list
 
 	// create books
-	InventoryBook *book1 = new InventoryBook ("Star Wars", "0345260791", "George Lucas", "Del Rey", "10/18/2017", 5, 59.95, 100.00);
-	InventoryBook *book2 = new InventoryBook ("The Empire Strikes Back (Star Wars)", "034529209X", "George Lucas", "Ballantine", "04/01/2017", 2, 179.58, 185.00);
-	InventoryBook *book3 = new InventoryBook ("Splinter of the Mind's Eye (Star Wars)", "0345320239", "George Lucas", "Del Rey", "11/08/2017", 3, 24, 26.50);
-	InventoryBook *book4 = new InventoryBook ("Return of the Jedi (Star Wars)", "0345307674", "George Lucas", "Del Rey", "10/09/2017", 4, 2.94, 6.50);
-	InventoryBook *book5 = new InventoryBook ("Heir to the Empire (Star Wars: The Thrawn Trilogy, Vol. 1)", "0553296124", "Timothy Zahn", "Bantam", "11/01/2017", 10, 25.38, 27.00);
+	InventoryBook *book1 = new InventoryBook ("Star Wars", "0345260791", "George Lucas", "Del Rey", "10/18/2017", 5, 59.95, 100.00, 0);
+	InventoryBook *book2 = new InventoryBook ("The Empire Strikes Back (Star Wars)", "034529209X", "George Lucas", "Ballantine", "04/01/2017", 2, 179.58, 185.00, 0);
+	InventoryBook *book3 = new InventoryBook ("Splinter of the Mind's Eye (Star Wars)", "0345320239", "George Lucas", "Del Rey", "11/08/2017", 3, 24, 26.50, 0);
+	InventoryBook *book4 = new InventoryBook ("Return of the Jedi (Star Wars)", "0345307674", "George Lucas", "Del Rey", "10/09/2017", 4, 2.94, 6.50, 0);
+	InventoryBook *book5 = new InventoryBook ("Heir to the Empire (Star Wars: The Thrawn Trilogy, Vol. 1)", "0553296124", "Timothy Zahn", "Bantam", "11/01/2017", 10, 25.38, 27.00, 0);
 
 	// insert books into the qty list
+	(*book1).setSortCode(0);
+	qtyList.insert(*book1);
+	(*book2).setSortCode(0);
+	qtyList.insert(*book2);
+	(*book3).setSortCode(0);
+	qtyList.insert(*book3);
+	(*book4).setSortCode(0);
+	qtyList.insert(*book4);
+	(*book5).setSortCode(0);
+	qtyList.insert(*book5);
+	// insert books into wholesale list
 	(*book1).setSortCode(1);
-	qtyList.insert(*book1);
-	(*book2).setSortCode(1);
-	qtyList.insert(*book2);
-	(*book3).setSortCode(1);
-	qtyList.insert(*book3);
-	(*book4).setSortCode(1);
-	qtyList.insert(*book4);
-	(*book5).setSortCode(1);
-	qtyList.insert(*book5);
-
 	wholesaleList.insert(*book1);
+	(*book2).setSortCode(1);
 	wholesaleList.insert(*book2);
+	(*book3).setSortCode(1);
 	wholesaleList.insert(*book3);
+	(*book4).setSortCode(1);
 	wholesaleList.insert(*book4);
+	(*book5).setSortCode(1);
 	wholesaleList.insert(*book5);
-
-	qtyList.insert(*book1);
-	qtyList.insert(*book2);
-	qtyList.insert(*book3);
-	qtyList.insert(*book4);
-	qtyList.insert(*book5);
+	// insert books into date list
+	(*book1).setSortCode(2);
+	dateList.insert(*book1);
+	(*book2).setSortCode(2);
+	dateList.insert(*book2);
+	(*book3).setSortCode(2);
+	dateList.insert(*book3);
+	(*book4).setSortCode(2);
+	dateList.insert(*book4);
+	(*book5).setSortCode(2);
+	dateList.insert(*book5);
 
 	do
 	{
@@ -141,7 +151,7 @@ int main()
 			invMenu();
 			break;
 		case '3':
-			reports(bookList);
+			reports(qtyList, wholesaleList, dateList);
 			break;
 		case '4':
 			break;
@@ -187,7 +197,7 @@ int invMenu()
 // Receives: orderedLinkedList<InventoryBook> bookList
 // Returns: 0
 //----------------------------------------------------------------------
-int reports(orderedLinkedList<InventoryBook> bookList)
+int reports(orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList)
 {
 	char choice = '\0';
 
@@ -220,22 +230,22 @@ int reports(orderedLinkedList<InventoryBook> bookList)
 		switch(choice)
 		{
 		case '1':
-			repListing(bookList);
+			repListing(qtyList);
 			break;
 		case '2':
-			repWholesale(bookList);
+			repWholesale(qtyList);
 			break;
 		case '3':
-			repRetail(bookList);
+			repRetail(qtyList);
 			break;
 		case '4':
-			repQty();
+			repQty(qtyList);
 			break;
 		case '5':
-			repCost();
+			repCost(wholesaleList);
 			break;
 		case '6':
-			repAge();
+			repAge(dateList);
 			break;
 		case '7':
 			break;
@@ -309,7 +319,7 @@ void deleteBook()
 // Receives: orderedLinkedList<InventoryBook> bookList
 // Returns: none
 //----------------------------------------------------------------------
-void repListing(orderedLinkedList<InventoryBook> bookList)
+void repListing(orderedLinkedList<InventoryBook> qtyList)
 {
 	int currentPage = 1;
 //	double totalPage = ceil(double(bookCount)/10);
@@ -353,7 +363,7 @@ void repListing(orderedLinkedList<InventoryBook> bookList)
 			<< setfill(' ') << '\n';
 
 	// Iterate and display books
-	for (myIterator = bookList.begin(); myIterator != bookList.end(); ++myIterator)
+	for (myIterator = qtyList.begin(); myIterator != qtyList.end(); ++myIterator)
 	{
 		cout << left << setw(37) << ((*myIterator).getTitle()).substr(0,37)
 				<< setw(1) << ' '
@@ -377,7 +387,7 @@ void repListing(orderedLinkedList<InventoryBook> bookList)
 // Receives: orderedLinkedList<InventoryBook> bookList
 // Returns:
 //----------------------------------------------------------------------
-void repWholesale(orderedLinkedList<InventoryBook> bookList)
+void repWholesale(orderedLinkedList<InventoryBook> qtyList)
 {
 	int currentPage = 1;
 //	double totalPage = ceil(double(bookCount)/10);
@@ -420,7 +430,7 @@ void repWholesale(orderedLinkedList<InventoryBook> bookList)
 
 
 	// iterate and display books
-	for (myIterator = bookList.begin(); myIterator != bookList.end(); ++myIterator)
+	for (myIterator = qtyList.begin(); myIterator != qtyList.end(); ++myIterator)
 	{
 		cout << left << setw(37) << ((*myIterator).getTitle()).substr(0,37)
 				<< setw(5) << ' '
@@ -449,7 +459,7 @@ void repWholesale(orderedLinkedList<InventoryBook> bookList)
 // Receives: orderedLinkedList<InventoryBook> bookList
 // Returns:
 //----------------------------------------------------------------------
-void repRetail(orderedLinkedList<InventoryBook> bookList)
+void repRetail(orderedLinkedList<InventoryBook> qtyList)
 {
 	int currentPage = 1;
 //	double totalPage = ceil(double(bookCount)/10);
@@ -492,7 +502,7 @@ void repRetail(orderedLinkedList<InventoryBook> bookList)
 
 
 	// iterate and display books
-	for (myIterator = bookList.begin(); myIterator != bookList.end(); ++myIterator)
+	for (myIterator = qtyList.begin(); myIterator != qtyList.end(); ++myIterator)
 	{
 		cout << left << setw(37) << ((*myIterator).getTitle()).substr(0,37)
 				<< setw(5) << ' '
@@ -521,9 +531,53 @@ void repRetail(orderedLinkedList<InventoryBook> bookList)
 // Receives:
 // Returns:
 //----------------------------------------------------------------------
-void repQty()
+void repQty(orderedLinkedList<InventoryBook> qtyList)
 {
-	cout << "Reports Quantity Menu WIP." << "\n\n";
+	int currentPage = 1;
+//	double totalPage = ceil(double(bookCount)/10);
+	time_t t = time(0);
+	struct tm * now = localtime(&t);
+	linkedListIterator<InventoryBook> myIterator;	// iterator
+
+	system("cls");
+
+	cout << fixed << right;
+
+	cout << setw(33) << "SERENDIPITY BOOKSELLERS" << "\n";
+	cout << setw(33) << "REPORT QUANTITY LISTING" << "\n";
+	cout << "DATE: " << setfill('0') << setw(2) << (now->tm_mon + 1)
+			<< setw(1) << '/' << setw(2) << now->tm_mday << setw(1)
+			<< '/' << setw(2) << (now->tm_year + 1900) << setfill(' ')
+			<< "     PAGE: " << currentPage << " of " << "NAN"
+			<< "     DATABASE SIZE: " << "NAN"
+			<< "     CURRENT BOOK COUNT: " << "NAN"
+			<< "\n\n";
+
+	cout << left << setw(37) << "TITLE"
+			<< setw(5) << ' '
+			<< setw(10) << "ISBN"
+			<< setw(5) << ' '
+			<< setw(7) << "QTY O/H"
+			<< '\n';
+
+	cout << setfill('-') << setw(37) << '-'
+			<< setfill(' ') << setw(5) << ' '
+			<< setfill('-') << setw(10) << '-'
+			<< setfill(' ') << setw(5) << ' '
+			<< setfill('-') << setw(7) << '-'
+			<< setfill(' ') << '\n';
+
+	// iterate and display books
+	for (myIterator = qtyList.begin(); myIterator != qtyList.end(); ++myIterator)
+	{
+		cout << left << setw(37) << ((*myIterator).getTitle()).substr(0,37)
+				<< setw(5) << ' '
+				<< setw(10) << (*myIterator).getIsbn()
+				<< setw(5) << ' '
+				<< right << setw(7) << (*myIterator).getQty();
+		cout << "\n\n";
+	}	// end iterator loop
+
 	system("pause");
 	return;
 }
@@ -534,9 +588,62 @@ void repQty()
 // Receives:
 // Returns:
 //----------------------------------------------------------------------
-void repCost()
+void repCost(orderedLinkedList<InventoryBook> wholesaleList)
 {
-	cout << "Reports Cost Menu WIP." << "\n\n";
+	int currentPage = 1;
+//	double totalPage = ceil(double(bookCount)/10);
+	double subtotal = 0.00;
+	time_t t = time(0);
+	struct tm * now = localtime(&t);
+	linkedListIterator<InventoryBook> myIterator;	// iterator
+
+	system("cls");
+
+	cout << fixed << right;
+
+	cout << setw(33) << "SERENDIPITY BOOKSELLERS" << "\n";
+	cout << setw(33) << "REPORT COST LISTING" << "\n";
+	cout << "DATE: " << setfill('0') << setw(2) << (now->tm_mon + 1)
+			<< setw(1) << '/' << setw(2) << now->tm_mday << setw(1)
+			<< '/' << setw(2) << (now->tm_year + 1900) << setfill(' ')
+			<< "     PAGE: " << currentPage << " of " << "NAN"
+			<< "     DATABASE SIZE: " << "NAN"
+			<< "     CURRENT BOOK COUNT: " << "NAN"
+			<< "\n\n";
+
+	cout << left << setw(37) << "TITLE"
+			<< setw(5) << ' '
+			<< setw(10) << "ISBN"
+			<< setw(5) << ' '
+			<< setw(7) << "QTY O/H"
+			<< setw(5) << ' '
+			<< setw(14) << "WHOLESALE COST"
+			<< '\n';
+
+	cout << setfill('-') << setw(37) << '-'
+			<< setfill(' ') << setw(5) << ' '
+			<< setfill('-') << setw(10) << '-'
+			<< setfill(' ') << setw(5) << ' '
+			<< setfill('-') << setw(7) << '-'
+			<< setfill(' ') << setw(5) << ' '
+			<< setfill('-') << setw(14) << '-'
+			<< setfill(' ') << '\n';
+
+	// iterate and display books
+	for (myIterator = wholesaleList.begin(); myIterator != wholesaleList.end(); ++myIterator)
+	{
+		cout << left << setw(37) << ((*myIterator).getTitle()).substr(0,37)
+				<< setw(5) << ' '
+				<< setw(10) << (*myIterator).getIsbn()
+				<< setw(5) << ' '
+				<< right << setw(7) << (*myIterator).getQty()
+				<< setw(5) << ' '
+				<< left << setw(1) << '$' << right << setfill('.') << setw(13) << setprecision(2) << (*myIterator).getWholesale() << setfill(' ') << setprecision(0);
+		cout << "\n\n";
+
+		subtotal += ((*myIterator).getRetail() * (*myIterator).getQty());	// calculate wholesale total
+	}	// end iterator loop
+
 	system("pause");
 	return;
 }
@@ -547,9 +654,59 @@ void repCost()
 // Receives:
 // Returns:
 //----------------------------------------------------------------------
-void repAge()
+void repAge(orderedLinkedList<InventoryBook> dateList)
 {
-	cout << "Reports Age Menu WIP." << "\n\n";
+	int currentPage = 1;
+//	double totalPage = ceil(double(bookCount)/10);
+	time_t t = time(0);
+	struct tm * now = localtime(&t);
+	linkedListIterator<InventoryBook> myIterator;	// iterator
+
+	system("cls");
+
+	cout << fixed << right;
+
+	cout << setw(33) << "SERENDIPITY BOOKSELLERS" << "\n";
+	cout << setw(33) << "ADDED DATE LISTING" << "\n";
+	cout << "DATE: " << setfill('0') << setw(2) << (now->tm_mon + 1)
+			<< setw(1) << '/' << setw(2) << now->tm_mday << setw(1)
+			<< '/' << setw(2) << (now->tm_year + 1900) << setfill(' ')
+			<< "     PAGE: " << currentPage << " of " << "NAN"
+			<< "     DATABASE SIZE: " << "NAN"
+			<< "     CURRENT BOOK COUNT: " << "NAN"
+			<< "\n\n";
+
+	cout << left << setw(37) << "TITLE"
+			<< setw(5) << ' '
+			<< setw(10) << "ISBN"
+			<< setw(5) << ' '
+			<< setw(7) << "QTY O/H"
+			<< setw(5) << ' '
+			<< setw(14) << "DATE ADDED"
+			<< '\n';
+
+	cout << setfill('-') << setw(37) << '-'
+			<< setfill(' ') << setw(5) << ' '
+			<< setfill('-') << setw(10) << '-'
+			<< setfill(' ') << setw(5) << ' '
+			<< setfill('-') << setw(7) << '-'
+			<< setfill(' ') << setw(5) << ' '
+			<< setfill('-') << setw(14) << '-'
+			<< setfill(' ') << '\n';
+
+	// iterate and display books
+	for (myIterator = dateList.begin(); myIterator != dateList.end(); ++myIterator)
+	{
+		cout << left << setw(37) << ((*myIterator).getTitle()).substr(0,37)
+				<< setw(5) << ' '
+				<< setw(10) << (*myIterator).getIsbn()
+				<< setw(5) << ' '
+				<< right << setw(7) << (*myIterator).getQty()
+				<< setw(5) << ' '
+				<< setw(10) << (*myIterator).getDateAdded();
+		cout << "\n\n";
+	}	// end iterator loop
+
 	system("pause");
 	return;
 }

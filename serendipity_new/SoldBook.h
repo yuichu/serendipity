@@ -7,7 +7,7 @@ class SoldBook: public InventoryBook
 {
 public:
 	SoldBook();
-	SoldBook(string bookTitle, string isbn, string author, string publisher, string dateAdded, int qtyOnHand, double wholesale, double retail, double taxRate, int qtySold, double tax);
+	SoldBook(string bookTitle, string isbn, string author, string publisher, string dateAdded, int qtyOnHand, double wholesale, double retail, int sortCode, double taxRate, int qtySold, double tax);
 	~SoldBook();
 
 	void print();
@@ -50,8 +50,8 @@ SoldBook::SoldBook()
 //			double taxRate, int qtySold, double tax
 // Returns: none
 //----------------------------------------------------------------------
-SoldBook::SoldBook(string bookTitle, string isbn, string author, string publisher, string dateAdded, int qtyOnHand, double wholesale, double retail, double taxRate, int qtySold, double tax)
-:InventoryBook(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail)
+SoldBook::SoldBook(string bookTitle, string isbn, string author, string publisher, string dateAdded, int qtyOnHand, double wholesale, double retail, int sortCode, double taxRate, int qtySold, double tax)
+:InventoryBook(bookTitle, isbn, author, publisher, dateAdded, qtyOnHand, wholesale, retail, sortCode)
 {
 	setTaxRate(taxRate);
 	setQtySold(qtySold);
