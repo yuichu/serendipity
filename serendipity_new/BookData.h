@@ -194,22 +194,22 @@ string BookData::getPub() const
 	return publisher;
 }
 
+
 //														OVERLOAD OPERATOR
 //----------------------------------------------------------------------
 bool BookData::operator>=(const BookData& other_Book) const
 {
 	bool found = false;
 
+	// default
 	if (this != &other_Book)
 	{
-		if (this != &other_Book)
+		if((strcmp(this->isbn.c_str(), other_Book.isbn.c_str())) >= 0)
 		{
-			if((strcmp(this->isbn.c_str(), other_Book.isbn.c_str())) >= 0)
-			{
-				found = true;
-			}
+			found = true;
 		}
 	}
+
 	return found;
 }
 
@@ -217,17 +217,16 @@ bool BookData::operator>=(const BookData& other_Book) const
 bool BookData::operator==(const BookData& other_Book) const
 {
 	bool found = false;
-	if(this != &other_Book)
-	{
-		if (this != &other_Book)
-		{
-			if ((strcmp(this->isbn.c_str(), other_Book.isbn.c_str())) == 0)
-			{
-				found = true;
-			}
 
+	if (this != &other_Book)
+	{
+		if ((strcmp(this->isbn.c_str(), other_Book.isbn.c_str())) == 0)
+		{
+			found = true;
 		}
+
 	}
+
 	return found;
 }
 
@@ -235,16 +234,15 @@ bool BookData::operator==(const BookData& other_Book) const
 bool BookData::operator!=(const BookData& other_Book) const
 {
 	bool found = false;
-	if(this != &other_Book)
+
+	if (this != &other_Book)
 	{
-		if (this != &other_Book)
+		if ((strcmp(this->isbn.c_str(), other_Book.isbn.c_str())) == 0)
 		{
-			if ((strcmp(this->isbn.c_str(), other_Book.isbn.c_str())) == 0)
-			{
-				found = true;
-			}
+			found = true;
 		}
 	}
+
 	return !found;
 }
 

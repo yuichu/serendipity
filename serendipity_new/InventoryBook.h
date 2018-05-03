@@ -3,6 +3,7 @@
 
 #include "BookData.h"
 #include <iomanip>
+#include <cstring>
 
 class InventoryBook: public BookData
 {
@@ -17,11 +18,17 @@ public:
 	void setQty(int qty);
 	void setWholesale(double wholesale);
 	void setRetail(double retail);
+	void setSortCode(int sortCode);
 
 	string getDateAdded() const;
 	int getQty() const;
 	double getWholesale() const;
 	double getRetail() const;
+	int getSortCode() const;
+
+	bool operator>=(const InventoryBook& other_Book) const;
+	bool operator==(const InventoryBook& other_Book) const;
+	bool operator!=(const InventoryBook& other_Book) const;
 
 //	void removeBook();
 //	bool isEmpty();
@@ -31,6 +38,7 @@ private:
 	int qtyOnHand;
 	double wholesale;
 	double retail;
+	int sortCode;	// 2 = sort by qtyOnHand, 1 = sort by Wholesale
 };
 
 //															CONSTRUCTORS
@@ -139,6 +147,17 @@ void InventoryBook::setRetail(double retail)
 	this->retail = retail;
 }
 
+//----------------------------------------------------------------------
+// Function:
+//
+// Receives:
+// Returns:
+//----------------------------------------------------------------------
+void InventoryBook::setSortCode(int sortCode)
+{
+	this->sortCode = sortCode;
+}
+
 //																GETTERS
 //----------------------------------------------------------------------
 // Function: getDateAdded()
@@ -182,6 +201,70 @@ double InventoryBook::getWholesale() const
 double InventoryBook::getRetail() const
 {
 	return retail;
+}
+
+//----------------------------------------------------------------------
+// Function:
+//
+// Receives:
+// Returns:
+//----------------------------------------------------------------------
+int InventoryBook::getSortCode() const
+{
+	return sortCode;
+}
+
+//														OVERLOAD OPERATOR
+//----------------------------------------------------------------------
+bool InventoryBook::operator>=(const InventoryBook& other_Book) const
+{
+	bool found = false;
+
+	switch (this->sortCode)
+	{
+	case 0:
+		if (this != &other_Book)
+		{
+			if((strcmp(this->dateAdded.c_str(), other_Book.dateAdded.c_str())) >= 0)
+			{
+				found = true;
+			}
+		}
+		break;
+	case 1:
+		break;
+	case 2:
+		if (this != &other_Book)
+		{
+			if(this->qtyOnHand, other_Book.qtyOnHand)) >= 0)
+			{
+				found = true;
+			}
+		}
+		break;
+	default:
+		// default
+		if (this != &other_Book)
+		{
+			if((strcmp(this->BookData::isbn.c_str(), other_Book.BookData::isbn.c_str())) >= 0)
+			{
+				found = true;
+			}
+		}
+		break;
+	}
+
+	return found;
+}
+//----------------------------------------------------------------------
+bool operator==(const InventoryBook& other_Book) const
+{
+
+}
+//----------------------------------------------------------------------
+bool operator!=(const InventoryBook& other_Book) const
+{
+
 }
 
 //----------------------------------------------------------------------
