@@ -9,7 +9,7 @@ class InventoryBook: public BookData
 {
 public:
 	InventoryBook();
-	InventoryBook(string bookTitle, string isbn, string author, string publisher, string dateAdded, int qtyOnHand, double wholesale, double retail);
+	InventoryBook(string bookTitle, string isbn, string author, string publisher, string dateAdded, int qtyOnHand, double wholesale, double retail, int sortCode);
 	~InventoryBook();
 
 	void print();
@@ -54,6 +54,7 @@ InventoryBook::InventoryBook()
 	setQty(0);
 	setWholesale(0.0);
 	setRetail(0.0);
+	setSortCode(0);
 }
 
 //----------------------------------------------------------------------
@@ -63,13 +64,14 @@ InventoryBook::InventoryBook()
 //			string dateAdded, int qtyOnHand, double wholesale, double retail
 // Returns: none
 //----------------------------------------------------------------------
-InventoryBook::InventoryBook(string bookTitle, string isbn, string author, string publisher, string dateAdded, int qtyOnHand, double wholesale, double retail)
+InventoryBook::InventoryBook(string bookTitle, string isbn, string author, string publisher, string dateAdded, int qtyOnHand, double wholesale, double retail, int sortCode)
 :BookData(bookTitle, isbn, author, publisher)
 {
 	setDateAdded(dateAdded);
 	setQty(qtyOnHand);
 	setWholesale(wholesale);
 	setRetail(retail);
+	setSortCode(sortCode);
 }
 
 
@@ -219,39 +221,42 @@ int InventoryBook::getSortCode() const
 bool InventoryBook::operator>=(const InventoryBook& other_Book) const
 {
 	bool found = false;
-
-	switch (this->sortCode)
+	if (this != &other_Book)
 	{
-	case 0:
-		if (this != &other_Book)
+		switch (this->sortCode)
 		{
+		case 0:
+			// Case 0 - Qty
+			if(this->qtyOnHand >= other_Book.qtyOnHand)
+			{
+				found = true;
+			}
+			break;
+		case 1:
+			// Case 1 - Wholesale
+			if(this->wholesale >= other_Book.wholesale)
+			{
+				found = true;
+			}
+			break;
+		case 2:
+			// Case 2 - Date
 			if((strcmp(this->dateAdded.c_str(), other_Book.dateAdded.c_str())) >= 0)
 			{
 				found = true;
 			}
-		}
-		break;
-	case 1:
-		break;
-	case 2:
-		if (this != &other_Book)
-		{
-			if(this->qtyOnHand, other_Book.qtyOnHand)) >= 0)
+			break;
+		default:
+			// default
+			if (this != &other_Book)
 			{
-				found = true;
+				if((strcmp(this->isbn.c_str(), other_Book.isbn.c_str())) >= 0)
+				{
+					found = true;
+				}
 			}
+			break;
 		}
-		break;
-	default:
-		// default
-		if (this != &other_Book)
-		{
-			if((strcmp(this->BookData::isbn.c_str(), other_Book.BookData::isbn.c_str())) >= 0)
-			{
-				found = true;
-			}
-		}
-		break;
 	}
 
 	return found;

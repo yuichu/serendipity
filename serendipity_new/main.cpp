@@ -65,8 +65,12 @@ void repAge();
 int main()
 {
 	char choice = '\0';
-	orderedLinkedList<InventoryBook> bookList;	//create linked list
-	bookList.initializeList();	// initialize list
+	orderedLinkedList<InventoryBook> qtyList;	// QTY ON HAND
+	orderedLinkedList<InventoryBook> wholesaleList;
+	orderedLinkedList<InventoryBook> dateList;
+	qtyList.initializeList();	// initialize list
+	wholesaleList.initializeList();	// initialize list
+	dateList.initializeList();	// initialize list
 
 	// create books
 	InventoryBook *book1 = new InventoryBook ("Star Wars", "0345260791", "George Lucas", "Del Rey", "10/18/2017", 5, 59.95, 100.00);
@@ -75,12 +79,29 @@ int main()
 	InventoryBook *book4 = new InventoryBook ("Return of the Jedi (Star Wars)", "0345307674", "George Lucas", "Del Rey", "10/09/2017", 4, 2.94, 6.50);
 	InventoryBook *book5 = new InventoryBook ("Heir to the Empire (Star Wars: The Thrawn Trilogy, Vol. 1)", "0553296124", "Timothy Zahn", "Bantam", "11/01/2017", 10, 25.38, 27.00);
 
-	// insert books into the linked list
-	bookList.insert(*book1);
-	bookList.insert(*book2);
-	bookList.insert(*book3);
-	bookList.insert(*book4);
-	bookList.insert(*book5);
+	// insert books into the qty list
+	(*book1).setSortCode(1);
+	qtyList.insert(*book1);
+	(*book2).setSortCode(1);
+	qtyList.insert(*book2);
+	(*book3).setSortCode(1);
+	qtyList.insert(*book3);
+	(*book4).setSortCode(1);
+	qtyList.insert(*book4);
+	(*book5).setSortCode(1);
+	qtyList.insert(*book5);
+
+	wholesaleList.insert(*book1);
+	wholesaleList.insert(*book2);
+	wholesaleList.insert(*book3);
+	wholesaleList.insert(*book4);
+	wholesaleList.insert(*book5);
+
+	qtyList.insert(*book1);
+	qtyList.insert(*book2);
+	qtyList.insert(*book3);
+	qtyList.insert(*book4);
+	qtyList.insert(*book5);
 
 	do
 	{
