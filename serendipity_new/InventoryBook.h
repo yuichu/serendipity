@@ -4,6 +4,7 @@
 #include "BookData.h"
 #include <iomanip>
 #include <cstring>
+#include <cctype>
 
 class InventoryBook: public BookData
 {
@@ -221,6 +222,14 @@ int InventoryBook::getSortCode() const
 bool InventoryBook::operator>=(const InventoryBook& other_Book) const
 {
 	bool found = false;
+	string day;
+	string month;
+	string year;
+	int date;
+	string otherDay;
+	string otherMonth;
+	string otherYear;
+	int otherDate;
 
 	if (this != &other_Book)
 	{
@@ -242,10 +251,24 @@ bool InventoryBook::operator>=(const InventoryBook& other_Book) const
 			break;
 		case 2:
 			// Case 2 - Date
-			if((strcmp(this->dateAdded.c_str(), other_Book.dateAdded.c_str())) >= 0)
+			month = this->dateAdded.substr(0,2);
+			day = this->dateAdded.substr(3,2);
+			year = this->dateAdded.substr(6,4);
+			date = atoi((year + month + day).c_str());
+
+			otherMonth = other_Book.dateAdded.substr(0,2);
+			otherDay = other_Book.dateAdded.substr(3,2);
+			otherYear = other_Book.dateAdded.substr(6,4);
+			otherDate = atoi((otherYear + otherMonth + otherDay).c_str());
+
+			if(date >= otherDate)
 			{
 				found = true;
 			}
+//			if((strcmp(date.c_str(), otherDate.c_str())) >= 0)
+//			{
+//				found = true;
+//			}
 			break;
 		default:
 			break;
@@ -258,6 +281,14 @@ bool InventoryBook::operator>=(const InventoryBook& other_Book) const
 bool InventoryBook::operator==(const InventoryBook& other_Book) const
 {
 	bool found = false;
+	string day;
+	string month;
+	string year;
+	int date;
+	string otherDay;
+	string otherMonth;
+	string otherYear;
+	int otherDate;
 
 	if (this != &other_Book)
 	{
@@ -279,10 +310,24 @@ bool InventoryBook::operator==(const InventoryBook& other_Book) const
 			break;
 		case 2:
 			// Case 2 - Date
-			if((strcmp(this->dateAdded.c_str(), other_Book.dateAdded.c_str())) == 0)
+			month = this->dateAdded.substr(0,2);
+			day = this->dateAdded.substr(3,2);
+			year = this->dateAdded.substr(6,4);
+			date = atoi((year + month + day).c_str());
+
+			otherMonth = other_Book.dateAdded.substr(0,2);
+			otherDay = other_Book.dateAdded.substr(3,2);
+			otherYear = other_Book.dateAdded.substr(6,4);
+			otherDate = atoi((otherYear + otherMonth + otherDay).c_str());
+
+			if (date == otherDate)
 			{
 				found = true;
 			}
+//			if((strcmp(date.c_str(), otherDate.c_str())) == 0)
+//			{
+//				found = true;
+//			}
 			break;
 		default:
 			break;
@@ -296,6 +341,14 @@ bool InventoryBook::operator==(const InventoryBook& other_Book) const
 bool InventoryBook::operator!=(const InventoryBook& other_Book) const
 {
 	bool found = false;
+	string day;
+	string month;
+	string year;
+	int date;
+	string otherDay;
+	string otherMonth;
+	string otherYear;
+	int otherDate;
 
 	if (this != &other_Book)
 	{
@@ -317,10 +370,24 @@ bool InventoryBook::operator!=(const InventoryBook& other_Book) const
 			break;
 		case 2:
 			// Case 2 - Date
-			if((strcmp(this->dateAdded.c_str(), other_Book.dateAdded.c_str())) == 0)
+			month = this->dateAdded.substr(0,2);
+			day = this->dateAdded.substr(3,2);
+			year = this->dateAdded.substr(6,4);
+			date = atoi((year + month + day).c_str());
+
+			otherMonth = other_Book.dateAdded.substr(0,2);
+			otherDay = other_Book.dateAdded.substr(3,2);
+			otherYear = other_Book.dateAdded.substr(6,4);
+			otherDate = atoi((otherYear + otherMonth + otherDay).c_str());
+
+			if(date == otherDate)
 			{
 				found = true;
 			}
+//			if((strcmp(date.c_str(), otherDate.c_str())) == 0)
+//			{
+//				found = true;
+//			}
 			break;
 		default:
 			break;
