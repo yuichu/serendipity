@@ -98,127 +98,127 @@ int main()
 
 	// insert books into the title list
 	(*book1).setSortCode(0);
-	qtyList.insert(*book1);
+	titleList.insert(*book1);
 	(*book2).setSortCode(0);
-	qtyList.insert(*book2);
+	titleList.insert(*book2);
 	(*book3).setSortCode(0);
-	qtyList.insert(*book3);
+	titleList.insert(*book3);
 	(*book4).setSortCode(0);
-	qtyList.insert(*book4);
+	titleList.insert(*book4);
 	(*book5).setSortCode(0);
-	qtyList.insert(*book5);
+	titleList.insert(*book5);
 	(*book6).setSortCode(0);
-	qtyList.insert(*book6);
+	titleList.insert(*book6);
 	(*book7).setSortCode(0);
-	qtyList.insert(*book7);
+	titleList.insert(*book7);
 	(*book8).setSortCode(0);
-	qtyList.insert(*book8);
+	titleList.insert(*book8);
 	(*book9).setSortCode(0);
-	qtyList.insert(*book9);
+	titleList.insert(*book9);
 	(*book10).setSortCode(0);
-	qtyList.insert(*book10);
+	titleList.insert(*book10);
 	(*book11).setSortCode(0);
-	qtyList.insert(*book11);
+	titleList.insert(*book11);
 	(*book12).setSortCode(0);
-	qtyList.insert(*book12);
+	titleList.insert(*book12);
 	(*book13).setSortCode(0);
-	qtyList.insert(*book13);
+	titleList.insert(*book13);
 	(*book14).setSortCode(0);
-	qtyList.insert(*book14);
+	titleList.insert(*book14);
 	(*book15).setSortCode(0);
-	qtyList.insert(*book15);
+	titleList.insert(*book15);
 	(*book16).setSortCode(0);
-	qtyList.insert(*book16);
+	titleList.insert(*book16);
 	(*book17).setSortCode(0);
-	qtyList.insert(*book17);
+	titleList.insert(*book17);
 	(*book18).setSortCode(0);
-	qtyList.insert(*book18);
+	titleList.insert(*book18);
 	(*book19).setSortCode(0);
-	qtyList.insert(*book19);
+	titleList.insert(*book19);
 	(*book20).setSortCode(0);
-	qtyList.insert(*book20);
+	titleList.insert(*book20);
 	// insert books into qty list
 	(*book1).setSortCode(1);
-	wholesaleList.insert(*book1);
+	qtyList.insert(*book1);
 	(*book2).setSortCode(1);
-	wholesaleList.insert(*book2);
+	qtyList.insert(*book2);
 	(*book3).setSortCode(1);
-	wholesaleList.insert(*book3);
+	qtyList.insert(*book3);
 	(*book4).setSortCode(1);
-	wholesaleList.insert(*book4);
+	qtyList.insert(*book4);
 	(*book5).setSortCode(1);
-	wholesaleList.insert(*book5);
+	qtyList.insert(*book5);
 	(*book6).setSortCode(1);
-	wholesaleList.insert(*book6);
+	qtyList.insert(*book6);
 	(*book7).setSortCode(1);
-	wholesaleList.insert(*book7);
+	qtyList.insert(*book7);
 	(*book8).setSortCode(1);
-	wholesaleList.insert(*book8);
+	qtyList.insert(*book8);
 	(*book9).setSortCode(1);
-	wholesaleList.insert(*book9);
+	qtyList.insert(*book9);
 	(*book10).setSortCode(1);
-	wholesaleList.insert(*book10);
+	qtyList.insert(*book10);
 	(*book11).setSortCode(1);
-	wholesaleList.insert(*book11);
+	qtyList.insert(*book11);
 	(*book12).setSortCode(1);
-	wholesaleList.insert(*book12);
+	qtyList.insert(*book12);
 	(*book13).setSortCode(1);
-	wholesaleList.insert(*book13);
+	qtyList.insert(*book13);
 	(*book14).setSortCode(1);
-	wholesaleList.insert(*book14);
+	qtyList.insert(*book14);
 	(*book15).setSortCode(1);
-	wholesaleList.insert(*book15);
+	qtyList.insert(*book15);
 	(*book16).setSortCode(1);
-	wholesaleList.insert(*book16);
+	qtyList.insert(*book16);
 	(*book17).setSortCode(1);
-	wholesaleList.insert(*book17);
+	qtyList.insert(*book17);
 	(*book18).setSortCode(1);
-	wholesaleList.insert(*book18);
+	qtyList.insert(*book18);
 	(*book19).setSortCode(1);
-	wholesaleList.insert(*book19);
+	qtyList.insert(*book19);
 	(*book20).setSortCode(1);
-	wholesaleList.insert(*book20);
+	qtyList.insert(*book20);
 	// insert books into wholesale list
 	(*book1).setSortCode(2);
-	dateList.insert(*book1);
+	wholesaleList.insert(*book1);
 	(*book2).setSortCode(2);
-	dateList.insert(*book2);
+	wholesaleList.insert(*book2);
 	(*book3).setSortCode(2);
-	dateList.insert(*book3);
+	wholesaleList.insert(*book3);
 	(*book4).setSortCode(2);
-	dateList.insert(*book4);
+	wholesaleList.insert(*book4);
 	(*book5).setSortCode(2);
-	dateList.insert(*book5);
+	wholesaleList.insert(*book5);
 	(*book6).setSortCode(2);
-	dateList.insert(*book6);
+	wholesaleList.insert(*book6);
 	(*book7).setSortCode(2);
-	dateList.insert(*book7);
+	wholesaleList.insert(*book7);
 	(*book8).setSortCode(2);
-	dateList.insert(*book8);
+	wholesaleList.insert(*book8);
 	(*book9).setSortCode(2);
-	dateList.insert(*book9);
+	wholesaleList.insert(*book9);
 	(*book10).setSortCode(2);
-	dateList.insert(*book10);
+	wholesaleList.insert(*book10);
 	(*book11).setSortCode(2);
-	dateList.insert(*book11);
+	wholesaleList.insert(*book11);
 	(*book12).setSortCode(2);
-	dateList.insert(*book12);
+	wholesaleList.insert(*book12);
 	(*book13).setSortCode(2);
-	dateList.insert(*book13);
+	wholesaleList.insert(*book13);
 	(*book14).setSortCode(2);
-	dateList.insert(*book14);
+	wholesaleList.insert(*book14);
 	(*book15).setSortCode(2);
-	dateList.insert(*book15);
+	wholesaleList.insert(*book15);
 	(*book16).setSortCode(2);
-	dateList.insert(*book16);
+	wholesaleList.insert(*book16);
 	(*book17).setSortCode(2);
-	dateList.insert(*book17);
+	wholesaleList.insert(*book17);
 	(*book18).setSortCode(2);
-	dateList.insert(*book18);
+	wholesaleList.insert(*book18);
 	(*book19).setSortCode(2);
-	dateList.insert(*book19);
+	wholesaleList.insert(*book19);
 	(*book20).setSortCode(2);
-	dateList.insert(*book20);
+	wholesaleList.insert(*book20);
 	// insert books into date list
 	(*book1).setSortCode(3);
 	dateList.insert(*book1);
@@ -536,6 +536,9 @@ void repListing(orderedLinkedList<InventoryBook> titleList)
 	cout << "DATE: " << setfill('0') << setw(2) << (now->tm_mon + 1)
 			<< setw(1) << '/' << setw(2) << now->tm_mday << setw(1)
 			<< '/' << setw(2) << (now->tm_year + 1900) << setfill(' ')
+			<< " " << setfill('0') << setw(2) << now->tm_hour
+			<< setw(1) << ':' << setw(2) << now->tm_min << setw(1)
+			<< ':' << setw(2) << now->tm_sec << setfill(' ')
 			<< "     PAGE: " << currentPage << " of " << "NAN"
 			<< "     DATABASE SIZE: " << "NAN"
 			<< "     CURRENT BOOK COUNT: " << "NAN"
@@ -606,6 +609,9 @@ void repWholesale(orderedLinkedList<InventoryBook> titleList)
 	cout << "DATE: " << setfill('0') << setw(2) << (now->tm_mon + 1)
 			<< setw(1) << '/' << setw(2) << now->tm_mday << setw(1)
 			<< '/' << setw(2) << (now->tm_year + 1900) << setfill(' ')
+			<< " " << setfill('0') << setw(2) << now->tm_hour
+			<< setw(1) << ':' << setw(2) << now->tm_min << setw(1)
+			<< ':' << setw(2) << now->tm_sec << setfill(' ')
 			<< "     PAGE: " << currentPage << " of " << "NAN"
 			<< "     DATABASE SIZE: " << "NAN"
 			<< "     CURRENT BOOK COUNT: " << "NAN"
@@ -678,6 +684,9 @@ void repRetail(orderedLinkedList<InventoryBook> titleList)
 	cout << "DATE: " << setfill('0') << setw(2) << (now->tm_mon + 1)
 			<< setw(1) << '/' << setw(2) << now->tm_mday << setw(1)
 			<< '/' << setw(2) << (now->tm_year + 1900) << setfill(' ')
+			<< " " << setfill('0') << setw(2) << now->tm_hour
+			<< setw(1) << ':' << setw(2) << now->tm_min << setw(1)
+			<< ':' << setw(2) << now->tm_sec << setfill(' ')
 			<< "     PAGE: " << currentPage << " of " << "NAN"
 			<< "     DATABASE SIZE: " << "NAN"
 			<< "     CURRENT BOOK COUNT: " << "NAN"
@@ -749,6 +758,9 @@ void repQty(orderedLinkedList<InventoryBook> qtyList)
 	cout << "DATE: " << setfill('0') << setw(2) << (now->tm_mon + 1)
 			<< setw(1) << '/' << setw(2) << now->tm_mday << setw(1)
 			<< '/' << setw(2) << (now->tm_year + 1900) << setfill(' ')
+			<< " " << setfill('0') << setw(2) << now->tm_hour
+			<< setw(1) << ':' << setw(2) << now->tm_min << setw(1)
+			<< ':' << setw(2) << now->tm_sec << setfill(' ')
 			<< "     PAGE: " << currentPage << " of " << "NAN"
 			<< "     DATABASE SIZE: " << "NAN"
 			<< "     CURRENT BOOK COUNT: " << "NAN"
@@ -807,6 +819,9 @@ void repCost(orderedLinkedList<InventoryBook> wholesaleList)
 	cout << "DATE: " << setfill('0') << setw(2) << (now->tm_mon + 1)
 			<< setw(1) << '/' << setw(2) << now->tm_mday << setw(1)
 			<< '/' << setw(2) << (now->tm_year + 1900) << setfill(' ')
+			<< " " << setfill('0') << setw(2) << now->tm_hour
+			<< setw(1) << ':' << setw(2) << now->tm_min << setw(1)
+			<< ':' << setw(2) << now->tm_sec << setfill(' ')
 			<< "     PAGE: " << currentPage << " of " << "NAN"
 			<< "     DATABASE SIZE: " << "NAN"
 			<< "     CURRENT BOOK COUNT: " << "NAN"
@@ -872,6 +887,9 @@ void repAge(orderedLinkedList<InventoryBook> dateList)
 	cout << "DATE: " << setfill('0') << setw(2) << (now->tm_mon + 1)
 			<< setw(1) << '/' << setw(2) << now->tm_mday << setw(1)
 			<< '/' << setw(2) << (now->tm_year + 1900) << setfill(' ')
+			<< " " << setfill('0') << setw(2) << now->tm_hour
+			<< setw(1) << ':' << setw(2) << now->tm_min << setw(1)
+			<< ':' << setw(2) << now->tm_sec << setfill(' ')
 			<< "     PAGE: " << currentPage << " of " << "NAN"
 			<< "     DATABASE SIZE: " << "NAN"
 			<< "     CURRENT BOOK COUNT: " << "NAN"
