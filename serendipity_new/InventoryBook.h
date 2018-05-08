@@ -4,7 +4,7 @@
 #include "BookData.h"
 #include <iomanip>
 #include <cstring>
-#include <cctype>
+#include <cstdlib>
 
 class InventoryBook: public BookData
 {
@@ -39,7 +39,7 @@ private:
 	int qtyOnHand;
 	double wholesale;
 	double retail;
-	int sortCode;	// 0 = QTY, 1 = wholesale, 2 = date
+	int sortCode;	// 0 = title, 1 = QTY, 2 = wholesale, 3 = date
 };
 
 //															CONSTRUCTORS
@@ -222,35 +222,47 @@ int InventoryBook::getSortCode() const
 bool InventoryBook::operator>=(const InventoryBook& other_Book) const
 {
 	bool found = false;
+
 	string day;
 	string month;
 	string year;
 	int date;
+
 	string otherDay;
 	string otherMonth;
 	string otherYear;
 	int otherDate;
+
+	string thisTitle = this->getTitle();
+	string otherTitle = other_Book.getTitle();
 
 	if (this != &other_Book)
 	{
 		switch (this->sortCode)
 		{
 		case 0:
-			// Case 0 - Qty
-			if(this->qtyOnHand >= other_Book.qtyOnHand)
+			// Case 0 - Title
+			if(thisTitle.compare(otherTitle) >= 0)
 			{
 				found = true;
 			}
 			break;
 		case 1:
-			// Case 1 - Wholesale
-			if(this->wholesale >= other_Book.wholesale)
+			// Case 1 - Qty
+			if(this->qtyOnHand <= other_Book.qtyOnHand)
 			{
 				found = true;
 			}
 			break;
 		case 2:
-			// Case 2 - Date
+			// Case 2 - Wholesale
+			if(this->wholesale <= other_Book.wholesale)
+			{
+				found = true;
+			}
+			break;
+		case 3:
+			// Case 3 - Date
 			month = this->dateAdded.substr(0,2);
 			day = this->dateAdded.substr(3,2);
 			year = this->dateAdded.substr(6,4);
@@ -261,7 +273,7 @@ bool InventoryBook::operator>=(const InventoryBook& other_Book) const
 			otherYear = other_Book.dateAdded.substr(6,4);
 			otherDate = atoi((otherYear + otherMonth + otherDay).c_str());
 
-			if(date >= otherDate)
+			if(date <= otherDate)
 			{
 				found = true;
 			}
@@ -281,35 +293,47 @@ bool InventoryBook::operator>=(const InventoryBook& other_Book) const
 bool InventoryBook::operator==(const InventoryBook& other_Book) const
 {
 	bool found = false;
+
 	string day;
 	string month;
 	string year;
 	int date;
+
 	string otherDay;
 	string otherMonth;
 	string otherYear;
 	int otherDate;
+
+	string thisTitle = this->getTitle();
+	string otherTitle = other_Book.getTitle();
 
 	if (this != &other_Book)
 	{
 		switch(this->sortCode)
 		{
 		case 0:
-			// Case 0 - Qty
-			if (this->qtyOnHand == other_Book.qtyOnHand)
+			// Case 0 - Title
+			if(thisTitle.compare(otherTitle) == 0)
 			{
 				found = true;
 			}
 			break;
 		case 1:
-			// Case 1 - Wholesale
-			if(this->wholesale == other_Book.wholesale)
+			// Case 1 - Qty
+			if (this->qtyOnHand == other_Book.qtyOnHand)
 			{
 				found = true;
 			}
 			break;
 		case 2:
-			// Case 2 - Date
+			// Case 2 - Wholesale
+			if(this->wholesale == other_Book.wholesale)
+			{
+				found = true;
+			}
+			break;
+		case 3:
+			// Case 3 - Date
 			month = this->dateAdded.substr(0,2);
 			day = this->dateAdded.substr(3,2);
 			year = this->dateAdded.substr(6,4);
@@ -341,35 +365,47 @@ bool InventoryBook::operator==(const InventoryBook& other_Book) const
 bool InventoryBook::operator!=(const InventoryBook& other_Book) const
 {
 	bool found = false;
+
 	string day;
 	string month;
 	string year;
 	int date;
+
 	string otherDay;
 	string otherMonth;
 	string otherYear;
 	int otherDate;
+
+	string thisTitle = this->getTitle();
+	string otherTitle = other_Book.getTitle();
 
 	if (this != &other_Book)
 	{
 		switch(this->sortCode)
 		{
 		case 0:
-			// Case 0 - Qty
-			if (this->qtyOnHand == other_Book.qtyOnHand)
+			// Case 0 - Title
+			if(thisTitle.compare(otherTitle) == 0)
 			{
 				found = true;
 			}
 			break;
 		case 1:
-			// Case 1 - Wholesale
-			if(this->wholesale == other_Book.wholesale)
+			// Case 1 - Qty
+			if (this->qtyOnHand == other_Book.qtyOnHand)
 			{
 				found = true;
 			}
 			break;
 		case 2:
-			// Case 2 - Date
+			// Case 2 - Wholesale
+			if(this->wholesale == other_Book.wholesale)
+			{
+				found = true;
+			}
+			break;
+		case 3:
+			// Case 3 - Date
 			month = this->dateAdded.substr(0,2);
 			day = this->dateAdded.substr(3,2);
 			year = this->dateAdded.substr(6,4);

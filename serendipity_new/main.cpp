@@ -38,7 +38,6 @@
 #include "SoldBook.h"
 #include "linkedList.h"
 #include "orderedLinkedList.h"
-#include <cstdlib>
 #include <limits>
 #include <cmath>
 #include <ctime>
@@ -47,17 +46,17 @@ const float SALES_TAX = 0.06;
 
 // Main Menu Functions
 int cashier();
-int invMenu(orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList);
-int reports(orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList);
+int invMenu(orderedLinkedList<InventoryBook> titleList, orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList);
+int reports(orderedLinkedList<InventoryBook> titleList, orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList);
 // Inventory Menu Functions
 void lookUpBook();
 void addBook();
 void editBook();
 void deleteBook();
 // Reports Menu Functions
-void repListing(orderedLinkedList<InventoryBook> qtyList);
-void repWholesale(orderedLinkedList<InventoryBook> qtyList);
-void repRetail(orderedLinkedList<InventoryBook> qtyList);
+void repListing(orderedLinkedList<InventoryBook> titleList);
+void repWholesale(orderedLinkedList<InventoryBook> titleList);
+void repRetail(orderedLinkedList<InventoryBook> titleList);
 void repQty(orderedLinkedList<InventoryBook> qtyList);
 void repCost(orderedLinkedList<InventoryBook> wholesaleList);
 void repAge(orderedLinkedList<InventoryBook> dateList);
@@ -65,12 +64,15 @@ void repAge(orderedLinkedList<InventoryBook> dateList);
 int main()
 {
 	char choice = '\0';
+	orderedLinkedList<InventoryBook> titleList;
 	orderedLinkedList<InventoryBook> qtyList;
 	orderedLinkedList<InventoryBook> wholesaleList;
 	orderedLinkedList<InventoryBook> dateList;
-	qtyList.initializeList();	// initialize list
-	wholesaleList.initializeList();	// initialize list
-	dateList.initializeList();	// initialize list
+	// initialize lists
+	titleList.initializeList();
+	qtyList.initializeList();
+	wholesaleList.initializeList();
+	dateList.initializeList();
 
 	// create books
 	InventoryBook *book1 = new InventoryBook ("Star Wars", "0345260791", "George Lucas", "Del Rey", "10/18/2017", 5, 59.95, 100.00, 0);
@@ -94,7 +96,7 @@ int main()
 	InventoryBook *book19 = new InventoryBook("Digital Computer Electronics", "0074622358", "Malvino", "Mc Graw Hill India", "11/16/2017", 10, 44.56, 50.00, 0);
 	InventoryBook *book20 = new InventoryBook("Assembly Language for x86 Processors (7th Edition)", "0133769402", "Irvin, K.R.", "Pearson", "11/16/2017", 10, 178.22, 200, 0);
 
-	// insert books into the qty list
+	// insert books into the title list
 	(*book1).setSortCode(0);
 	qtyList.insert(*book1);
 	(*book2).setSortCode(0);
@@ -135,7 +137,7 @@ int main()
 	qtyList.insert(*book19);
 	(*book20).setSortCode(0);
 	qtyList.insert(*book20);
-	// insert books into wholesale list
+	// insert books into qty list
 	(*book1).setSortCode(1);
 	wholesaleList.insert(*book1);
 	(*book2).setSortCode(1);
@@ -176,7 +178,7 @@ int main()
 	wholesaleList.insert(*book19);
 	(*book20).setSortCode(1);
 	wholesaleList.insert(*book20);
-	// insert books into date list
+	// insert books into wholesale list
 	(*book1).setSortCode(2);
 	dateList.insert(*book1);
 	(*book2).setSortCode(2);
@@ -217,6 +219,47 @@ int main()
 	dateList.insert(*book19);
 	(*book20).setSortCode(2);
 	dateList.insert(*book20);
+	// insert books into date list
+	(*book1).setSortCode(3);
+	dateList.insert(*book1);
+	(*book2).setSortCode(3);
+	dateList.insert(*book2);
+	(*book3).setSortCode(3);
+	dateList.insert(*book3);
+	(*book4).setSortCode(3);
+	dateList.insert(*book4);
+	(*book5).setSortCode(3);
+	dateList.insert(*book5);
+	(*book6).setSortCode(3);
+	dateList.insert(*book6);
+	(*book7).setSortCode(3);
+	dateList.insert(*book7);
+	(*book8).setSortCode(3);
+	dateList.insert(*book8);
+	(*book9).setSortCode(3);
+	dateList.insert(*book9);
+	(*book10).setSortCode(3);
+	dateList.insert(*book10);
+	(*book11).setSortCode(3);
+	dateList.insert(*book11);
+	(*book12).setSortCode(3);
+	dateList.insert(*book12);
+	(*book13).setSortCode(3);
+	dateList.insert(*book13);
+	(*book14).setSortCode(3);
+	dateList.insert(*book14);
+	(*book15).setSortCode(3);
+	dateList.insert(*book15);
+	(*book16).setSortCode(3);
+	dateList.insert(*book16);
+	(*book17).setSortCode(3);
+	dateList.insert(*book17);
+	(*book18).setSortCode(3);
+	dateList.insert(*book18);
+	(*book19).setSortCode(3);
+	dateList.insert(*book19);
+	(*book20).setSortCode(3);
+	dateList.insert(*book20);
 
 	do
 	{
@@ -253,10 +296,10 @@ int main()
 			cashier();
 			break;
 		case '2':
-			invMenu(qtyList, wholesaleList, dateList);
+			invMenu(titleList, qtyList, wholesaleList, dateList);
 			break;
 		case '3':
-			reports(qtyList, wholesaleList, dateList);
+			reports(titleList, qtyList, wholesaleList, dateList);
 			break;
 		case '4':
 			break;
@@ -289,7 +332,7 @@ int cashier()
 // Receives:
 // Returns:
 //----------------------------------------------------------------------
-int invMenu(orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList)
+int invMenu(orderedLinkedList<InventoryBook> titleList, orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList)
 {
 	char choice = '\0';
 
@@ -355,7 +398,7 @@ int invMenu(orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<Inventor
 // Receives: orderedLinkedList<InventoryBook> bookList
 // Returns: 0
 //----------------------------------------------------------------------
-int reports(orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList)
+int reports(orderedLinkedList<InventoryBook> titleList, orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList)
 {
 	char choice = '\0';
 
@@ -364,7 +407,7 @@ int reports(orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<Inventor
 		system("cls");
 
 		// Display Reports Menu
-		cout << setw(60) << "Serendipity Booksellers\n"
+		cout << right << setw(60) << "Serendipity Booksellers\n"
 				<< setw(53) << "Reports\n\n";
 		cout << setw(56) << "1.  Inventory Listing\n"
 				<< setw(64) << "2.  Inventory Wholesale Value\n"
@@ -388,13 +431,13 @@ int reports(orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<Inventor
 		switch(choice)
 		{
 		case '1':
-			repListing(qtyList);
+			repListing(titleList);
 			break;
 		case '2':
-			repWholesale(qtyList);
+			repWholesale(titleList);
 			break;
 		case '3':
-			repRetail(qtyList);
+			repRetail(titleList);
 			break;
 		case '4':
 			repQty(qtyList);
@@ -477,7 +520,7 @@ void deleteBook()
 // Receives: orderedLinkedList<InventoryBook> bookList
 // Returns: none
 //----------------------------------------------------------------------
-void repListing(orderedLinkedList<InventoryBook> qtyList)
+void repListing(orderedLinkedList<InventoryBook> titleList)
 {
 	int currentPage = 1;
 //	double totalPage = ceil(double(bookCount)/10);
@@ -521,7 +564,7 @@ void repListing(orderedLinkedList<InventoryBook> qtyList)
 			<< setfill(' ') << '\n';
 
 	// Iterate and display books
-	for (myIterator = qtyList.begin(); myIterator != qtyList.end(); ++myIterator)
+	for (myIterator = titleList.begin(); myIterator != titleList.end(); ++myIterator)
 	{
 		cout << left << setw(37) << ((*myIterator).getTitle()).substr(0,37)
 				<< setw(1) << ' '
@@ -531,7 +574,7 @@ void repListing(orderedLinkedList<InventoryBook> qtyList)
 				<< setw(1) << ' '
 				<< left << setw(1) << '$' << right << setfill('.') << setw(13) << setprecision(2) << (*myIterator).getWholesale() << setfill(' ') << setprecision(0)
 				<< setw(1) << ' '
-				<< left << setw(1) << '$' << right << setfill('.') << setw(13) << setprecision(2) << (*myIterator).getRetail() << setfill(' ') << setprecision(0);
+				<< left << setw(1) << '$' << right << setfill('.') << setw(13) << setprecision(2) << (*myIterator).getRetail() << setfill(' ') << setprecision(0) << right;
 		cout << "\n\n";
 	}	// end iterator loop
 
@@ -545,7 +588,7 @@ void repListing(orderedLinkedList<InventoryBook> qtyList)
 // Receives: orderedLinkedList<InventoryBook> bookList
 // Returns:
 //----------------------------------------------------------------------
-void repWholesale(orderedLinkedList<InventoryBook> qtyList)
+void repWholesale(orderedLinkedList<InventoryBook> titleList)
 {
 	int currentPage = 1;
 //	double totalPage = ceil(double(bookCount)/10);
@@ -588,7 +631,7 @@ void repWholesale(orderedLinkedList<InventoryBook> qtyList)
 
 
 	// iterate and display books
-	for (myIterator = qtyList.begin(); myIterator != qtyList.end(); ++myIterator)
+	for (myIterator = titleList.begin(); myIterator != titleList.end(); ++myIterator)
 	{
 		cout << left << setw(37) << ((*myIterator).getTitle()).substr(0,37)
 				<< setw(5) << ' '
@@ -617,7 +660,7 @@ void repWholesale(orderedLinkedList<InventoryBook> qtyList)
 // Receives: orderedLinkedList<InventoryBook> bookList
 // Returns:
 //----------------------------------------------------------------------
-void repRetail(orderedLinkedList<InventoryBook> qtyList)
+void repRetail(orderedLinkedList<InventoryBook> titleList)
 {
 	int currentPage = 1;
 //	double totalPage = ceil(double(bookCount)/10);
@@ -660,7 +703,7 @@ void repRetail(orderedLinkedList<InventoryBook> qtyList)
 
 
 	// iterate and display books
-	for (myIterator = qtyList.begin(); myIterator != qtyList.end(); ++myIterator)
+	for (myIterator = titleList.begin(); myIterator != titleList.end(); ++myIterator)
 	{
 		cout << left << setw(37) << ((*myIterator).getTitle()).substr(0,37)
 				<< setw(5) << ' '
