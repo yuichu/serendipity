@@ -541,7 +541,7 @@ void repListing(orderedLinkedList<InventoryBook> titleList)
 			<< ':' << setw(2) << now->tm_sec << setfill(' ')
 			<< "     PAGE: " << currentPage << " of " << "NAN"
 			<< "     DATABASE SIZE: " << "NAN"
-			<< "     CURRENT BOOK COUNT: " << "NAN"
+			<< "     CURRENT BOOK COUNT: " << titleList.length()
 			<< "\n\n";
 
 	cout << left << setw(37) << "TITLE"
@@ -614,7 +614,7 @@ void repWholesale(orderedLinkedList<InventoryBook> titleList)
 			<< ':' << setw(2) << now->tm_sec << setfill(' ')
 			<< "     PAGE: " << currentPage << " of " << "NAN"
 			<< "     DATABASE SIZE: " << "NAN"
-			<< "     CURRENT BOOK COUNT: " << "NAN"
+			<< "     CURRENT BOOK COUNT: " << titleList.length()
 			<< "\n\n";
 
 	cout << left << setw(37) << "TITLE"
@@ -689,7 +689,7 @@ void repRetail(orderedLinkedList<InventoryBook> titleList)
 			<< ':' << setw(2) << now->tm_sec << setfill(' ')
 			<< "     PAGE: " << currentPage << " of " << "NAN"
 			<< "     DATABASE SIZE: " << "NAN"
-			<< "     CURRENT BOOK COUNT: " << "NAN"
+			<< "     CURRENT BOOK COUNT: " << titleList.length()
 			<< "\n\n";
 
 	cout << left << setw(37) << "TITLE"
@@ -763,7 +763,7 @@ void repQty(orderedLinkedList<InventoryBook> qtyList)
 			<< ':' << setw(2) << now->tm_sec << setfill(' ')
 			<< "     PAGE: " << currentPage << " of " << "NAN"
 			<< "     DATABASE SIZE: " << "NAN"
-			<< "     CURRENT BOOK COUNT: " << "NAN"
+			<< "     CURRENT BOOK COUNT: " << qtyList.length()
 			<< "\n\n";
 
 	cout << left << setw(37) << "TITLE"
@@ -824,7 +824,7 @@ void repCost(orderedLinkedList<InventoryBook> wholesaleList)
 			<< ':' << setw(2) << now->tm_sec << setfill(' ')
 			<< "     PAGE: " << currentPage << " of " << "NAN"
 			<< "     DATABASE SIZE: " << "NAN"
-			<< "     CURRENT BOOK COUNT: " << "NAN"
+			<< "     CURRENT BOOK COUNT: " << wholesaleList.length()
 			<< "\n\n";
 
 	cout << left << setw(37) << "TITLE"
@@ -892,7 +892,7 @@ void repAge(orderedLinkedList<InventoryBook> dateList)
 			<< ':' << setw(2) << now->tm_sec << setfill(' ')
 			<< "     PAGE: " << currentPage << " of " << "NAN"
 			<< "     DATABASE SIZE: " << "NAN"
-			<< "     CURRENT BOOK COUNT: " << "NAN"
+			<< "     CURRENT BOOK COUNT: " << dateList.length()
 			<< "\n\n";
 
 	cout << left << setw(37) << "TITLE"
