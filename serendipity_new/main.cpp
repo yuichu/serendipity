@@ -46,13 +46,13 @@ const float SALES_TAX = 0.06;
 
 // Main Menu Functions
 int cashier();
-int invMenu(orderedLinkedList<InventoryBook> titleList, orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList);
+int invMenu(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList);
 int reports(orderedLinkedList<InventoryBook> titleList, orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList);
 // Inventory Menu Functions
 void lookUpBook();
-void addBook();
-void editBook();
-void deleteBook();
+void addBook(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList);
+void editBook(orderedLinkedList<InventoryBook> titleList, orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList);
+void deleteBook(orderedLinkedList<InventoryBook> titleList, orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList);
 // Reports Menu Functions
 void repListing(orderedLinkedList<InventoryBook> titleList);
 void repWholesale(orderedLinkedList<InventoryBook> titleList);
@@ -75,191 +75,191 @@ int main()
 	dateList.initializeList();
 
 	// create books
-	InventoryBook *book1 = new InventoryBook ("Star Wars", "0345260791", "George Lucas", "Del Rey", "10/18/2017", 5, 59.95, 100.00, 0);
-	InventoryBook *book2 = new InventoryBook ("The Empire Strikes Back (Star Wars)", "034529209X", "George Lucas", "Ballantine", "04/01/2017", 2, 179.58, 185.00, 0);
-	InventoryBook *book3 = new InventoryBook ("Splinter of the Mind's Eye (Star Wars)", "0345320239", "George Lucas", "Del Rey", "11/08/2017", 3, 24, 26.50, 0);
-	InventoryBook *book4 = new InventoryBook ("Return of the Jedi (Star Wars)", "0345307674", "George Lucas", "Del Rey", "10/09/2017", 4, 2.94, 6.50, 0);
-	InventoryBook *book5 = new InventoryBook ("Heir to the Empire (Star Wars: The Thrawn Trilogy, Vol. 1)", "0553296124", "Timothy Zahn", "Bantam", "11/01/2017", 10, 25.38, 27.00, 0);
-	InventoryBook *book6 = new InventoryBook("Dark Force Rising (Star Wars: The Thrawn Trilogy, Vol. 2", "0553560719", "Timothy Zahn", "Bantam", "11/08/2017", 10, 25.38, 27.00, 0);
-	InventoryBook *book7 = new InventoryBook("The Last Command (Star Wars: The Thrawn Trilogy)", "0553564927", "Timothy Zahn", "Bantam", "11/02/2017", 10, 14.30, 17, 0);
-	InventoryBook *book8 = new InventoryBook("Specter of the Past (Star Wars: The Hand of Thrawn #1)", "0553298046", "Timothy Zahn", "Bantam", "11/08/2017", 5, 13.66, 15, 0);
-	InventoryBook *book9 = new InventoryBook("Vision of the Future (Star Wars: The Hand of Thrawn, Book 2)", "0553578790", "Timothy Zahn", "Bantam", "11/06/2017", 5, 10.85, 15, 0);
-	InventoryBook *book10 = new InventoryBook("Battlestar Galactica", "185286088X", "Glen A.;Thurston, Robert Larson", "Titan Books", "11/08/2015", 5, 102.04, 150.00, 0);
-	InventoryBook *book11 = new InventoryBook("New Battlestar Galactica Volume 1 (Battlestar Galactica (Dynamite)) (v. 1)", "1933305339", "Diamond Comic Distributors Inc.", "Dynamite Entertainment", "11/08/2017", 5, 29.95, 35.00, 0);
-	InventoryBook *book12 = new InventoryBook("New Battlestar Galactica Volume II Hardcover (Battlestar Galactica (Dynamite))", "1933305533", "Greg Pak", "Dynamite Entertainment", "11/03/2017", 5, 34.95, 37.00, 0);
-	InventoryBook *book13 = new InventoryBook("The Hobbit", "0618968636", "J.R.R. Tolkien", "Houghton Mifflin Harcourt", "11/10/2017", 1, 17.61, 20.00, 0);
-	InventoryBook *book14 = new InventoryBook("The Lord of the Rings: 50th Anniversary, One Vol. Edition", "0618645616", "J.R.R. Tolkien", "Houghton Mifflin Harcourt", "11/10/2016", 4, 29.89, 32.00, 0);
-	InventoryBook *book15 = new InventoryBook("The Two Towers", "0395489334", "J.R.R. Tolkien", "Houghton Mifflin Harcourt", "11/10/2017", 4, 17.89, 19.00, 0);
-	InventoryBook *book16 = new InventoryBook("The Return of the King", "039548930X", "J.R.R. Tolkien", "Houghton Mifflin Harcourt", "11/10/2017", 6, 16.89, 19.00, 0);
-	InventoryBook *book17 = new InventoryBook("The Fellowship of the Ring", "0395489318", "J.R.R. Tolkien", "Houghton Mifflin Harcourt", "11/10/2017", 7, 18.70, 20.00, 0);
-	InventoryBook *book18 = new InventoryBook("C++ Programming: From Problem Analysis to Program Design 7th Edition", "1285852745", "D.S. Malik", "Course Technology", "11/16/2015", 3, 85.67, 100.00, 0);
-	InventoryBook *book19 = new InventoryBook("Digital Computer Electronics", "0074622358", "Malvino", "Mc Graw Hill India", "11/16/2017", 10, 44.56, 50.00, 0);
-	InventoryBook *book20 = new InventoryBook("Assembly Language for x86 Processors (7th Edition)", "0133769402", "Irvin, K.R.", "Pearson", "11/16/2017", 10, 178.22, 200, 0);
+//	InventoryBook *book1 = new InventoryBook("Star Wars", "0345260791", "George Lucas", "Del Rey", "10/18/2017", 5, 59.95, 100.00, 0);
+//	InventoryBook *book2 = new InventoryBook("The Empire Strikes Back (Star Wars)", "034529209X", "George Lucas", "Ballantine", "04/01/2017", 2, 179.58, 185.00, 0);
+//	InventoryBook *book3 = new InventoryBook("Splinter of the Mind's Eye (Star Wars)", "0345320239", "George Lucas", "Del Rey", "11/08/2017", 3, 24, 26.50, 0);
+//	InventoryBook *book4 = new InventoryBook("Return of the Jedi (Star Wars)", "0345307674", "George Lucas", "Del Rey", "10/09/2017", 4, 2.94, 6.50, 0);
+//	InventoryBook *book5 = new InventoryBook("Heir to the Empire (Star Wars: The Thrawn Trilogy, Vol. 1)", "0553296124", "Timothy Zahn", "Bantam", "11/01/2017", 10, 25.38, 27.00, 0);
+//	InventoryBook *book6 = new InventoryBook("Dark Force Rising (Star Wars: The Thrawn Trilogy, Vol. 2", "0553560719", "Timothy Zahn", "Bantam", "11/08/2017", 10, 25.38, 27.00, 0);
+//	InventoryBook *book7 = new InventoryBook("The Last Command (Star Wars: The Thrawn Trilogy)", "0553564927", "Timothy Zahn", "Bantam", "11/02/2017", 10, 14.30, 17, 0);
+//	InventoryBook *book8 = new InventoryBook("Specter of the Past (Star Wars: The Hand of Thrawn #1)", "0553298046", "Timothy Zahn", "Bantam", "11/08/2017", 5, 13.66, 15, 0);
+//	InventoryBook *book9 = new InventoryBook("Vision of the Future (Star Wars: The Hand of Thrawn, Book 2)", "0553578790", "Timothy Zahn", "Bantam", "11/06/2017", 5, 10.85, 15, 0);
+//	InventoryBook *book10 = new InventoryBook("Battlestar Galactica", "185286088X", "Glen A.;Thurston, Robert Larson", "Titan Books", "11/08/2015", 5, 102.04, 150.00, 0);
+//	InventoryBook *book11 = new InventoryBook("New Battlestar Galactica Volume 1 (Battlestar Galactica (Dynamite)) (v. 1)", "1933305339", "Diamond Comic Distributors Inc.", "Dynamite Entertainment", "11/08/2017", 5, 29.95, 35.00, 0);
+//	InventoryBook *book12 = new InventoryBook("New Battlestar Galactica Volume II Hardcover (Battlestar Galactica (Dynamite))", "1933305533", "Greg Pak", "Dynamite Entertainment", "11/03/2017", 5, 34.95, 37.00, 0);
+//	InventoryBook *book13 = new InventoryBook("The Hobbit", "0618968636", "J.R.R. Tolkien", "Houghton Mifflin Harcourt", "11/10/2017", 1, 17.61, 20.00, 0);
+//	InventoryBook *book14 = new InventoryBook("The Lord of the Rings: 50th Anniversary, One Vol. Edition", "0618645616", "J.R.R. Tolkien", "Houghton Mifflin Harcourt", "11/10/2016", 4, 29.89, 32.00, 0);
+//	InventoryBook *book15 = new InventoryBook("The Two Towers", "0395489334", "J.R.R. Tolkien", "Houghton Mifflin Harcourt", "11/10/2017", 4, 17.89, 19.00, 0);
+//	InventoryBook *book16 = new InventoryBook("The Return of the King", "039548930X", "J.R.R. Tolkien", "Houghton Mifflin Harcourt", "11/10/2017", 6, 16.89, 19.00, 0);
+//	InventoryBook *book17 = new InventoryBook("The Fellowship of the Ring", "0395489318", "J.R.R. Tolkien", "Houghton Mifflin Harcourt", "11/10/2017", 7, 18.70, 20.00, 0);
+//	InventoryBook *book18 = new InventoryBook("C++ Programming: From Problem Analysis to Program Design 7th Edition", "1285852745", "D.S. Malik", "Course Technology", "11/16/2015", 3, 85.67, 100.00, 0);
+//	InventoryBook *book19 = new InventoryBook("Digital Computer Electronics", "0074622358", "Malvino", "Mc Graw Hill India", "11/16/2017", 10, 44.56, 50.00, 0);
+//	InventoryBook *book20 = new InventoryBook("Assembly Language for x86 Processors (7th Edition)", "0133769402", "Irvin, K.R.", "Pearson", "11/16/2017", 10, 178.22, 200, 0);
 
 	// insert books into the title list
-	(*book1).setSortCode(0);
-	titleList.insert(*book1);
-	(*book2).setSortCode(0);
-	titleList.insert(*book2);
-	(*book3).setSortCode(0);
-	titleList.insert(*book3);
-	(*book4).setSortCode(0);
-	titleList.insert(*book4);
-	(*book5).setSortCode(0);
-	titleList.insert(*book5);
-	(*book6).setSortCode(0);
-	titleList.insert(*book6);
-	(*book7).setSortCode(0);
-	titleList.insert(*book7);
-	(*book8).setSortCode(0);
-	titleList.insert(*book8);
-	(*book9).setSortCode(0);
-	titleList.insert(*book9);
-	(*book10).setSortCode(0);
-	titleList.insert(*book10);
-	(*book11).setSortCode(0);
-	titleList.insert(*book11);
-	(*book12).setSortCode(0);
-	titleList.insert(*book12);
-	(*book13).setSortCode(0);
-	titleList.insert(*book13);
-	(*book14).setSortCode(0);
-	titleList.insert(*book14);
-	(*book15).setSortCode(0);
-	titleList.insert(*book15);
-	(*book16).setSortCode(0);
-	titleList.insert(*book16);
-	(*book17).setSortCode(0);
-	titleList.insert(*book17);
-	(*book18).setSortCode(0);
-	titleList.insert(*book18);
-	(*book19).setSortCode(0);
-	titleList.insert(*book19);
-	(*book20).setSortCode(0);
-	titleList.insert(*book20);
-	// insert books into qty list
-	(*book1).setSortCode(1);
-	qtyList.insert(*book1);
-	(*book2).setSortCode(1);
-	qtyList.insert(*book2);
-	(*book3).setSortCode(1);
-	qtyList.insert(*book3);
-	(*book4).setSortCode(1);
-	qtyList.insert(*book4);
-	(*book5).setSortCode(1);
-	qtyList.insert(*book5);
-	(*book6).setSortCode(1);
-	qtyList.insert(*book6);
-	(*book7).setSortCode(1);
-	qtyList.insert(*book7);
-	(*book8).setSortCode(1);
-	qtyList.insert(*book8);
-	(*book9).setSortCode(1);
-	qtyList.insert(*book9);
-	(*book10).setSortCode(1);
-	qtyList.insert(*book10);
-	(*book11).setSortCode(1);
-	qtyList.insert(*book11);
-	(*book12).setSortCode(1);
-	qtyList.insert(*book12);
-	(*book13).setSortCode(1);
-	qtyList.insert(*book13);
-	(*book14).setSortCode(1);
-	qtyList.insert(*book14);
-	(*book15).setSortCode(1);
-	qtyList.insert(*book15);
-	(*book16).setSortCode(1);
-	qtyList.insert(*book16);
-	(*book17).setSortCode(1);
-	qtyList.insert(*book17);
-	(*book18).setSortCode(1);
-	qtyList.insert(*book18);
-	(*book19).setSortCode(1);
-	qtyList.insert(*book19);
-	(*book20).setSortCode(1);
-	qtyList.insert(*book20);
-	// insert books into wholesale list
-	(*book1).setSortCode(2);
-	wholesaleList.insert(*book1);
-	(*book2).setSortCode(2);
-	wholesaleList.insert(*book2);
-	(*book3).setSortCode(2);
-	wholesaleList.insert(*book3);
-	(*book4).setSortCode(2);
-	wholesaleList.insert(*book4);
-	(*book5).setSortCode(2);
-	wholesaleList.insert(*book5);
-	(*book6).setSortCode(2);
-	wholesaleList.insert(*book6);
-	(*book7).setSortCode(2);
-	wholesaleList.insert(*book7);
-	(*book8).setSortCode(2);
-	wholesaleList.insert(*book8);
-	(*book9).setSortCode(2);
-	wholesaleList.insert(*book9);
-	(*book10).setSortCode(2);
-	wholesaleList.insert(*book10);
-	(*book11).setSortCode(2);
-	wholesaleList.insert(*book11);
-	(*book12).setSortCode(2);
-	wholesaleList.insert(*book12);
-	(*book13).setSortCode(2);
-	wholesaleList.insert(*book13);
-	(*book14).setSortCode(2);
-	wholesaleList.insert(*book14);
-	(*book15).setSortCode(2);
-	wholesaleList.insert(*book15);
-	(*book16).setSortCode(2);
-	wholesaleList.insert(*book16);
-	(*book17).setSortCode(2);
-	wholesaleList.insert(*book17);
-	(*book18).setSortCode(2);
-	wholesaleList.insert(*book18);
-	(*book19).setSortCode(2);
-	wholesaleList.insert(*book19);
-	(*book20).setSortCode(2);
-	wholesaleList.insert(*book20);
-	// insert books into date list
-	(*book1).setSortCode(3);
-	dateList.insert(*book1);
-	(*book2).setSortCode(3);
-	dateList.insert(*book2);
-	(*book3).setSortCode(3);
-	dateList.insert(*book3);
-	(*book4).setSortCode(3);
-	dateList.insert(*book4);
-	(*book5).setSortCode(3);
-	dateList.insert(*book5);
-	(*book6).setSortCode(3);
-	dateList.insert(*book6);
-	(*book7).setSortCode(3);
-	dateList.insert(*book7);
-	(*book8).setSortCode(3);
-	dateList.insert(*book8);
-	(*book9).setSortCode(3);
-	dateList.insert(*book9);
-	(*book10).setSortCode(3);
-	dateList.insert(*book10);
-	(*book11).setSortCode(3);
-	dateList.insert(*book11);
-	(*book12).setSortCode(3);
-	dateList.insert(*book12);
-	(*book13).setSortCode(3);
-	dateList.insert(*book13);
-	(*book14).setSortCode(3);
-	dateList.insert(*book14);
-	(*book15).setSortCode(3);
-	dateList.insert(*book15);
-	(*book16).setSortCode(3);
-	dateList.insert(*book16);
-	(*book17).setSortCode(3);
-	dateList.insert(*book17);
-	(*book18).setSortCode(3);
-	dateList.insert(*book18);
-	(*book19).setSortCode(3);
-	dateList.insert(*book19);
-	(*book20).setSortCode(3);
-	dateList.insert(*book20);
+//	(*book1).setSortCode(0);
+//	titleList.insert(*book1);
+//	(*book2).setSortCode(0);
+//	titleList.insert(*book2);
+//	(*book3).setSortCode(0);
+//	titleList.insert(*book3);
+//	(*book4).setSortCode(0);
+//	titleList.insert(*book4);
+//	(*book5).setSortCode(0);
+//	titleList.insert(*book5);
+//	(*book6).setSortCode(0);
+//	titleList.insert(*book6);
+//	(*book7).setSortCode(0);
+//	titleList.insert(*book7);
+//	(*book8).setSortCode(0);
+//	titleList.insert(*book8);
+//	(*book9).setSortCode(0);
+//	titleList.insert(*book9);
+//	(*book10).setSortCode(0);
+//	titleList.insert(*book10);
+//	(*book11).setSortCode(0);
+//	titleList.insert(*book11);
+//	(*book12).setSortCode(0);
+//	titleList.insert(*book12);
+//	(*book13).setSortCode(0);
+//	titleList.insert(*book13);
+//	(*book14).setSortCode(0);
+//	titleList.insert(*book14);
+//	(*book15).setSortCode(0);
+//	titleList.insert(*book15);
+//	(*book16).setSortCode(0);
+//	titleList.insert(*book16);
+//	(*book17).setSortCode(0);
+//	titleList.insert(*book17);
+//	(*book18).setSortCode(0);
+//	titleList.insert(*book18);
+//	(*book19).setSortCode(0);
+//	titleList.insert(*book19);
+//	(*book20).setSortCode(0);
+//	titleList.insert(*book20);
+//	// insert books into qty list
+//	(*book1).setSortCode(1);
+//	qtyList.insert(*book1);
+//	(*book2).setSortCode(1);
+//	qtyList.insert(*book2);
+//	(*book3).setSortCode(1);
+//	qtyList.insert(*book3);
+//	(*book4).setSortCode(1);
+//	qtyList.insert(*book4);
+//	(*book5).setSortCode(1);
+//	qtyList.insert(*book5);
+//	(*book6).setSortCode(1);
+//	qtyList.insert(*book6);
+//	(*book7).setSortCode(1);
+//	qtyList.insert(*book7);
+//	(*book8).setSortCode(1);
+//	qtyList.insert(*book8);
+//	(*book9).setSortCode(1);
+//	qtyList.insert(*book9);
+//	(*book10).setSortCode(1);
+//	qtyList.insert(*book10);
+//	(*book11).setSortCode(1);
+//	qtyList.insert(*book11);
+//	(*book12).setSortCode(1);
+//	qtyList.insert(*book12);
+//	(*book13).setSortCode(1);
+//	qtyList.insert(*book13);
+//	(*book14).setSortCode(1);
+//	qtyList.insert(*book14);
+//	(*book15).setSortCode(1);
+//	qtyList.insert(*book15);
+//	(*book16).setSortCode(1);
+//	qtyList.insert(*book16);
+//	(*book17).setSortCode(1);
+//	qtyList.insert(*book17);
+//	(*book18).setSortCode(1);
+//	qtyList.insert(*book18);
+//	(*book19).setSortCode(1);
+//	qtyList.insert(*book19);
+//	(*book20).setSortCode(1);
+//	qtyList.insert(*book20);
+//	// insert books into wholesale list
+//	(*book1).setSortCode(2);
+//	wholesaleList.insert(*book1);
+//	(*book2).setSortCode(2);
+//	wholesaleList.insert(*book2);
+//	(*book3).setSortCode(2);
+//	wholesaleList.insert(*book3);
+//	(*book4).setSortCode(2);
+//	wholesaleList.insert(*book4);
+//	(*book5).setSortCode(2);
+//	wholesaleList.insert(*book5);
+//	(*book6).setSortCode(2);
+//	wholesaleList.insert(*book6);
+//	(*book7).setSortCode(2);
+//	wholesaleList.insert(*book7);
+//	(*book8).setSortCode(2);
+//	wholesaleList.insert(*book8);
+//	(*book9).setSortCode(2);
+//	wholesaleList.insert(*book9);
+//	(*book10).setSortCode(2);
+//	wholesaleList.insert(*book10);
+//	(*book11).setSortCode(2);
+//	wholesaleList.insert(*book11);
+//	(*book12).setSortCode(2);
+//	wholesaleList.insert(*book12);
+//	(*book13).setSortCode(2);
+//	wholesaleList.insert(*book13);
+//	(*book14).setSortCode(2);
+//	wholesaleList.insert(*book14);
+//	(*book15).setSortCode(2);
+//	wholesaleList.insert(*book15);
+//	(*book16).setSortCode(2);
+//	wholesaleList.insert(*book16);
+//	(*book17).setSortCode(2);
+//	wholesaleList.insert(*book17);
+//	(*book18).setSortCode(2);
+//	wholesaleList.insert(*book18);
+//	(*book19).setSortCode(2);
+//	wholesaleList.insert(*book19);
+//	(*book20).setSortCode(2);
+//	wholesaleList.insert(*book20);
+//	// insert books into date list
+//	(*book1).setSortCode(3);
+//	dateList.insert(*book1);
+//	(*book2).setSortCode(3);
+//	dateList.insert(*book2);
+//	(*book3).setSortCode(3);
+//	dateList.insert(*book3);
+//	(*book4).setSortCode(3);
+//	dateList.insert(*book4);
+//	(*book5).setSortCode(3);
+//	dateList.insert(*book5);
+//	(*book6).setSortCode(3);
+//	dateList.insert(*book6);
+//	(*book7).setSortCode(3);
+//	dateList.insert(*book7);
+//	(*book8).setSortCode(3);
+//	dateList.insert(*book8);
+//	(*book9).setSortCode(3);
+//	dateList.insert(*book9);
+//	(*book10).setSortCode(3);
+//	dateList.insert(*book10);
+//	(*book11).setSortCode(3);
+//	dateList.insert(*book11);
+//	(*book12).setSortCode(3);
+//	dateList.insert(*book12);
+//	(*book13).setSortCode(3);
+//	dateList.insert(*book13);
+//	(*book14).setSortCode(3);
+//	dateList.insert(*book14);
+//	(*book15).setSortCode(3);
+//	dateList.insert(*book15);
+//	(*book16).setSortCode(3);
+//	dateList.insert(*book16);
+//	(*book17).setSortCode(3);
+//	dateList.insert(*book17);
+//	(*book18).setSortCode(3);
+//	dateList.insert(*book18);
+//	(*book19).setSortCode(3);
+//	dateList.insert(*book19);
+//	(*book20).setSortCode(3);
+//	dateList.insert(*book20);
 
 	do
 	{
@@ -332,7 +332,7 @@ int cashier()
 // Receives:
 // Returns:
 //----------------------------------------------------------------------
-int invMenu(orderedLinkedList<InventoryBook> titleList, orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList)
+int invMenu(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList)
 {
 	char choice = '\0';
 
@@ -372,13 +372,13 @@ int invMenu(orderedLinkedList<InventoryBook> titleList, orderedLinkedList<Invent
 			lookUpBook();
 			break;
 		case '2':
-			addBook();
+			addBook(titleList, qtyList, wholesaleList, dateList);
 			break;
 		case '3':
-			editBook();
+			editBook(titleList, qtyList, wholesaleList, dateList);
 			break;
 		case '4':
-			deleteBook();
+			deleteBook(titleList, qtyList, wholesaleList, dateList);
 			break;
 		case '5':
 			break;
@@ -476,14 +476,158 @@ void lookUpBook()
 
 //----------------------------------------------------------------------
 // Function: addBook()
-//
-// Receives:
-// Returns:
+// Adds new books to the database
+// Receives: orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList
+// Returns: none
 //----------------------------------------------------------------------
-void addBook()
+void addBook(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList)
 {
-	cout << "Add Book Menu WIP." << "\n\n";
-	system("pause");
+	char choice = 'A';
+	string tempTitle = "EMPTY";
+	string tempIsbn = "EMPTY";
+	string tempAuthor = "EMPTY";
+	string tempPublisher = "EMPTY";
+	string tempDate = "EMPTY";
+	int tempQty = 0;
+	double tempWholesale = 0.0;
+	double tempRetail = 0.0;
+	InventoryBook * newBook = new InventoryBook;
+
+	do
+	{
+		system("cls");
+
+		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+		cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
+		cout << '*' << setw(42) << "ADD BOOK" << setw(36) << '*' << '\n';
+		cout << '*' << setw(78) << '*' << '\n';
+		cout << '*' << setw(43) << "DATABASE SIZE:" << setw(3) << "NAN" << setw(2) << ' '
+				<< setw(20) << "CURRENT BOOK COUNT:" << setw(3) << titleList.length() << setw(7) << '*' << '\n';
+		cout << '*' << setw(78) << '*' << '\n';
+		cout << '*' << setw(66) << "--PENDING VALUES" << setw(12) << '*' << '\n';
+		cout << left << fixed;
+		cout << setw(2) << '*' << setw(6) << "<1>" << setw(29) << "Enter Book Title" << setw(3) << '>' << "--" << setw(36) << tempTitle << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<2>" << setw(29) << "Enter ISBN" << setw(3) << '>' << "--" << setw(36) << tempIsbn << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<3>" << setw(29) << "Enter Author" << setw(3) << '>' << "--" << setw(36) << tempAuthor << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<4>" << setw(29) << "Enter Publisher" << setw(3) << '>' << "--" << setw(36) << tempPublisher << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<5>" << setw(29) << "Enter Date Added (mm/dd/yyyy)" << setw(3) << '>' << "--" << setw(36) << tempDate << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<6>" << setw(29) << "Enter Quantity on Hand" << setw(3) << '>' << "--" << setw(36) << tempQty << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<7>" << setw(29) << "Enter Wholesale Cost" << setw(3) << '>' << "--" << setprecision(2) << '$' << setw(35) << tempWholesale << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<8>" << setw(29) << "Enter Retail Price" << setw(3) << '>' << "--" << '$' << setw(35) << tempRetail << setprecision(0) << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<9>" << setw(70) << "Save Book to Database" << '*' << '\n';
+		cout << setw(2) << '*' << setw(6) << "<0>" << setw(70) << "Return to Inventory Menu" << '*' << '\n';
+		cout << right;
+		cout << '*' << setw(78) << '*' << '\n';
+		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+
+		cout << setw(23) << "Choice(0-9): ";
+		cin >> choice;
+		if(cin.get() != '\n')
+		{
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			choice = 'A';
+		}
+
+		switch(choice)
+		{
+		case '0':
+			//return to inventory menu
+			break;
+		case '1':
+			cout << setw(23) << "Book Title > ";
+			getline(cin, tempTitle);
+			break;
+		case '2':
+			cout << setw(23) << "ISBN > ";
+			cin >> tempIsbn;
+			break;
+		case '3':
+			cout << setw(23) << "Author > ";
+			getline(cin, tempAuthor);
+			break;
+		case '4':
+			cout << setw(23) << "Publisher > ";
+			getline(cin, tempPublisher);
+			break;
+		case '5':
+			cout << setw(23) << "Date > ";
+			cin >> tempDate;
+			break;
+		case '6':
+			cout << setw(23) << "Quantity > ";
+			cin >> tempQty;
+			while (cin.fail())
+			{
+				cout << setw(52) << "Wrong input, please re-enter." << '\n'
+						<< setw(23) << "Quantity > ";
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cin >> tempQty;
+			}
+			break;
+		case '7':
+			cout << setw(23) << "Wholesale Price > ";
+			cin >> tempWholesale;
+			while (cin.fail())
+			{
+				cout << setw(52) << "Wrong input, please re-enter." << '\n'
+						<< setw(23) << "Wholesale Price > ";
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cin >> tempWholesale;
+			}
+			break;
+		case '8':
+			cout << setw(23) << "Retail Price > ";
+			cin >> tempRetail;
+			while (cin.fail())
+			{
+				cout << setw(52) << "Wrong input, please re-enter." << '\n'
+						<< setw(23) << "Retail Price > ";
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cin >> tempRetail;
+			}
+			break;
+		case '9':
+			// update node value with temp values
+			newBook->setTitle(tempTitle);
+			newBook->setIsbn(tempIsbn);
+			newBook->setAuthor(tempAuthor);
+			newBook->setPub(tempPublisher);
+			newBook->setDateAdded(tempDate);
+			newBook->setQty(tempQty);
+			newBook->setWholesale(tempWholesale);
+			newBook->setRetail(tempRetail);
+
+			// insert node to list
+			(*newBook).setSortCode(0);
+			titleList.insert(*newBook);
+			(*newBook).setSortCode(1);
+			qtyList.insert(*newBook);
+			(*newBook).setSortCode(2);
+			wholesaleList.insert(*newBook);
+			(*newBook).setSortCode(3);
+			dateList.insert(*newBook);
+
+			// reset pending value
+			tempTitle = "EMPTY";
+			tempIsbn = "EMPTY";
+			tempAuthor = "EMPTY";
+			tempPublisher = "EMPTY";
+			tempDate = "EMPTY";
+			tempQty = 0;
+			tempWholesale = 0.0;
+			tempRetail = 0.0;
+			break;
+		default:
+			cout << setw(78) << "Please enter a number in the range 0 - 9.\n\n";
+			system("pause");
+		}	// end switch
+	} while (choice != '0');	// end outer do-while
+
+
 	return;
 }
 
@@ -493,7 +637,7 @@ void addBook()
 // Receives:
 // Returns:
 //----------------------------------------------------------------------
-void editBook()
+void editBook(orderedLinkedList<InventoryBook> titleList, orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList)
 {
 	cout << "Edit Book Menu WIP." << "\n\n";
 	system("pause");
@@ -506,7 +650,7 @@ void editBook()
 // Receives:
 // Returns:
 //----------------------------------------------------------------------
-void deleteBook()
+void deleteBook(orderedLinkedList<InventoryBook> titleList, orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList)
 {
 	cout << "Delete Book Menu WIP." << "\n\n";
 	system("pause");
