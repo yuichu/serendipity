@@ -14,6 +14,7 @@ public:
 	~InventoryBook();
 
 	void print();
+	void printRetail();
 
 	void setDateAdded(string dateAdded);
 	void setQty(int qty);
@@ -101,6 +102,24 @@ void InventoryBook::print()
 			<< "Quantity: " << getQty() << "\n"
 			<< fixed << setprecision(2)
 			<< "Wholesale: $" << getWholesale() << "\n"
+			<< "Retail: $" << getRetail() << "\n"
+			<< setprecision(0);
+}
+
+//----------------------------------------------------------------------
+// Function: printRetail()
+// print book info
+// Receives: none
+// Returns: none
+//----------------------------------------------------------------------
+void InventoryBook::printRetail()
+{
+	cout << "Inventory Data: " << "\n"
+			<< "------------------------------------" << "\n";
+	BookData::print();
+	cout << "Date Added: " << getDateAdded() << "\n"
+			<< "Quantity: " << getQty() << "\n"
+			<< fixed << setprecision(2)
 			<< "Retail: $" << getRetail() << "\n"
 			<< setprecision(0);
 }
