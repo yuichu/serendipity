@@ -41,11 +41,12 @@
 #include <limits>
 #include <cmath>
 #include <ctime>
+#include <fstream>
 
 const float SALES_TAX = 0.06;
 
 // Main Menu Functions
-int cashier();
+int cashier(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList);
 int invMenu(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList);
 int reports(orderedLinkedList<InventoryBook> titleList, orderedLinkedList<InventoryBook> qtyList, orderedLinkedList<InventoryBook> wholesaleList, orderedLinkedList<InventoryBook> dateList);
 // Inventory Menu Functions
@@ -107,7 +108,7 @@ int main()
 		switch(choice)
 		{
 		case '1':
-			cashier();
+			cashier(titleList, qtyList, wholesaleList, dateList);
 			break;
 		case '2':
 			invMenu(titleList, qtyList, wholesaleList, dateList);
@@ -131,20 +132,408 @@ int main()
 // Function: cashier()
 //
 // Receives:
-// Returns:
+// Returns: 0
 //----------------------------------------------------------------------
-int cashier()
+int cashier(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList)
 {
-	cout << "Cashier Menu WIP." << "\n\n";
+	string userSearch = "";
+	string target;
+	string targetIsbn;
+	size_t foundTitle;
+	int tempQty;
+	int tempQtySold;
+	int userQty = 0;
+	float subtotal = 0.00;
+	char choice = '\0';
+	time_t t = time(0);
+	struct tm * now = localtime(&t);
+	linkedListIterator<InventoryBook> myIterator;	// iterator
+	linkedListIterator<SoldBook> cartIterator;	// iterator
+
+	orderedLinkedList<SoldBook> cart;
+	cart.initializeList();
+
+	InventoryBook * newBook = new InventoryBook;
+	SoldBook * cartBook = new SoldBook;
+
+	do
+	{
+		// copy book info to cart
+		for (myIterator = titleList.begin(); myIterator != titleList.end(); ++myIterator)
+		{
+			cartBook->setTitle((*myIterator).getTitle());
+			cartBook->setIsbn((*myIterator).getIsbn());
+			cartBook->setAuthor((*myIterator).getAuthor());
+			cartBook->setPub((*myIterator).getPub());
+			cartBook->setDateAdded((*myIterator).getDateAdded());
+			cartBook->setQty((*myIterator).getQty());
+			cartBook->setWholesale((*myIterator).getWholesale());
+			cartBook->setRetail((*myIterator).getRetail());
+			(*cartBook).setSortCode(0);
+			cart.insert(*cartBook);
+		}
+
+
+		do
+		{
+			// reset screen & choice var
+			system("cls");
+			choice = '\0';
+			userQty = 0;
+
+			// display menu
+			cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+			cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
+			cout << '*' << setw(45) << "CASHIER MODULE" << setw(33) << '*' << '\n';
+			cout << '*' << setw(78) << '*' << '\n';
+			cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+
+			cout << "Today's Date: "
+					<< (now->tm_mon + 1) << '/' <<  now->tm_mday << '/' << (now->tm_year + 1900) << "\n\n";
+
+			// get user search term
+			cout << "Title or ISBN: ";
+			getline(cin, userSearch);
+
+			// change search term to ignore case (loop per character)
+			for (unsigned int i = 0; i < userSearch.length(); i++)
+			{
+				if (isupper(userSearch[i]))
+				{
+					userSearch[i] = tolower(userSearch[i]);
+				}
+			}
+
+			cartIterator = cart.begin();
+			do
+			{
+				// change target title to ignore case
+				target = (*cartIterator).getTitle();
+				for (unsigned int i = 0; i < target.length(); i++)
+				{
+					if (isupper(target[i]))
+					{
+						target[i] = tolower(target[i]);
+					}
+				}
+				targetIsbn = (*cartIterator).getIsbn();
+				for (unsigned int i = 0; i < targetIsbn.length(); i++)
+				{
+					if (isupper(targetIsbn[i]))
+					{
+						targetIsbn[i] = tolower(targetIsbn[i]);
+					}
+				}
+
+				// find title from partial search term
+				foundTitle = target.find(userSearch);
+				// if title or isbn is found
+				if (foundTitle != string::npos || targetIsbn == userSearch)
+				{
+					// title
+					if (foundTitle != string::npos)
+					{
+						cout << "RESULT: > " << (*cartIterator).getTitle() << '\n';
+						cout << "View this book? (Y/N): ";
+					}
+
+					// isbn
+					if (targetIsbn == userSearch)
+					{
+						cout << "RESULT: > " << (*cartIterator).getIsbn() << '\n';
+						cout << "View this book? (Y/N): ";
+					}
+
+					choice = '\0';
+					cin >> choice;
+					if(cin.get() != '\n')
+					{
+						cin.clear();
+						cin.ignore(numeric_limits<streamsize>::max(), '\n');
+						choice = '0';
+					}
+				}
+
+
+				// if user wants to view book
+				if (tolower(choice) == 'y')
+				{
+					// display book
+					cout << '\n';
+					(*cartIterator).printRetail();
+					cout << '\n';
+
+					cout << "Add " << (*cartIterator).getTitle() << " to cart? (Y/N): ";
+					choice = '\0';
+					cin >> choice;
+					if(cin.get() != '\n')
+					{
+						cin.clear();
+						cin.ignore(numeric_limits<streamsize>::max(), '\n');
+						choice = '0';
+					}
+
+					// if user decides to add book to cart
+					if (tolower(choice == 'y'))
+					{
+						// check if book is in stock
+						if ((*cartIterator).getQty() == 0)
+						{
+							cout << "\nSold out. Unable to add to cart.\n";
+							++cartIterator;
+							break;
+						}
+						// if book in stock, get quantity
+						cout << "Quantity of Book (Enter 0 to cancel): ";
+						cin >> userQty;
+						while (cin.fail() || (*cartIterator).getQty() < userQty || userQty <= 0)
+						{
+							if ((*cartIterator).getQty() < userQty)
+							{
+								cout << "Error, there are only " << (*cartIterator).getQty() << " on hand.\n"
+										<< "please re-enter quantity: ";
+								cin >> userQty;
+							}
+							if (cin.fail() || userQty < 0)
+							{
+								cout << "Error, please re-enter quantity (1 or more): ";
+								cin.clear();
+								cin.ignore(numeric_limits<streamsize>::max(), '\n');
+								cin >> userQty;
+							}
+							else if (userQty == 0)
+							{
+								break;
+							}
+						}	// end while loop - quantity check
+
+						if (userQty == 0)
+						{
+							cout << "Cancelled adding to cart." << "\n\n";
+							cartIterator = cart.end();
+							break;
+						}
+						cout << "\nBook added to cart." << "\n\n";
+
+						// set quantity to cart
+						tempQtySold = (*cartIterator).getQtySold() + userQty;
+						tempQty = (*cartIterator).getQty() - userQty;
+
+						cartBook->setTitle((*cartIterator).getTitle());
+						cartBook->setIsbn((*cartIterator).getIsbn());
+						cartBook->setAuthor((*cartIterator).getAuthor());
+						cartBook->setPub((*cartIterator).getPub());
+						cartBook->setDateAdded((*cartIterator).getDateAdded());
+						cartBook->setQty(tempQty);
+						cartBook->setWholesale((*cartIterator).getWholesale());
+						cartBook->setRetail((*cartIterator).getRetail());
+						cartBook->setQtySold(tempQtySold);
+
+						cart.deleteNode(*cartIterator);
+
+						(*cartBook).setSortCode(0);
+						cart.insert(*cartBook);
+
+
+
+						break;
+
+					}	// end if statement - user decides to add book to cart
+					else
+					{
+						break;
+						++cartIterator;
+					}
+				}	// end if statement - user views book
+				else
+				{
+					// if use decides not to add book to cart
+					// reset display and move onto next book in search
+					system("cls");
+
+					// display menu
+					cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+					cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
+					cout << '*' << setw(45) << "CASHIER MODULE" << setw(33) << '*' << '\n';
+					cout << '*' << setw(78) << '*' << '\n';
+					cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
+
+					cout << "Today's Date: "
+							<< (now->tm_mon + 1) << '/' <<  now->tm_mday << '/' << (now->tm_year + 1900) << "\n\n";
+
+					++cartIterator;
+					continue;
+				}
+
+			} while (cartIterator != cart.end());
+
+			// if book was not found in search
+			if (cartIterator == cart.end() || (foundTitle == string::npos && (*cartIterator).getIsbn() == userSearch) || tolower(choice) != 'y')
+			{
+				cout << setw(13) << "Book Not Found." << "\n\n";
+			}
+
+
+
+			// display exit menu
+			cout << "(C) to Continue shopping" << '\n'
+					<< "(P) to Proceed to checkout" << '\n'
+					<< "(A) to Abort sales and exit cashier module" << "\n\n";
+			do
+			{
+				cout << "Enter Choice:  ";
+				choice = '\0';
+				cin >> choice;
+				if(cin.get() != '\n')
+				{
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					choice = '0';
+				}
+
+				switch(tolower(choice))
+				{
+				case 'c':	// continue shopping
+					break;
+				case 'p':	// proceed checkout
+					break;
+				case 'a':	// abort sales
+					cout << "Cart will not be saved. Do you really want to exit? (Y/N):  ";
+					cin >> choice;
+					if(cin.get() != '\n')
+					{
+						cin.clear();
+						cin.ignore(numeric_limits<streamsize>::max(), '\n');
+						choice = '0';
+					}
+					if (tolower(choice) == 'y')
+					{
+						break;
+					}
+					else
+					{
+						choice = 'c';
+					}
+					break;
+				default:
+					cout << "\nWrong input.\n";
+					choice = '0';
+					break;
+				}
+			} while (choice == '0');	// get menu choice
+		} while(tolower(choice) == 'c');	// display menu, get user search term & convert to same case. Goal: do until user does not want to continue shopping
+
+		// print receipt
+		if (tolower(choice) == 'p')
+		{
+
+			// change stock quantity to reflect after purchase
+			myIterator = titleList.begin();
+			for (cartIterator = cart.begin(); cartIterator != cart.end(); ++cartIterator)
+			{
+				// delete old book with previous info
+				titleList.deleteNode(*myIterator);
+				qtyList.deleteNode(*myIterator);
+				wholesaleList.deleteNode(*myIterator);
+				dateList.deleteNode(*myIterator);
+				++myIterator;
+			}
+			for (cartIterator = cart.begin(); cartIterator != cart.end(); ++cartIterator)
+			{
+				// add information to new book
+				newBook->setTitle((*cartIterator).getTitle());
+				newBook->setIsbn((*cartIterator).getIsbn());
+				newBook->setAuthor((*cartIterator).getAuthor());
+				newBook->setPub((*cartIterator).getPub());
+				newBook->setDateAdded((*cartIterator).getDateAdded());
+				newBook->setQty((*cartIterator).getQty());
+				newBook->setWholesale((*cartIterator).getWholesale());
+				newBook->setRetail((*cartIterator).getRetail());
+				// insert new book to lists
+				(*newBook).setSortCode(0);
+				titleList.insert(*newBook);
+				(*newBook).setSortCode(1);
+				qtyList.insert(*newBook);
+				(*newBook).setSortCode(2);
+				wholesaleList.insert(*newBook);
+				(*newBook).setSortCode(3);
+				dateList.insert(*newBook);
+			}
+
+			system("pause");
+
+			system("cls");
+
+			// Sales Slip
+			cout << "Serendipity Book Sellers\n\n";
+			cout << "Date: " << (now->tm_mon + 1) << '/' <<  now->tm_mday << '/' << (now->tm_year + 1900) << "\n\n";
+
+			cout << left
+					<< setw(5) << "Qty"
+					<< setw(15) << "ISBN"
+					<< setw(25) << "Title"
+					<< setw(12) << "Price"
+					<< "Total\n";
+
+			cout << "__________________________________________________________________\n";
+
+			// display books
+			for (cartIterator = cart.begin(); cartIterator != cart.end(); ++cartIterator)
+			{
+				if ((*cartIterator).getQtySold() > 0)
+				{
+					cout << left << setw(5) << (*cartIterator).getQtySold()
+							<< setw(15) << (*cartIterator).getIsbn()
+							<< setw(25) << ((*cartIterator).getTitle()).substr(0,23)
+							<< fixed << setprecision(2)
+							<< setw(1) << "$" << setw(11) << (*cartIterator).getRetail()
+							<< setw(1) << "$" << right << setw(6) << ((*cartIterator).getRetail() * float((*cartIterator).getQtySold()));
+					cout << "\n\n";
+				}
+			}
+
+			// calculate subtotal
+			for (cartIterator = cart.begin(); cartIterator != cart.end(); ++cartIterator)
+			{
+				// add to subtotal only if book is in cart
+				if ((*cartIterator).getQtySold() > 0)
+				{
+					subtotal = subtotal + ((*cartIterator).getRetail() * float((*cartIterator).getQtySold()));
+				}
+			}
+
+			// display total
+			cout << left << setw(16) << "\n\n\n" << setw(44) << "Subtotal" << "$" << right << setw(6) << subtotal
+					<< left << setw(14) << "\n" << setw(44) << "Tax" << "$" << right << setw(6) << subtotal*SALES_TAX
+					<< left << setw(14) << "\n" << setw(44) << "Total" << "$" << right << setw(6) << (subtotal*SALES_TAX) + subtotal << setprecision(0) << "\n";
+
+			cout << "\nThank you for Shopping at Serendipity!\n\n";
+
+			cout << "Process another transaction (Y/N)?: ";
+			choice = '\0';
+			cin >> choice;
+			if(cin.get() != '\n')
+			{
+				cin.clear();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				choice = '0';
+			}
+
+		}	// end print receipt
+		else
+		{
+			break;
+		}
+	} while (tolower(choice) == 'y');
 	system("pause");
 	return 0;
 }
 
 //----------------------------------------------------------------------
 // Function: invMenu()
-//
-// Receives:
-// Returns:
+// display menu to look up, add, edit or delete a book
+// Receives: orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList
+// Returns: 0
 //----------------------------------------------------------------------
 int invMenu(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList)
 {
