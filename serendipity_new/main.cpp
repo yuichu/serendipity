@@ -45,6 +45,8 @@
 
 const float SALES_TAX = 0.06;
 
+void copyData(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList);
+void writeData(orderedLinkedList<InventoryBook> titleList);
 // Main Menu Functions
 int cashier(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList);
 int invMenu(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList);
@@ -75,6 +77,11 @@ int main()
 	wholesaleList.initializeList();
 	dateList.initializeList();
 
+	// copy data variables
+
+
+	copyData(titleList, qtyList, wholesaleList, dateList);
+//	writeData(titleList);
 
 	do
 	{
@@ -126,6 +133,125 @@ int main()
 	} while(choice != '4');	// end do-while Main Menu
 
 	return 0;
+}
+
+//													FILE I/O FUNCTIONS
+//----------------------------------------------------------------------
+// Function:
+//
+// Receives:
+// Returns:
+//----------------------------------------------------------------------
+void copyData(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList)
+{
+	ifstream inFile;
+	string tempTitle = "EMPTY";
+	string tempIsbn = "EMPTY";
+	string tempAuthor = "EMPTY";
+	string tempPublisher = "EMPTY";
+	string tempDate = "EMPTY";
+	string temp;
+	int tempQty = 0;
+	double tempWholesale = 0.0;
+	double tempRetail = 0.0;
+	InventoryBook * newBook;
+	inFile.open("books2.txt");
+	// check if file exists
+	if (!inFile)
+	{
+		cout << "Error, \'books.txt\' file not available in local directory.\n";
+	}
+	else
+	{
+		cout << "Copying data from text file...\n";
+		// perform data copy to arrays
+
+		while (!getline(inFile, temp, '\n').eof())
+		{
+			newBook = new InventoryBook;
+			getline(inFile, tempTitle);
+//			cout << tempTitle << '\n';
+			getline(inFile, tempIsbn);
+//			cout << tempIsbn << '\n';
+			getline(inFile, tempAuthor);
+//			cout << tempAuthor << '\n';
+			getline(inFile, tempPublisher);
+//			cout << tempPublisher << '\n';
+			getline(inFile, tempDate);
+//			cout << tempDate << '\n';
+			inFile >> tempQty;
+//			cout << tempQty << '\n';
+			inFile >> tempWholesale;
+//			cout << tempWholesale << '\n';
+			inFile >> tempRetail;
+//			cout << tempRetail << '\n';
+			// update node value with temp values
+			newBook->setTitle(tempTitle);
+			newBook->setIsbn(tempIsbn);
+			newBook->setAuthor(tempAuthor);
+			newBook->setPub(tempPublisher);
+			newBook->setDateAdded(tempDate);
+			newBook->setQty(tempQty);
+			newBook->setWholesale(tempWholesale);
+			newBook->setRetail(tempRetail);
+			// insert node to list
+			(*newBook).setSortCode(0);
+			titleList.insert(*newBook);
+			(*newBook).setSortCode(1);
+			qtyList.insert(*newBook);
+			(*newBook).setSortCode(2);
+			wholesaleList.insert(*newBook);
+			(*newBook).setSortCode(3);
+			dateList.insert(*newBook);
+			// reset pending value
+			tempTitle = "EMPTY";
+			tempIsbn = "EMPTY";
+			tempAuthor = "EMPTY";
+			tempPublisher = "EMPTY";
+			tempDate = "EMPTY";
+			tempQty = 0;
+			tempWholesale = 0.0;
+			tempRetail = 0.0;
+//			system("pause");
+		}
+	}
+	inFile.close();
+
+	return;
+}
+
+//----------------------------------------------------------------------
+// Function:
+//
+// Receives:
+// Returns:
+//----------------------------------------------------------------------
+void writeData(orderedLinkedList<InventoryBook> titleList)
+{
+	ofstream outFile;
+	linkedListIterator<InventoryBook> myIterator;	// iterator
+
+	outFile.open("books2.txt");
+	if (!outFile)
+	{
+		cout << "Error, \'books.txt\' file not available in local directory.\n";
+		return;
+	}
+	else
+	{
+		for (myIterator = titleList.begin(); myIterator != titleList.end(); ++myIterator)
+		{
+			outFile << '\n' << (*myIterator).getTitle();
+			outFile << '\n' << (*myIterator).getIsbn();
+			outFile << '\n' << (*myIterator).getAuthor();
+			outFile << '\n' << (*myIterator).getPub();
+			outFile << '\n' << (*myIterator).getDateAdded();
+			outFile << '\n' << (*myIterator).getQty();
+			outFile << '\n' << (*myIterator).getWholesale();
+			outFile << '\n' << (*myIterator).getRetail();
+		}
+	}
+	outFile.close();
 }
 //													MAIN MENU FUNCTIONS
 //----------------------------------------------------------------------
@@ -459,6 +585,7 @@ int cashier(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<Inven
 				(*newBook).setSortCode(3);
 				dateList.insert(*newBook);
 			}
+			writeData(titleList);
 
 			system("pause");
 
@@ -908,6 +1035,7 @@ void addBook(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<Inve
 			(*newBook).setSortCode(3);
 			dateList.insert(*newBook);
 
+			writeData(titleList);
 			// reset pending value
 			tempTitle = "EMPTY";
 			tempIsbn = "EMPTY";
@@ -1178,6 +1306,8 @@ void editBook(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<Inv
 				wholesaleList.insert(*newBook);
 				(*newBook).setSortCode(3);
 				dateList.insert(*newBook);
+
+				writeData(titleList);
 				cout << setw(50) << "Book has been saved. Returning to Inventory Menu.\n";
 				system("pause");
 				break;
@@ -1321,6 +1451,8 @@ void deleteBook(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<I
 			wholesaleList.deleteNode(*myIterator);
 			dateList.deleteNode(*myIterator);
 
+			writeData(titleList);
+
 			cout << "Book Deleted.\n";
 			cout << "Delete Another? (Y/N): ";
 			cin >> choice;
@@ -1360,7 +1492,7 @@ void repListing(orderedLinkedList<InventoryBook> titleList)
 				<< " " << setfill('0') << setw(2) << now->tm_hour
 				<< setw(1) << ':' << setw(2) << now->tm_min << setw(1)
 				<< ':' << setw(2) << now->tm_sec << setfill(' ')
-				<< "     PAGE: " << currentPage << " of " << totalPage
+				<< "     PAGE: " << currentPage << " of " << setprecision(0) << totalPage
 				<< "     CURRENT BOOK COUNT: " << titleList.length()
 				<< "\n\n";
 
@@ -1443,7 +1575,7 @@ void repWholesale(orderedLinkedList<InventoryBook> titleList)
 				<< " " << setfill('0') << setw(2) << now->tm_hour
 				<< setw(1) << ':' << setw(2) << now->tm_min << setw(1)
 				<< ':' << setw(2) << now->tm_sec << setfill(' ')
-				<< "     PAGE: " << currentPage << " of " << totalPage
+				<< "     PAGE: " << currentPage << " of " << setprecision(0) << totalPage
 				<< "     CURRENT BOOK COUNT: " << titleList.length()
 				<< "\n\n";
 
@@ -1528,7 +1660,7 @@ void repRetail(orderedLinkedList<InventoryBook> titleList)
 				<< " " << setfill('0') << setw(2) << now->tm_hour
 				<< setw(1) << ':' << setw(2) << now->tm_min << setw(1)
 				<< ':' << setw(2) << now->tm_sec << setfill(' ')
-				<< "     PAGE: " << currentPage << " of " << totalPage
+				<< "     PAGE: " << currentPage << " of " << setprecision(0) << totalPage
 				<< "     CURRENT BOOK COUNT: " << titleList.length()
 				<< "\n\n";
 
@@ -1612,7 +1744,7 @@ void repQty(orderedLinkedList<InventoryBook> qtyList)
 				<< " " << setfill('0') << setw(2) << now->tm_hour
 				<< setw(1) << ':' << setw(2) << now->tm_min << setw(1)
 				<< ':' << setw(2) << now->tm_sec << setfill(' ')
-				<< "     PAGE: " << currentPage << " of " << totalPage
+				<< "     PAGE: " << currentPage << " of " << setprecision(0) << totalPage
 				<< "     CURRENT BOOK COUNT: " << qtyList.length()
 				<< "\n\n";
 
@@ -1682,7 +1814,7 @@ void repCost(orderedLinkedList<InventoryBook> wholesaleList)
 				<< " " << setfill('0') << setw(2) << now->tm_hour
 				<< setw(1) << ':' << setw(2) << now->tm_min << setw(1)
 				<< ':' << setw(2) << now->tm_sec << setfill(' ')
-				<< "     PAGE: " << currentPage << " of " << totalPage
+				<< "     PAGE: " << currentPage << " of " << setprecision(0) << totalPage
 				<< "     CURRENT BOOK COUNT: " << wholesaleList.length()
 				<< "\n\n";
 
@@ -1765,7 +1897,7 @@ void repAge(orderedLinkedList<InventoryBook> dateList)
 				<< " " << setfill('0') << setw(2) << now->tm_hour
 				<< setw(1) << ':' << setw(2) << now->tm_min << setw(1)
 				<< ':' << setw(2) << now->tm_sec << setfill(' ')
-				<< "     PAGE: " << currentPage << " of " << totalPage
+				<< "     PAGE: " << currentPage << " of " << setprecision(0) << totalPage
 				<< "     CURRENT BOOK COUNT: " << dateList.length()
 				<< "\n\n";
 
