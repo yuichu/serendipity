@@ -12,7 +12,7 @@ class BookData
 public:
 	BookData();
 	BookData(string bookTitle, string isbn, string author, string publisher);
-	~BookData(void);
+	~BookData(void); // @suppress("Class has a virtual method and non-virtual destructor")
 
 	virtual void print();
 

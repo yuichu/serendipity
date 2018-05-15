@@ -6,10 +6,47 @@
 // Creator's name and email: Yujin Chung ychung23@ivc.edu				-
 // Course-Section: CS 1B Ticket# 18185									-
 // Creation Date: 04/23/2018											-
-// Date of Last Modification: 05/03/2018								-
+// Date of Last Modification: 05/15/2018								-
 // ----------------------------------------------------------------------
 // Purpose: Serendipity Bookstore's POS system which allows user to add,-
 //			modify, and delete a library of books						-
+// ----------------------------------------------------------------------
+// main() Algorithm:													-
+// Step 1: Display main menu											-
+// Step 2: Ask user to input choice at least once						-
+// Step 3: Choice 1-3 executes the next menu function					-
+// 		Choice 4 ends program											-
+//		if invalid input, ask user to re-enter							-
+// cashier():															-
+// Step 4: User search for book title									-
+// Step 5: Search through array for matching title						-
+// Step 6: If user finds title, display information						-
+// Step 7: If user wants to purchase book								-
+// Step 8: Ask user to input book price									-
+// Step 9: calculate subtotal											-
+// Step 10: Display sales slip											-
+// Step 11: Ask if user wishes to repeat program						-
+//		if yes, repeat													-
+//		if no, return to main menu										-
+// addBook():															-
+// Step 12: Display Menu												-
+// Step 13: Option 1-8, assign user input value to temp variable		-
+// Step 13: Option 9, write value in temp to node & insert to list		-
+// editBook():															-
+// Step 14: User search for book title									-
+// Step 15: Search through list for matching title						-
+// Step 16: If user finds title, display information					-
+// Step 17: If user wants to edit book info, display edit menu			-
+// Step 18: Option 1-8, re-write user input value to node & insert to list-
+// deleteBook():														-
+// Step 19: User search for book title									-
+// Step 20: Search through list for matching title						-
+// Step 21: If user finds title, display information					-
+// Step 22: If user wants to delete book, delete node in list			-
+// lookUpBook():														-
+// Step 23: Ask user to search for book title							-
+// Step 24: Search through array for matching book title				-
+// Step 25: If user finds title, display information					-
 // ----------------------------------------------------------------------
 // -							DATA DICTIONARY							-
 // - CONSTANTS															-
@@ -25,12 +62,31 @@
 // - NAME					DATA TYPE				INITIAL VALUE		-
 // - --------------------   ----------				-------------		-
 // - choice					char					null
-// - bookList				InventoryBook
-// - *book1					InventoryBook
-// - *book2					InventoryBook
-// - *book3					InventoryBook
-// - *book4					InventoryBook
-// - *book5					InventoryBook
+// - titleList				InventoryBook
+// - qtylist				InventoryBook
+// - wholesaleList			InventoryBook
+// - dateList				InventoryBook
+// - *newbook				InventoryBook
+// - cart					SoldBook
+// - inFile					ifstream
+// - outFile				ofstream
+// - tempTitle				string					EMPTY
+// - tempIsbn				string					EMPTY
+// - tempAuthor				string					EMPTY
+// - tempPublisher			string					EMPTY
+// - tempDate				string					EMPTY
+// - tempQty				int						0
+// - tempWholesale			double					0.0
+// - tempRetail				double					0.0
+// - subtotal				double					0.00
+// - userSearch				string
+// - target					string
+// - targetIsbn				string
+// - foundTitle				size_t
+// - t						time_t					time(0)
+// - *now					struct tm				localtime(&t)
+// - myIterator				linkedListIterator<InventoryBook>
+
 // ----------------------------------------------------------------------
 
 #include "BookData.h"
@@ -47,6 +103,7 @@ const float SALES_TAX = 0.06;
 
 void copyData(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList);
 void writeData(orderedLinkedList<InventoryBook> titleList);
+void writeTransactions(orderedLinkedList<SoldBook> cart);
 // Main Menu Functions
 int cashier(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList);
 int invMenu(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList);
@@ -137,10 +194,10 @@ int main()
 
 //													FILE I/O FUNCTIONS
 //----------------------------------------------------------------------
-// Function:
-//
-// Receives:
-// Returns:
+// Function: copyData()
+// reads book data from text file
+// Receives: orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList
+// Returns: none
 //----------------------------------------------------------------------
 void copyData(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList)
 {
@@ -155,18 +212,18 @@ void copyData(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<Inv
 	double tempWholesale = 0.0;
 	double tempRetail = 0.0;
 	InventoryBook * newBook;
-	inFile.open("books2.txt");
+	inFile.open("database.txt");
 	// check if file exists
 	if (!inFile)
 	{
-		cout << "Error, \'books.txt\' file not available in local directory.\n";
+		cout << "Error, \'database.txt\' file not available in local directory.\n";
 	}
 	else
 	{
 		cout << "Copying data from text file...\n";
 		// perform data copy to arrays
 
-		while (!getline(inFile, temp, '\n').eof())
+		do
 		{
 			newBook = new InventoryBook;
 			getline(inFile, tempTitle);
@@ -213,7 +270,7 @@ void copyData(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<Inv
 			tempWholesale = 0.0;
 			tempRetail = 0.0;
 //			system("pause");
-		}
+		} while (!getline(inFile, temp, '\n').eof());
 	}
 	inFile.close();
 
@@ -221,43 +278,93 @@ void copyData(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<Inv
 }
 
 //----------------------------------------------------------------------
-// Function:
-//
-// Receives:
-// Returns:
+// Function: writeData();
+// writes updated book database to text file
+// Receives: orderedLinkedList<InventoryBook> titleList
+// Returns: none
 //----------------------------------------------------------------------
 void writeData(orderedLinkedList<InventoryBook> titleList)
 {
 	ofstream outFile;
 	linkedListIterator<InventoryBook> myIterator;	// iterator
 
-	outFile.open("books2.txt");
+	outFile.open("database.txt");
 	if (!outFile)
 	{
-		cout << "Error, \'books.txt\' file not available in local directory.\n";
+		cout << "Error, \'database.txt\' file not available in local directory.\n";
 		return;
 	}
 	else
 	{
-		for (myIterator = titleList.begin(); myIterator != titleList.end(); ++myIterator)
+		myIterator = titleList.begin();
+		do
 		{
-			outFile << '\n' << (*myIterator).getTitle();
-			outFile << '\n' << (*myIterator).getIsbn();
-			outFile << '\n' << (*myIterator).getAuthor();
-			outFile << '\n' << (*myIterator).getPub();
-			outFile << '\n' << (*myIterator).getDateAdded();
-			outFile << '\n' << (*myIterator).getQty();
-			outFile << '\n' << (*myIterator).getWholesale();
-			outFile << '\n' << (*myIterator).getRetail();
+			outFile << (*myIterator).getTitle() << '\n';
+			outFile << (*myIterator).getIsbn() << '\n';
+			outFile << (*myIterator).getAuthor() << '\n';
+			outFile << (*myIterator).getPub() << '\n';
+			outFile << (*myIterator).getDateAdded() << '\n';
+			outFile << (*myIterator).getQty() << '\n';
+			outFile << (*myIterator).getWholesale() << '\n';
+			outFile << (*myIterator).getRetail();
+			++myIterator;
+			if (myIterator != titleList.end())
+			{
+				outFile << '\n';
+			}
+		} while (myIterator != titleList.end());
+	}
+	outFile.close();
+
+	return;
+}
+//----------------------------------------------------------------------
+// Function: writeTransactions();
+// writes cashier transactions to text file
+// Receives: orderedLinkedList<InventoryBook> titleList
+// Returns: none
+//----------------------------------------------------------------------
+void writeTransactions(orderedLinkedList<SoldBook> cart)
+{
+	ofstream outFile;
+	linkedListIterator<SoldBook> myIterator;	// iterator
+
+	outFile.open("transactions.txt", outFile.app);
+	if (!outFile)
+	{
+		cout << "Error, \'transactions.txt\' file not available in local directory.\n";
+		return;
+	}
+	else
+	{
+		for (myIterator = cart.begin(); myIterator != cart.end(); ++myIterator)
+		{
+			if ((*myIterator).getQtySold() > 0)
+			{
+				outFile << (*myIterator).getTitle() << '\n';
+				outFile << (*myIterator).getIsbn() << '\n';
+				outFile << (*myIterator).getAuthor() << '\n';
+				outFile << (*myIterator).getPub() << '\n';
+				outFile << (*myIterator).getDateAdded() << '\n';
+				outFile << (*myIterator).getQty() << '\n';
+				outFile << (*myIterator).getWholesale() << '\n';
+				outFile << (*myIterator).getRetail() << '\n';
+				outFile << (*myIterator).getTaxRate() << '\n';
+				outFile << (*myIterator).getQtySold() << '\n';
+				outFile << (*myIterator).getTax() << '\n';
+				outFile << '\n';
+			}
 		}
 	}
 	outFile.close();
+
+	return;
 }
 //													MAIN MENU FUNCTIONS
 //----------------------------------------------------------------------
 // Function: cashier()
-//
-// Receives:
+// allow user to select books to purchase and print receipt
+// Receives: orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList
 // Returns: 0
 //----------------------------------------------------------------------
 int cashier(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList)
@@ -269,7 +376,7 @@ int cashier(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<Inven
 	int tempQty;
 	int tempQtySold;
 	int userQty = 0;
-	float subtotal = 0.00;
+	double subtotal = 0.00;
 	char choice = '\0';
 	time_t t = time(0);
 	struct tm * now = localtime(&t);
@@ -295,6 +402,7 @@ int cashier(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<Inven
 			cartBook->setQty((*myIterator).getQty());
 			cartBook->setWholesale((*myIterator).getWholesale());
 			cartBook->setRetail((*myIterator).getRetail());
+//			cartBook->setTax((*myIterator).getRetail(),0);
 			(*cartBook).setSortCode(0);
 			cart.insert(*cartBook);
 		}
@@ -454,6 +562,7 @@ int cashier(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<Inven
 						cartBook->setWholesale((*cartIterator).getWholesale());
 						cartBook->setRetail((*cartIterator).getRetail());
 						cartBook->setQtySold(tempQtySold);
+						cartBook->setTax((*cartIterator).getRetail(), tempQtySold);
 
 						cart.deleteNode(*cartIterator);
 
@@ -586,6 +695,7 @@ int cashier(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<Inven
 				dateList.insert(*newBook);
 			}
 			writeData(titleList);
+			writeTransactions(cart);
 
 			system("pause");
 
@@ -1058,9 +1168,9 @@ void addBook(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<Inve
 
 //----------------------------------------------------------------------
 // Function: editBook()
-//
-// Receives:
-// Returns:
+// allow user to edit book in database
+// Receives: orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList
+// Returns: none
 //----------------------------------------------------------------------
 void editBook(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList)
 {
@@ -1087,7 +1197,7 @@ void editBook(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<Inv
 	cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
 	cout << '*' << setw(43) << "EDIT BOOK" << setw(35) << '*' << '\n';
 	cout << '*' << setw(78) << '*' << '\n';
-	cout << '*' << setw(63) << "CURRENT BOOK COUNT:" << setw(3) << titleList.length() << setw(7) << '*' << '\n';
+	cout << '*' << setw(63) << "CURRENT BOOK COUNT:" << setw(3) << titleList.length() << setw(12) << '*' << '\n';
 	cout << '*' << setw(78) << '*' << '\n';
 	cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
 
@@ -1326,9 +1436,9 @@ void editBook(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<Inv
 
 //----------------------------------------------------------------------
 // Function: deleteBook()
-//
-// Receives:
-// Returns:
+// allow user to delete books from database
+// Receives: orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList
+// Returns: none
 //----------------------------------------------------------------------
 void deleteBook(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<InventoryBook>& qtyList, orderedLinkedList<InventoryBook>& wholesaleList, orderedLinkedList<InventoryBook>& dateList)
 {
@@ -1353,7 +1463,7 @@ void deleteBook(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<I
 		cout << '*' << setw(50) << "SERENDIPITY BOOKSELLERS" << setw(28) << '*' << '\n';
 		cout << '*' << setw(45) << "DELETE BOOK" << setw(33) << '*' << '\n';
 		cout << '*' << setw(78) << '*' << '\n';
-		cout << '*' << setw(63) << "CURRENT BOOK COUNT:" << setw(3) << titleList.length() << setw(7) << '*' << '\n';
+		cout << '*' << setw(63) << "CURRENT BOOK COUNT:" << setw(3) << titleList.length() << setw(12) << '*' << '\n';
 		cout << '*' << setw(78) << '*' << '\n';
 		cout << setfill('*') << setw(79) << '*' << setfill(' ') << '\n';
 
@@ -1467,7 +1577,7 @@ void deleteBook(orderedLinkedList<InventoryBook>& titleList, orderedLinkedList<I
 //----------------------------------------------------------------------
 // Function: repListing()
 // Display Inventory
-// Receives: orderedLinkedList<InventoryBook> bookList
+// Receives: orderedLinkedList<InventoryBook> titleList
 // Returns: none
 //----------------------------------------------------------------------
 void repListing(orderedLinkedList<InventoryBook> titleList)
@@ -1548,8 +1658,8 @@ void repListing(orderedLinkedList<InventoryBook> titleList)
 //----------------------------------------------------------------------
 // Function: repWholesale()
 // Display inventory with wholesale price
-// Receives: orderedLinkedList<InventoryBook> bookList
-// Returns:
+// Receives: orderedLinkedList<InventoryBook> titleList
+// Returns: none
 //----------------------------------------------------------------------
 void repWholesale(orderedLinkedList<InventoryBook> titleList)
 {
@@ -1632,9 +1742,9 @@ void repWholesale(orderedLinkedList<InventoryBook> titleList)
 
 //----------------------------------------------------------------------
 // Function: repRetail()
-//
-// Receives: orderedLinkedList<InventoryBook> bookList
-// Returns:
+// display inventory with retail price
+// Receives: orderedLinkedList<InventoryBook> titleList
+// Returns: none
 //----------------------------------------------------------------------
 void repRetail(orderedLinkedList<InventoryBook> titleList)
 {
@@ -1718,9 +1828,9 @@ void repRetail(orderedLinkedList<InventoryBook> titleList)
 
 //----------------------------------------------------------------------
 // Function: repQty()
-//
-// Receives:
-// Returns:
+// display database in order of quantity
+// Receives: orderedLinkedList<InventoryBook> qtyList
+// Returns: none
 //----------------------------------------------------------------------
 void repQty(orderedLinkedList<InventoryBook> qtyList)
 {
@@ -1787,7 +1897,7 @@ void repQty(orderedLinkedList<InventoryBook> qtyList)
 
 //----------------------------------------------------------------------
 // Function: repCost()
-//
+// display database in order of wholesale price
 // Receives: orderedLinkedList<InventoryBook> wholesaleList
 // Returns: none
 //----------------------------------------------------------------------
@@ -1871,7 +1981,7 @@ void repCost(orderedLinkedList<InventoryBook> wholesaleList)
 
 //----------------------------------------------------------------------
 // Function: repAge()
-//
+// display database in order of age
 // Receives: orderedLinkedList<InventoryBook> dateList
 // Returns: none
 //----------------------------------------------------------------------

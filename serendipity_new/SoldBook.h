@@ -8,13 +8,13 @@ class SoldBook: public InventoryBook
 public:
 	SoldBook();
 	SoldBook(string bookTitle, string isbn, string author, string publisher, string dateAdded, int qtyOnHand, double wholesale, double retail, int sortCode, double taxRate, int qtySold, double tax);
-	~SoldBook();
+	~SoldBook(); // @suppress("Class has a virtual method and non-virtual destructor")
 
 	void print();
 
 	void setTaxRate(double taxRate);
 	void setQtySold(int qtySold);
-	void setTax(double tax);
+	void setTax(double retail, int qtySold);
 
 	double getTaxRate() const;
 	int getQtySold() const;
@@ -39,7 +39,7 @@ SoldBook::SoldBook()
 {
 	setTaxRate(0.06);
 	setQtySold(0);
-	setTax(0.0);
+	setTax(0.0, 0);
 }
 
 //----------------------------------------------------------------------
@@ -55,8 +55,7 @@ SoldBook::SoldBook(string bookTitle, string isbn, string author, string publishe
 {
 	setTaxRate(taxRate);
 	setQtySold(qtySold);
-	tax = retail*qtySold*taxRate;
-	setTax(tax);
+	setTax(retail, qtySold);
 }
 
 //----------------------------------------------------------------------
@@ -118,9 +117,10 @@ void SoldBook::setQtySold(int qtySold)
 // Receives: double tax
 // Returns: none
 //----------------------------------------------------------------------
-void SoldBook::setTax(double tax)
+void SoldBook::setTax(double retail, int qtySold)
 {
-	this->tax = tax;
+	this->tax = retail * qtySold * this->getTaxRate();
+
 }
 
 //																GETTERS

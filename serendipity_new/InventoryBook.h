@@ -11,7 +11,7 @@ class InventoryBook: public BookData
 public:
 	InventoryBook();
 	InventoryBook(string bookTitle, string isbn, string author, string publisher, string dateAdded, int qtyOnHand, double wholesale, double retail, int sortCode);
-	~InventoryBook();
+	~InventoryBook(); // @suppress("Class has a virtual method and non-virtual destructor")
 
 	void print();
 	void printRetail();
