@@ -197,6 +197,11 @@ string BookData::getPub() const
 
 //														OVERLOAD OPERATOR
 //----------------------------------------------------------------------
+// Function: operator>=()
+// overloading >= operator
+// Receives: const BookData& other_Book
+// Returns: bool found
+//----------------------------------------------------------------------
 bool BookData::operator>=(const BookData& other_Book) const
 {
 	bool found = false;
@@ -214,6 +219,11 @@ bool BookData::operator>=(const BookData& other_Book) const
 }
 
 //----------------------------------------------------------------------
+// Function: operator==()
+// overloading == operator
+// Receives: const BookData& other_Book
+// Returns: bool found
+//----------------------------------------------------------------------
 bool BookData::operator==(const BookData& other_Book) const
 {
 	bool found = false;
@@ -230,6 +240,11 @@ bool BookData::operator==(const BookData& other_Book) const
 	return found;
 }
 
+//----------------------------------------------------------------------
+// Function: operator!=()
+// overloading != operator
+// Receives: const BookData& other_Book
+// Returns: bool found
 //----------------------------------------------------------------------
 bool BookData::operator!=(const BookData& other_Book) const
 {

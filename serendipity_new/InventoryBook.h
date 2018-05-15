@@ -170,10 +170,10 @@ void InventoryBook::setRetail(double retail)
 }
 
 //----------------------------------------------------------------------
-// Function:
-//
-// Receives:
-// Returns:
+// Function: setSortCode()
+// set sort code for nodes for proper linked list ordering
+// Receives: int sortCode
+// Returns: none
 //----------------------------------------------------------------------
 void InventoryBook::setSortCode(int sortCode)
 {
@@ -227,7 +227,7 @@ double InventoryBook::getRetail() const
 
 //----------------------------------------------------------------------
 // Function: getSortCode()
-//
+// get sort code
 // Receives: none
 // Returns: int sortCode
 //----------------------------------------------------------------------
@@ -237,6 +237,11 @@ int InventoryBook::getSortCode() const
 }
 
 //														OVERLOAD OPERATOR
+//----------------------------------------------------------------------
+// Function: operator>=()
+// overloading >= operator
+// Receives: const InventoryBook& other_Book
+// Returns: bool found
 //----------------------------------------------------------------------
 bool InventoryBook::operator>=(const InventoryBook& other_Book) const
 {
@@ -308,6 +313,11 @@ bool InventoryBook::operator>=(const InventoryBook& other_Book) const
 
 	return found;
 }
+//----------------------------------------------------------------------
+// Function: operator==()
+// overloading == operator
+// Receives: const InventoryBook& other_Book
+// Returns: bool found
 //----------------------------------------------------------------------
 bool InventoryBook::operator==(const InventoryBook& other_Book) const
 {
@@ -381,6 +391,11 @@ bool InventoryBook::operator==(const InventoryBook& other_Book) const
 	return found;
 }
 //----------------------------------------------------------------------
+// Function: operator!=()
+// overloading != operator
+// Receives: const InventoryBook& other_Book
+// Returns: bool found
+//----------------------------------------------------------------------
 bool InventoryBook::operator!=(const InventoryBook& other_Book) const
 {
 	bool found = false;
@@ -451,28 +466,5 @@ bool InventoryBook::operator!=(const InventoryBook& other_Book) const
 
 	return !found;
 }
-
-//----------------------------------------------------------------------
-// Function: removeBook()
-//
-// Receives:
-// Returns:
-//----------------------------------------------------------------------
-//void InventoryBook::removeBook()
-//{
-//
-//}
-
-//----------------------------------------------------------------------
-// Function: isEmpty()
-//
-// Receives:
-// Returns:
-//----------------------------------------------------------------------
-//bool InventoryBook::isEmpty()
-//{
-//
-//}
-
 
 #endif /* INVENTORYBOOK_H_ */

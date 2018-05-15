@@ -91,7 +91,7 @@ void SoldBook::print()
 //																SETTERS
 //----------------------------------------------------------------------
 // Function: setTaxRate()
-//
+// set tax rate of sales
 // Receives: double taxRate
 // Returns: none
 //----------------------------------------------------------------------
@@ -102,7 +102,7 @@ void SoldBook::setTaxRate(double taxRate)
 
 //----------------------------------------------------------------------
 // Function: setQtySold()
-//
+// set number of books sold
 // Receives: int qtySold
 // Returns: none
 //----------------------------------------------------------------------
@@ -113,7 +113,7 @@ void SoldBook::setQtySold(int qtySold)
 
 //----------------------------------------------------------------------
 // Function: setTax()
-//
+// set tax of number of book sold per title
 // Receives: double tax
 // Returns: none
 //----------------------------------------------------------------------
