@@ -32,6 +32,12 @@ public:
 	bool operator==(const BookData& other_Book) const;
 	bool operator!=(const BookData& other_Book) const;
 
+	//----------------------------------------------------------------------
+	// Function: operator<<()
+	// overload ostream
+	// Receives: ostream& osObject, const BookData& c
+	// Returns: ostream osObject
+	//----------------------------------------------------------------------
 	friend ostream& operator<< (ostream& osObject, const BookData& c)
 	{
 		osObject << left << setfill(' ')<< " " << setw(29) << c.bookTitle.substr (0,28)

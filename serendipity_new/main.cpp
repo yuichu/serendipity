@@ -11,7 +11,7 @@
 // Purpose: Serendipity Bookstore's POS system which allows user to add,-
 //			modify, and delete a library of books						-
 // ----------------------------------------------------------------------
-// main() Algorithm:													-
+// Algorithm:															-
 // Step 1: Display main menu											-
 // Step 2: Ask user to input choice at least once						-
 // Step 3: Choice 1-3 executes the next menu function					-
@@ -53,40 +53,39 @@
 // -																	-
 // - NAME					DATA TYPE				VALUE				-
 // - --------------------   ----------				--------			-
-// - BookData				class
-// - InventoryBook			class
-// - SoldBook				class
+// - BookData				class										-
+// - InventoryBook			class										-
+// - SoldBook				class										-
 // -																	-
 // - VARIABLES															-
 // -																	-
 // - NAME					DATA TYPE				INITIAL VALUE		-
 // - --------------------   ----------				-------------		-
-// - choice					char					null
-// - titleList				InventoryBook
-// - qtylist				InventoryBook
-// - wholesaleList			InventoryBook
-// - dateList				InventoryBook
-// - *newbook				InventoryBook
-// - cart					SoldBook
-// - inFile					ifstream
-// - outFile				ofstream
-// - tempTitle				string					EMPTY
-// - tempIsbn				string					EMPTY
-// - tempAuthor				string					EMPTY
-// - tempPublisher			string					EMPTY
-// - tempDate				string					EMPTY
-// - tempQty				int						0
-// - tempWholesale			double					0.0
-// - tempRetail				double					0.0
-// - subtotal				double					0.00
-// - userSearch				string
-// - target					string
-// - targetIsbn				string
-// - foundTitle				size_t
-// - t						time_t					time(0)
-// - *now					struct tm				localtime(&t)
-// - myIterator				linkedListIterator<InventoryBook>
-
+// - choice					char					null				-
+// - titleList				InventoryBook								-
+// - qtylist				InventoryBook								-
+// - wholesaleList			InventoryBook								-
+// - dateList				InventoryBook								-
+// - *newbook				InventoryBook								-
+// - cart					SoldBook									-
+// - inFile					ifstream									-
+// - outFile				ofstream									-
+// - tempTitle				string					EMPTY				-
+// - tempIsbn				string					EMPTY				-
+// - tempAuthor				string					EMPTY				-
+// - tempPublisher			string					EMPTY				-
+// - tempDate				string					EMPTY				-
+// - tempQty				int						0					-
+// - tempWholesale			double					0.0					-
+// - tempRetail				double					0.0					-
+// - subtotal				double					0.00				-
+// - userSearch				string										-
+// - target					string										-
+// - targetIsbn				string										-
+// - foundTitle				size_t										-
+// - t						time_t					time(0)				-
+// - *now					struct tm				localtime(&t)		-
+// - myIterator				linkedListIterator<InventoryBook>			-
 // ----------------------------------------------------------------------
 
 #include "BookData.h"

@@ -32,8 +32,6 @@ public:
 	bool operator==(const InventoryBook& other_Book) const;
 	bool operator!=(const InventoryBook& other_Book) const;
 
-//	void removeBook();
-//	bool isEmpty();
 
 private:
 	string dateAdded;
